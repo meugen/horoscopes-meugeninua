@@ -2,11 +2,13 @@ package controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import controllers.content.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -23,6 +25,7 @@ public final class Dream extends Controller {
 
     private static final String GET_DREAM_SQL = "select content from horo_dreams_v2 where updream=?";
     private static final String PARAM_DREAM = "dream";
+    private static final String TEXT_KEY = "text";
 
     public static Result index() {
         Result result;
@@ -45,7 +48,9 @@ public final class Dream extends Controller {
     private static JsonNode fetchContent(final ResultSet resultSet) throws SQLException {
         JsonNode content = NullNode.getInstance();
         if (resultSet.next()) {
-            content = TextNode.valueOf(resultSet.getString(1));
+            final ObjectNode object = Json.newObject();
+            object.put(TEXT_KEY, resultSet.getString(1));
+            content = object;
         }
         return content;
     }

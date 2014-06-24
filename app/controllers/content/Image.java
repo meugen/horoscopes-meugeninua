@@ -1,5 +1,6 @@
 package controllers.content;
 
+import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
@@ -9,6 +10,7 @@ import play.mvc.Result;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by meugen on 24.06.14.
@@ -36,16 +38,20 @@ public final class Image extends Controller {
     private static String getMimeByName(final String name) {
         String mime = null;
         try {
-            final PreparedStatement statement = DB.getConnection().prepareStatement(GET_MIME_SQL);
-            statement.setString(1, name);
-            final ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                mime = resultSet.getString(1);
-            }
+            mime = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<String>() {
+                public String onAction(PreparedStatement statement) throws SQLException {
+                    return getMimeByName(statement, name);
+                }
+            }, GET_MIME_SQL);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
         return mime;
+    }
+
+    private static String getMimeByName(final PreparedStatement statement, final String name) throws SQLException {
+        statement.setString(1, name);
+        final ResultSet resultSet = statement.executeQuery();
+        return resultSet.next() ? resultSet.getString(1) : null;
     }
 }

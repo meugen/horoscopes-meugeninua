@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.content.Response;
+import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
@@ -35,9 +36,12 @@ public final class Amulets extends Controller {
             if (json == null) {
                 result = badRequest();
             } else {
-                final PreparedStatement statement = DB.getConnection().prepareStatement(SEARCH_AMULET_SQL);
-                statement.setString(1, json.get(PARAM_SEARCH).textValue().toUpperCase());
-                result = ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                    public Result onAction(PreparedStatement statement) throws SQLException {
+                        statement.setString(1, json.get(PARAM_SEARCH).textValue().toUpperCase());
+                        return ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                    }
+                }, SEARCH_AMULET_SQL);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

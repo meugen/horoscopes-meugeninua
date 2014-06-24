@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.DatabaseHelper;
 import play.db.DB;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,22 +19,28 @@ public class Application extends Controller {
 
     public static Result main() {
         try {
-            final Connection connection = DB.getConnection();
-            final PreparedStatement statement = connection.prepareStatement("SELECT name FROM horo_names_v2 where sex=? order by upname");
-            statement.setInt(1, 1);
-            final ResultSet result = statement.executeQuery();
-
-            final StringBuilder builder = new StringBuilder();
-            while (result.next()) {
-                if (builder.length() > 0) {
-                    builder.append(", ");
+            return DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                public Result onAction(PreparedStatement statement) throws SQLException {
+                    return doMain(statement);
                 }
-                builder.append(result.getString(1));
-            }
-            return ok(builder.toString());
+            }, "SELECT name FROM horo_names_v2 where sex=? order by upname");
         } catch (SQLException e) {
             return internalServerError(e.getMessage());
         }
+    }
+
+    private static Result doMain(final PreparedStatement statement) throws SQLException {
+        statement.setInt(1, 1);
+        final ResultSet result = statement.executeQuery();
+
+        final StringBuilder builder = new StringBuilder();
+        while (result.next()) {
+            if (builder.length() > 0) {
+                builder.append(", ");
+            }
+            builder.append(result.getString(1));
+        }
+        return ok(builder.toString());
     }
 
 }

@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.content.Response;
+import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import play.db.DB;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,7 +22,7 @@ public final class Names extends Controller {
 
     private static final Log LOG = LogFactory.getLog(Names.class);
 
-    private static final String SEARCH_SQL = "select sex, name from horo_names_v2 where upname like concat(?, '%')";
+    private static final String SEARCH_NAMES_SQL = "select sex, name from horo_names_v2 where upname like concat(?, '%')";
     private static final String PARAM_SEARCH = "search";
     private static final String ITEMS_KEY = "items";
     private static final String SEX_KEY = "sex";
@@ -35,9 +35,12 @@ public final class Names extends Controller {
             if (json == null) {
                 result = badRequest();
             } else {
-                final PreparedStatement statement = DB.getConnection().prepareStatement(SEARCH_SQL);
-                statement.setString(1, json.get(PARAM_SEARCH).textValue().toUpperCase());
-                result = ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                    public Result onAction(PreparedStatement statement) throws SQLException {
+                        statement.setString(1, json.get(PARAM_SEARCH).textValue().toUpperCase());
+                        return ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                    }
+                }, SEARCH_NAMES_SQL);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

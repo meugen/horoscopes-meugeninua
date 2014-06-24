@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.content.Response;
+import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
@@ -46,9 +47,12 @@ public final class Horoscope extends Controller {
             if (json == null) {
                 result = badRequest();
             } else {
-                final PreparedStatement statement = DB.getConnection().prepareStatement(GET_CONTENT_SQL);
-                bindBaseParams(statement, json);
-                result = ok(Response.content(fetchContent(statement.executeQuery(), json)).asJson());
+                result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                    public Result onAction(PreparedStatement statement) throws SQLException {
+                        bindBaseParams(statement, json);
+                        return ok(Response.content(fetchContent(statement.executeQuery(), json)).asJson());
+                    }
+                }, GET_CONTENT_SQL);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -64,10 +68,13 @@ public final class Horoscope extends Controller {
             if (json == null) {
                 result = badRequest();
             } else {
-                final PreparedStatement statement = DB.getConnection().prepareStatement(GET_CONTENT_PERIOD_SQL);
-                bindBaseParams(statement, json);
-                statement.setString(4, period);
-                result = ok(Response.content(fetchContent(statement.executeQuery(), json)).asJson());
+                result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                    public Result onAction(PreparedStatement statement) throws SQLException {
+                        bindBaseParams(statement, json);
+                        statement.setString(4, period);
+                        return ok(Response.content(fetchContent(statement.executeQuery(), json)).asJson());
+                    }
+                }, GET_CONTENT_PERIOD_SQL);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

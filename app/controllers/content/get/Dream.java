@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import controllers.content.Response;
+import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
@@ -34,9 +35,12 @@ public final class Dream extends Controller {
             if (json == null) {
                 result = badRequest();
             } else {
-                final PreparedStatement statement = DB.getConnection().prepareStatement(GET_DREAM_SQL);
-                statement.setString(1, json.get(PARAM_DREAM).textValue().toUpperCase());
-                result = ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                    public Result onAction(PreparedStatement statement) throws SQLException {
+                        statement.setString(1, json.get(PARAM_DREAM).textValue().toUpperCase());
+                        return ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                    }
+                }, GET_DREAM_SQL);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

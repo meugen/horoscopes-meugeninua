@@ -3,6 +3,7 @@ package controllers.content.search;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.content.Response;
+import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
@@ -31,8 +32,11 @@ public final class Japans extends Controller {
     public static Result index() {
         Result result;
         try {
-            final PreparedStatement statement = DB.getConnection().prepareStatement(SEARCH_JAPANS_SQL);
-            result = ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+            result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
+                public Result onAction(PreparedStatement statement) throws SQLException {
+                    return ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+                }
+            }, SEARCH_JAPANS_SQL);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             result = ok(Response.error(e).asJson());

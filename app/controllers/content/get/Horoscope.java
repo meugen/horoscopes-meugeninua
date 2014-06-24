@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import controllers.content.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.db.DB;
@@ -37,11 +38,8 @@ public final class Horoscope extends Controller {
     private static final String PARAM_TYPE = "type";
     private static final String PARAM_KIND = "kind";
     private static final String PARAM_SIGN = "sign";
-    private static final String CONTENT_KEY = "content";
-    private static final String MESSAGE_KEY = "message";
-    private static final String STATUS_KEY = "status";
 
-    public static Result index() {
+    public static Result all() {
         Result result;
         try {
             final JsonNode json = request().body().asJson();
@@ -50,16 +48,16 @@ public final class Horoscope extends Controller {
             } else {
                 final PreparedStatement statement = DB.getConnection().prepareStatement(GET_CONTENT_SQL);
                 bindBaseParams(statement, json);
-                result = ok(fetchResponse(statement.executeQuery(), json));
+                result = ok(Response.content(fetchContent(statement.executeQuery(), json)).asJson());
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = ok(fetchError(e));
+            result = ok(Response.error(e).asJson());
         }
         return result;
     }
 
-    public static Result indexWithPeriod(final String period) {
+    public static Result byPeriod(final String period) {
         Result result;
         try {
             final JsonNode json = request().body().asJson();
@@ -69,11 +67,11 @@ public final class Horoscope extends Controller {
                 final PreparedStatement statement = DB.getConnection().prepareStatement(GET_CONTENT_PERIOD_SQL);
                 bindBaseParams(statement, json);
                 statement.setString(4, period);
-                result = ok(fetchResponse(statement.executeQuery(), json));
+                result = ok(Response.content(fetchContent(statement.executeQuery(), json)).asJson());
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = ok(fetchError(e));
+            result = ok(Response.error(e).asJson());
         }
         return result;
     }
@@ -84,7 +82,7 @@ public final class Horoscope extends Controller {
         statement.setString(3, json.get(PARAM_SIGN).textValue());
     }
 
-    private static JsonNode fetchResponse(final ResultSet resultSet, final JsonNode json) throws SQLException {
+    private static ObjectNode fetchContent(final ResultSet resultSet, final JsonNode json) throws SQLException {
         final ObjectNode sign = Json.newObject();
         while (resultSet.next()) {
             sign.put(resultSet.getString(1), resultSet.getString(2));
@@ -95,18 +93,6 @@ public final class Horoscope extends Controller {
         type.put(json.get(PARAM_KIND).textValue(), kind);
         final ObjectNode content = Json.newObject();
         content.put(json.get(PARAM_TYPE).textValue(), type);
-        final ObjectNode response = Json.newObject();
-        response.put(CONTENT_KEY, content);
-        response.put(STATUS_KEY, "OK");
-        response.put(MESSAGE_KEY, "");
-        return response;
-    }
-
-    private static JsonNode fetchError(final Exception exception) {
-        final ObjectNode response = Json.newObject();
-        response.put(STATUS_KEY, "ERROR");
-        response.put(MESSAGE_KEY, exception.getMessage());
-        response.put(CONTENT_KEY, (ObjectNode) null);
-        return response;
+        return content;
     }
 }

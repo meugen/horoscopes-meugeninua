@@ -1,0 +1,52 @@
+package controllers.content.get;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.TextNode;
+import controllers.content.Response;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import play.db.DB;
+import play.mvc.Controller;
+import play.mvc.Result;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * Created by meugen on 24.06.14.
+ */
+public final class Name extends Controller {
+
+    private static final Log LOG = LogFactory.getLog(Name.class);
+
+    private static final String GET_NAME_SQL = "select content from horo_names_v2 where upname=?";
+    private static final String NAME_PARAM = "name";
+
+    public static Result index() {
+        Result result;
+        try {
+            final JsonNode json = request().body().asJson();
+            if (json == null) {
+                result = badRequest();
+            } else {
+                final PreparedStatement statement = DB.getConnection().prepareStatement(GET_NAME_SQL);
+                statement.setString(1, json.get(NAME_PARAM).textValue().toUpperCase());
+                result = ok(Response.content(fetchContent(statement.executeQuery())).asJson());
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            result = ok(Response.error(e).asJson());
+        }
+        return result;
+    }
+
+    private static JsonNode fetchContent(final ResultSet resultSet) throws SQLException {
+        JsonNode content = NullNode.getInstance();
+        if (resultSet.next()) {
+            content = TextNode.valueOf(resultSet.getString(1));
+        }
+        return content;
+    }
+}

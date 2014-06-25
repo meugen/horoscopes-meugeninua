@@ -7,7 +7,6 @@ import controllers.content.Response;
 import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import play.db.DB;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,13 +22,9 @@ public final class China extends Controller {
 
     private static final Log LOG = LogFactory.getLog(China.class);
 
-    private static final String GET_CHINA_SQL = "select t1.china, t2.name, t1.period, t1.content" +
-            " from horo_chinas_v2 t1, horo_uploads t2 where t1.icon_id=t2.id and upchina=?";
+    private static final String GET_CHINA_SQL = "select content from horo_chinas_v2 where upchina=?";
     private static final String PARAM_CHINA = "china";
-    private static final String NAME_KEY = "name";
-    private static final String ICON_KEY = "icon";
-    private static final String PERIOD_KEY = "period";
-    private static final String CONTENT_KEY = "content";
+    private static final String TEXT_KEY = "text";
 
     public static Result index() {
         Result result;
@@ -56,10 +51,7 @@ public final class China extends Controller {
         JsonNode content = NullNode.getInstance();
         if (resultSet.next()) {
             final ObjectNode object = Json.newObject();
-            object.put(NAME_KEY, resultSet.getString(1));
-            object.put(ICON_KEY, resultSet.getString(2));
-            object.put(PERIOD_KEY, resultSet.getString(3));
-            object.put(CONTENT_KEY, resultSet.getString(4));
+            object.put(TEXT_KEY, resultSet.getString(1));
             content = object;
         }
         return content;

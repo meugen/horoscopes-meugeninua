@@ -2,7 +2,8 @@ name := """horoscopes-meugeninua"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file("."))
+  .enablePlugins(PlayJava)
 
 scalaVersion := "2.11.1"
 
@@ -14,3 +15,5 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.18"
+
+libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"

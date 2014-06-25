@@ -22,6 +22,7 @@ GET     /content/search/druids      controllers.content.search.Druids.index()
 POST    /content/get/druid          controllers.content.get.Druid.index()
 GET     /content/search/flowers     controllers.content.search.Flowers.index()
 POST    /content/get/flower         controllers.content.get.Flower.index()
+POST    /content/add/message        controllers.content.add.Message.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

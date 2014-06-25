@@ -59,7 +59,7 @@ public class PushoverRestClient implements PushoverClient {
         }
 
         try {
-            post.setEntity(new UrlEncodedFormEntity(nvps, Charset.defaultCharset().name()));
+            post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
             HttpResponse response = httpClient.execute(post);
             return PushoverResponseFactory.createStatus(response);
         } catch (Exception e) {

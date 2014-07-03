@@ -240,7 +240,7 @@ public final class Update extends Controller {
 
     private static String fileGetContents(final String urlString) throws IOException {
         final URL url = new URL(urlString);
-        final InputStreamReader in = new InputStreamReader(url.openStream());
+        final InputStreamReader in = new InputStreamReader(url.openStream(), "UTF-8");
         final StringWriter out = new StringWriter();
         final char[] buf = new char[BUF_SIZE];
         while (true) {

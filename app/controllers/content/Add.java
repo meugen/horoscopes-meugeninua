@@ -1,8 +1,7 @@
-package controllers.content.add;
+package controllers.content;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.content.Response;
 import helpers.DatabaseHelper;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
@@ -16,18 +15,18 @@ import java.sql.*;
 import java.util.Map;
 
 /**
- * Created by meugen on 25.06.14.
+ * Created by meugen on 02.07.14.
  */
-public final class Message extends Controller {
+public final class Add extends Controller {
 
-    private static final Log LOG = LogFactory.getLog(Message.class);
+    private static final Log LOG = LogFactory.getLog(Add.class);
 
     private static final String USER_KEY = "uY88LgsdcrA9kYCMDBLYNNpGmijPuf";
     private static final String APP_TOKEN = "ah7JwRJZ5CY8a4VtfKUkpttUA6kCRH";
 
     private static final String ADD_MESSAGE_SQL = "insert into horo_messages (title, message) values (?, ?)";
 
-    public static Result index() {
+    public static Result message() {
         Result result;
         try {
             final Map<String, String[]> params = request().body().asFormUrlEncoded();

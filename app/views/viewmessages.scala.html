@@ -1,0 +1,21 @@
+@import play.i18n.Messages
+@(messages:List[models.MessageInfo])
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>@Messages.get("messages.html.title")</title>
+</head>
+<body>
+    <table width="100%" border="1">
+        @for(message <- messages){
+            <tr>
+                <td>@message.getTitle()</td>
+                <td>@message.getMessage</td>
+                <td><a href="@content.routes.View.message(message.getId())">Просмотр</a></td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

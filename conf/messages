@@ -4,3 +4,5 @@ message.html.title=Сообщение
 message.html.th.title=Заголовок
 message.html.th.message=Сообщение
 message.html.no-message=Сообщение не найдено
+
+got.new.error.message=Получено новое сообщение об ошибке

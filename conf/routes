@@ -4,7 +4,6 @@
 
 # Home page
 GET     /                           controllers.Application.index()
-GET     /main                       controllers.Application.main()
 GET     /content/image/:name        controllers.content.Image.index(name)
 POST    /content/get/horoscope      controllers.content.Get.horoscope()
 POST    /content/get/horoscope/:period      controllers.content.Get.horoscopeByPeriod(period)
@@ -22,7 +21,6 @@ GET     /content/search/druids      controllers.content.Search.druids()
 POST    /content/get/druid          controllers.content.Get.druid()
 GET     /content/search/flowers     controllers.content.Search.flowers()
 POST    /content/get/flower         controllers.content.Get.flower()
-POST    /content/add/message        controllers.content.Add.message()
 GET     /content/view/messages      controllers.content.View.messages()
 GET     /content/view/message/:messageId    controllers.content.View.message(messageId:Integer)
 GET     /content/update/all         controllers.content.Update.all()

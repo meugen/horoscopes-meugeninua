@@ -17,3 +17,5 @@ libraryDependencies ++= Seq(
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.18"
 
 libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"
+
+libraryDependencies += "org.jsoup" % "jsoup" % "1.8.1"

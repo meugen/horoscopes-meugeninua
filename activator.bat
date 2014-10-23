@@ -119,7 +119,7 @@ for /f "delims=. tokens=1-3" %%v in ("%JAVA_VERSION%") do (
 
     set PERM_SIZE=
     if "%MINOR%" LSS "8" (
-      set PERM_SIZE=-XX:PermSize=64M -XX:MaxPermSize=256M
+      set PERM_SIZE=-XX:PermSize=128M -XX:MaxPermSize=512M
     )
 
     set MEM_OPTS=%PERM_SIZE%

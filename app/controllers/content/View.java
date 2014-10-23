@@ -10,7 +10,6 @@ import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,20 +1,12 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import play.db.DB;
 import play.i18n.Messages;
 import play.libs.F;
-import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import play.mvc.BodyParser;
@@ -22,8 +14,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

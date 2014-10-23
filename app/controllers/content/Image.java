@@ -3,7 +3,6 @@ package controllers.content;
 import helpers.DatabaseHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import play.db.DB;
 import play.mvc.Controller;
 import play.mvc.Result;
 

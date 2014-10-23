@@ -11,6 +11,7 @@ public final class MessageInfo {
 
     /**
      * Getter for id.
+     *
      * @return Id
      */
     public int getId() {
@@ -19,6 +20,7 @@ public final class MessageInfo {
 
     /**
      * Setter for id.
+     *
      * @param id Id
      */
     public void setId(int id) {
@@ -27,6 +29,7 @@ public final class MessageInfo {
 
     /**
      * Getter for title.
+     *
      * @return Title
      */
     public String getTitle() {
@@ -35,6 +38,7 @@ public final class MessageInfo {
 
     /**
      * Setter for title.
+     *
      * @param title Title
      */
     public void setTitle(String title) {
@@ -43,6 +47,7 @@ public final class MessageInfo {
 
     /**
      * Getter for message.
+     *
      * @return Message
      */
     public String getMessage() {
@@ -51,6 +56,7 @@ public final class MessageInfo {
 
     /**
      * Setter for message.
+     *
      * @param message Message
      */
     public void setMessage(String message) {

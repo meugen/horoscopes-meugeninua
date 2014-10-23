@@ -2,7 +2,7 @@ package helpers.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.content.Response;
+import helpers.controllers.Response;
 import helpers.DatabaseHelper;
 import helpers.controllers.content.AbstractJsonControllerHelper;
 import org.apache.commons.logging.Log;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
-public final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
+final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
 
     private static final Log LOG = LogFactory.getLog(GetHoroscopeHelper.class);
 

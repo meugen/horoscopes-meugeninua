@@ -3,7 +3,7 @@ package helpers.controllers.content.get;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.content.Response;
+import helpers.controllers.Response;
 import helpers.DatabaseHelper;
 import helpers.controllers.content.AbstractJsonControllerHelper;
 import org.apache.commons.logging.Log;

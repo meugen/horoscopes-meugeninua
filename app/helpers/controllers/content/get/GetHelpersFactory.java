@@ -3,6 +3,7 @@ package helpers.controllers.content.get;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.controllers.ControllerHelper;
+import helpers.controllers.content.OnFillObjectListener;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,15 +31,15 @@ public final class GetHelpersFactory {
     private static final String IMAGE_KEY = "image";
     private static final String TEXT_KEY = "text";
 
-    private static final SimpleGetHelper.OnFillObjectListener AMULET_FILL_OBJECT_LISTENER
-            = new SimpleGetHelper.OnFillObjectListener() {
+    private static final OnFillObjectListener AMULET_FILL_OBJECT_LISTENER
+            = new OnFillObjectListener() {
         public void onFillObject(final ObjectNode object, final ResultSet resultSet) throws SQLException {
             object.put(IMAGE_KEY, resultSet.getString(1));
             object.put(TEXT_KEY, resultSet.getString(2));
         }
     };
-    private static final SimpleGetHelper.OnFillObjectListener SIMPLE_FILL_OBJECT_LISTENER
-            = new SimpleGetHelper.OnFillObjectListener() {
+    private static final OnFillObjectListener SIMPLE_FILL_OBJECT_LISTENER
+            = new OnFillObjectListener() {
         public void onFillObject(final ObjectNode object, final ResultSet resultSet) throws SQLException {
             object.put(TEXT_KEY, resultSet.getString(1));
         }

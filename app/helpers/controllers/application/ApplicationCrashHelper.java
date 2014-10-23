@@ -31,6 +31,7 @@ public final class ApplicationCrashHelper implements ControllerHelper {
 
     /**
      * Constructor.
+     *
      * @param json Json
      */
     public ApplicationCrashHelper(JsonNode json) {

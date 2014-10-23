@@ -13,6 +13,7 @@ public abstract class AbstractJsonControllerHelper extends AbstractControllerHel
 
     /**
      * Constructor.
+     *
      * @param json Json
      */
     protected AbstractJsonControllerHelper(final JsonNode json) {
@@ -36,6 +37,7 @@ public abstract class AbstractJsonControllerHelper extends AbstractControllerHel
 
     /**
      * Action with valid json.
+     *
      * @param json Valid json
      * @return Response
      */
@@ -43,6 +45,7 @@ public abstract class AbstractJsonControllerHelper extends AbstractControllerHel
 
     /**
      * Getter for not null fields in json.
+     *
      * @return Not null fields in json
      */
     protected abstract String[] getNotNullFields();

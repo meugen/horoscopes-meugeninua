@@ -10,6 +10,7 @@ public interface ControllerHelper {
 
     /**
      * Execute controller action.
+     *
      * @return Result
      */
     F.Promise<Result> execute();

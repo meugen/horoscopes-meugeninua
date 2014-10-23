@@ -27,6 +27,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Constructor.
+     *
      * @param json Json
      */
     public SimpleGetHelper(final JsonNode json) {
@@ -35,6 +36,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Getter for sql.
+     *
      * @return Sql
      */
     public String getSql() {
@@ -43,6 +45,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Setter for sql.
+     *
      * @param sql Sql
      */
     public void setSql(final String sql) {
@@ -51,6 +54,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Getter for param.
+     *
      * @return Param
      */
     public String getParam() {
@@ -59,6 +63,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Setter for param.
+     *
      * @param param Param
      */
     public void setParam(final String param) {
@@ -67,6 +72,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Getter for on fill object listener.
+     *
      * @return Listener
      */
     public OnFillObjectListener getOnFillObjectListener() {
@@ -75,6 +81,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     /**
      * Setter for on fill object listener.
+     *
      * @param onFillObjectListener Listener
      */
     public void setOnFillObjectListener(final OnFillObjectListener onFillObjectListener) {
@@ -116,11 +123,11 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
      * {@inheritDoc}
      */
     protected String[] getNotNullFields() {
-        return new String[] { this.param };
+        return new String[]{this.param};
     }
 
     interface OnFillObjectListener {
 
-        void onFillObject(ObjectNode object, ResultSet resultSet);
+        void onFillObject(ObjectNode object, ResultSet resultSet) throws SQLException;
     }
 }

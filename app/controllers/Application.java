@@ -9,19 +9,13 @@ import play.mvc.Result;
 public class Application extends Controller {
 
 
-
     public static Result index() {
         return redirect("https://google.com");
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> crash() {
-        return new ApplicationCrashHelper(request().body().asJson()).execute()
-                .map(new F.Function<String, Result>() {
-                    public Result apply(final String response) throws Throwable {
-                        return ok(response);
-                    }
-                });
+        return new ApplicationCrashHelper(request().body().asJson()).execute();
     }
 
 }

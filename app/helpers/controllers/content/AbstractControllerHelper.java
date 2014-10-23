@@ -22,6 +22,7 @@ public abstract class AbstractControllerHelper implements ControllerHelper {
 
     /**
      * Do action and return result.
+     *
      * @return Result
      */
     protected abstract Result action();

@@ -24,6 +24,8 @@ POST    /content/get/flower         controllers.content.Get.flower()
 GET     /content/view/messages      controllers.content.View.messages()
 GET     /content/view/message/:messageId    controllers.content.View.message(messageId:Integer)
 GET     /content/update/all         controllers.content.Update.all()
+GET     /content/update/daily       controllers.content.Update.daily()
+GET     /content/update/weekly      controllers.content.Update.weekly()
 POST    /crash                      controllers.Application.crash()
 
 # Map static resources from the /public folder to the /assets URL path

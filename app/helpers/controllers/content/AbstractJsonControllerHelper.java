@@ -32,7 +32,7 @@ public abstract class AbstractJsonControllerHelper extends AbstractControllerHel
         if (!valid) {
             return Controller.badRequest();
         }
-        return Controller.ok(this.action(this.json));
+        return this.action(this.json);
     }
 
     /**
@@ -41,7 +41,7 @@ public abstract class AbstractJsonControllerHelper extends AbstractControllerHel
      * @param json Valid json
      * @return Response
      */
-    protected abstract JsonNode action(final JsonNode json);
+    protected abstract Result action(final JsonNode json);
 
     /**
      * Getter for not null fields in json.

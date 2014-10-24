@@ -10,6 +10,8 @@ import helpers.controllers.content.OnFillObjectListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -76,17 +78,18 @@ final class InterpretationSearchHelper extends AbstractJsonControllerHelper {
     /**
      * {@inheritDoc}
      */
-    protected JsonNode action(final JsonNode json) {
-        JsonNode result;
+    protected Result action(final JsonNode json) {
+        Result result;
         try {
-            result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
+            final JsonNode response = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
                 public JsonNode onAction(PreparedStatement statement) throws SQLException {
                     return InterpretationSearchHelper.this.internalAction(statement, json);
                 }
             }, this.sql);
+            result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Response.error(e).asJson();
+            result = Controller.internalServerError(Response.error(e).asJson());
         }
         return result;
     }

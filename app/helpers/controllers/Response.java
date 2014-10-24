@@ -8,9 +8,8 @@ import play.libs.Json;
  *
  * @author meugen
  */
-public final class Response {
+public class Response {
 
-    private JsonNode content;
     private String message;
     private Status status;
 
@@ -34,29 +33,24 @@ public final class Response {
      * @return Created response
      */
     public static Response content(final JsonNode content) {
-        final Response response = new Response();
+        final WithContent response = new WithContent();
         response.setStatus(Status.OK);
         response.setMessage("");
         response.setContent(content);
         return response;
     }
 
-    /**
-     * Getter for content.
-     *
-     * @return Content
-     */
-    public JsonNode getContent() {
-        return this.content;
-    }
+    private Response() {}
 
     /**
-     * Setter for content.
-     *
-     * @param content Content
+     * Create empty response.
+     * @return Created response
      */
-    public void setContent(JsonNode content) {
-        this.content = content;
+    public static Response empty() {
+        final Response response = new Response();
+        response.setMessage("");
+        response.setStatus(Status.OK);
+        return response;
     }
 
     /**
@@ -64,7 +58,7 @@ public final class Response {
      *
      * @return Message
      */
-    public String getMessage() {
+    public final String getMessage() {
         return this.message;
     }
 
@@ -73,7 +67,7 @@ public final class Response {
      *
      * @param message Message
      */
-    public void setMessage(String message) {
+    public final void setMessage(String message) {
         this.message = message;
     }
 
@@ -82,7 +76,7 @@ public final class Response {
      *
      * @return Status
      */
-    public Status getStatus() {
+    public final Status getStatus() {
         return this.status;
     }
 
@@ -91,7 +85,7 @@ public final class Response {
      *
      * @param status Status
      */
-    public void setStatus(Status status) {
+    public final void setStatus(Status status) {
         this.status = status;
     }
 
@@ -100,7 +94,7 @@ public final class Response {
      *
      * @return Response json
      */
-    public JsonNode asJson() {
+    public final JsonNode asJson() {
         return Json.toJson(this);
     }
 
@@ -109,5 +103,26 @@ public final class Response {
      */
     public enum Status {
         OK, ERROR
+    }
+
+    private static class WithContent extends Response {
+
+        private JsonNode content;
+
+        /**
+         * Getter for content.
+         * @return Content
+         */
+        public JsonNode getContent() {
+            return this.content;
+        }
+
+        /**
+         * Getter for content.
+         * @param content Content
+         */
+        public void setContent(final JsonNode content) {
+            this.content = content;
+        }
     }
 }

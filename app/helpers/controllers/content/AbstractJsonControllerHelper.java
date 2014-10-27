@@ -24,15 +24,12 @@ public abstract class AbstractJsonControllerHelper extends AbstractControllerHel
      * {@inheritDoc}
      */
     protected final Result action() {
-        boolean valid = this.json != null;
-        final String[] notNullFields = this.getNotNullFields();
-        for (int i = 0; valid && i < notNullFields.length; i++) {
-            valid = this.json.has(notNullFields[i]) && !this.json.get(notNullFields[i]).isNull();
-        }
-        if (!valid) {
-            return Controller.badRequest();
-        }
-        return this.action(this.json);
+        final CheckJsonHelper helper = new CheckJsonHelper(this.json, this.getNotNullFields()) {
+            protected Result onJsonValid(final JsonNode json) {
+                return AbstractJsonControllerHelper.this.action(json);
+            }
+        };
+        return helper.check();
     }
 
     /**

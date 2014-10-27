@@ -26,6 +26,10 @@ GET     /content/view/message/:messageId    controllers.content.View.message(mes
 GET     /content/update/all         controllers.content.Update.all()
 GET     /content/update/daily       controllers.content.Update.daily()
 GET     /content/update/weekly      controllers.content.Update.weekly()
+POST    /content/update/monthly            controllers.content.Update.monthly()
+POST    /content/update/monthly/rewrite    controllers.content.Update.rewriteMonthly()
+POST    /content/update/yearly             controllers.content.Update.yearly()
+POST    /content/update/yearly/rewrite     controllers.content.Update.rewriteYearly()
 POST    /crash                      controllers.Application.crash()
 
 # Map static resources from the /public folder to the /assets URL path

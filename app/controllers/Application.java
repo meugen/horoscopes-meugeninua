@@ -6,7 +6,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class Application extends Controller {
+public final class Application extends Controller {
 
 
     public static Result index() {

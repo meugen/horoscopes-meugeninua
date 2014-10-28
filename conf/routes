@@ -32,5 +32,7 @@ POST    /content/update/yearly             controllers.content.Update.yearly()
 POST    /content/update/yearly/rewrite     controllers.content.Update.rewriteYearly()
 POST    /crash                      controllers.Application.crash()
 
+GET     /portal/signin              controllers.portal.Signin.index()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

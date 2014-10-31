@@ -1,7 +1,7 @@
 package helpers.controllers.content;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import play.mvc.Controller;
+import helpers.controllers.AbstractControllerHelper;
 import play.mvc.Result;
 
 /**

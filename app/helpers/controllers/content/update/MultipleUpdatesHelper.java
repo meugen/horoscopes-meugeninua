@@ -1,16 +1,5 @@
 package helpers.controllers.content.update;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import helpers.DatabaseHelper;
-import helpers.controllers.Response;
-import helpers.controllers.content.AbstractControllerHelper;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
 import helpers.controllers.Response;
-import helpers.controllers.content.AbstractControllerHelper;
+import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.content.OnFillObjectListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

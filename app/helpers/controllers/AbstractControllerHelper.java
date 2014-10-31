@@ -1,6 +1,5 @@
-package helpers.controllers.content;
+package helpers.controllers;
 
-import helpers.controllers.ControllerHelper;
 import play.libs.F;
 import play.mvc.Result;
 

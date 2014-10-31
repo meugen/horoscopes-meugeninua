@@ -33,6 +33,10 @@ POST    /content/update/yearly/rewrite     controllers.content.Update.rewriteYea
 POST    /crash                      controllers.Application.crash()
 
 GET     /portal/signin              controllers.portal.Signin.index()
+GET     /portal/add/horoscope/monthly               controllers.portal.add.Horoscope.monthly()
+GET     /portal/add/horoscope/monthly/:month/:year  controllers.portal.add.Horoscope.monthlyBy(month, year)
+GET     /portal/add/horoscope/yearly                controllers.portal.add.Horoscope.yearly()
+GET     /portal/add/horoscope/yearly/:year          controllers.portal.add.Horoscope.yearlyBy(year)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,0 +1,10 @@
+@import play.i18n.Messages
+@(text: String)
+
+@css = {
+}
+@js = {
+}
+@main(Messages.get("views.text.portal.add.horoscope.monthly.title"), css, js) {
+    <h1>@text</h1>
+}

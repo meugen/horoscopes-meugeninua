@@ -13,6 +13,6 @@ final class HoroscopeMonthlyHelper extends AbstractControllerHelper {
      * {@inheritDoc}
      */
     protected Result action() {
-        return Controller.ok();
+        return Controller.ok(views.html.portal.add.horoscope.monthly.render("aaa"));
     }
 }

@@ -6,3 +6,5 @@ message.html.th.message=Сообщение
 message.html.no-message=Сообщение не найдено
 
 got.new.error.message=Получено новое сообщение об ошибке
+
+views.text.portal.add.horoscope.monthly.title=Добавление месячного гороскопа

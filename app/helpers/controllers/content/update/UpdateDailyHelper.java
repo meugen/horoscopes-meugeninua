@@ -37,6 +37,7 @@ final class UpdateDailyHelper extends AbstractUpdateHelper {
 
     /**
      * Constructor.
+     *
      * @param uri URI
      */
     UpdateDailyHelper(final String uri) {

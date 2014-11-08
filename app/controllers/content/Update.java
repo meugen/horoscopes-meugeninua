@@ -43,7 +43,7 @@ public final class Update extends Controller {
 
     private static F.Promise<Result> monthly(final boolean rewrite) {
         return new CheckJsonHelper(request().body().asJson(),
-                new String[] { URL_KEY, MONTH_KEY, YEAR_KEY }) {
+                new String[]{URL_KEY, MONTH_KEY, YEAR_KEY}) {
             protected Result onJsonValid(final JsonNode json) {
                 return monthly(rewrite, json);
             }
@@ -71,7 +71,7 @@ public final class Update extends Controller {
 
     private static F.Promise<Result> yearly(final boolean rewrite) {
         return new CheckJsonHelper(request().body().asJson(),
-                new String[] { URL_KEY, YEAR_KEY }) {
+                new String[]{URL_KEY, YEAR_KEY}) {
             protected Result onJsonValid(final JsonNode json) {
                 return yearly(json, rewrite);
             }

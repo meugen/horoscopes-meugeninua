@@ -39,6 +39,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     /**
      * Constructor.
+     *
      * @param uri URI
      */
     protected AbstractUpdateHelper(final String uri) {
@@ -47,6 +48,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     /**
      * Init statements with connection.
+     *
      * @param connection Connection
      * @throws SQLException On sql error
      */
@@ -57,6 +59,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     /**
      * Clear statements.
+     *
      * @throws SQLException On sql error
      */
     protected void clearStatements() throws SQLException {
@@ -72,6 +75,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     /**
      * Load file contents by url.
+     *
      * @param urlString URL
      * @return Contents
      * @throws IOException On some I/O error
@@ -123,6 +127,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     /**
      * Internal action implementation.
+     *
      * @param connection Connection
      * @throws SQLException On some sql error
      */

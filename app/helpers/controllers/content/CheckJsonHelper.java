@@ -16,7 +16,8 @@ public abstract class CheckJsonHelper {
 
     /**
      * Constructor.
-     * @param json Json to check
+     *
+     * @param json   Json to check
      * @param fields Not null fields
      */
     protected CheckJsonHelper(final JsonNode json, final String[] fields) {
@@ -26,6 +27,7 @@ public abstract class CheckJsonHelper {
 
     /**
      * Call when json valid.
+     *
      * @param json Valid json
      * @return Result
      */
@@ -33,6 +35,7 @@ public abstract class CheckJsonHelper {
 
     /**
      * Check.
+     *
      * @return Result
      */
     public final Result check() {
@@ -48,6 +51,7 @@ public abstract class CheckJsonHelper {
 
     /**
      * Promise check.
+     *
      * @return Promise result
      */
     public final F.Promise<Result> promiseCheck() {

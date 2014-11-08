@@ -15,6 +15,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Constructor.
+     *
      * @param uri URI
      */
     public UpdateMonthlyHelper(final String uri) {
@@ -23,6 +24,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for month.
+     *
      * @return Month
      */
     public String getMonth() {
@@ -31,6 +33,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for month.
+     *
      * @param month Month
      */
     public void setMonth(final String month) {
@@ -39,6 +42,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for year.
+     *
      * @return Year
      */
     public String getYear() {
@@ -47,6 +51,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for year.
+     *
      * @param year Year
      */
     public void setYear(final String year) {
@@ -55,6 +60,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for rewrite option.
+     *
      * @return Rewrite option
      */
     public boolean isRewrite() {
@@ -63,6 +69,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for rewrite option.
+     *
      * @param rewrite Rewrite option
      */
     public void setRewrite(final boolean rewrite) {
@@ -71,6 +78,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for url.
+     *
      * @return URL
      */
     public String getUrl() {
@@ -79,6 +87,7 @@ public class UpdateMonthlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for url.
+     *
      * @param url URL
      */
     public void setUrl(final String url) {

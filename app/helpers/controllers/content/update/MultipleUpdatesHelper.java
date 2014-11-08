@@ -2,7 +2,9 @@ package helpers.controllers.content.update;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by admin on 24.10.2014.
@@ -14,6 +16,7 @@ final class MultipleUpdatesHelper extends AbstractUpdateHelper {
 
     /**
      * Constructor.
+     *
      * @param uri URI
      */
     MultipleUpdatesHelper(final String uri) {
@@ -22,6 +25,7 @@ final class MultipleUpdatesHelper extends AbstractUpdateHelper {
 
     /**
      * Add new update.
+     *
      * @param update Update instance
      */
     public void addUpdate(final AbstractUpdateHelper update) {
@@ -30,6 +34,7 @@ final class MultipleUpdatesHelper extends AbstractUpdateHelper {
 
     /**
      * Remove update by it's key.
+     *
      * @param update Update instance
      */
     public void removeUpdate(final AbstractUpdateHelper update) {

@@ -14,6 +14,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Constructor.
+     *
      * @param uri URI
      */
     public UpdateYearlyHelper(final String uri) {
@@ -22,6 +23,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for url.
+     *
      * @return URL
      */
     public String getUrl() {
@@ -30,6 +32,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for url.
+     *
      * @param url URL
      */
     public void setUrl(final String url) {
@@ -38,6 +41,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for rewrite option.
+     *
      * @return Rewrite option
      */
     public boolean isRewrite() {
@@ -46,6 +50,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for rewrite option.
+     *
      * @param rewrite Rewrite option
      */
     public void setRewrite(final boolean rewrite) {
@@ -54,6 +59,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Getter for year.
+     *
      * @return year
      */
     public String getYear() {
@@ -62,6 +68,7 @@ public class UpdateYearlyHelper extends AbstractUpdateHelper {
 
     /**
      * Setter for year.
+     *
      * @param year Year
      */
     public void setYear(final String year) {

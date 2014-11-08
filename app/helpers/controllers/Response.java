@@ -40,10 +40,12 @@ public class Response {
         return response;
     }
 
-    private Response() {}
+    private Response() {
+    }
 
     /**
      * Create empty response.
+     *
      * @return Created response
      */
     public static Response empty() {
@@ -111,6 +113,7 @@ public class Response {
 
         /**
          * Getter for content.
+         *
          * @return Content
          */
         public JsonNode getContent() {
@@ -119,6 +122,7 @@ public class Response {
 
         /**
          * Getter for content.
+         *
          * @param content Content
          */
         public void setContent(final JsonNode content) {

@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   javaWs
 )
 
-libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.18"
+libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1102-jdbc41"
 
 libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"
 

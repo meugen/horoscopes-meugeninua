@@ -91,28 +91,50 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
                         for (int j = 0; j < kinds.getLength(); j++) {
                             final Node kind = kinds.item(j);
 
-                            replaceContentStatement.clearParameters();
-                            replaceContentStatement.setString(1, TYPE_WEEKLY);
-                            replaceContentStatement.setString(2, kind.getNodeName());
-                            replaceContentStatement.setString(3, sign.getNodeName());
-                            replaceContentStatement.setString(4, entry.getKey());
-                            replaceContentStatement.setString(5, kind.getTextContent());
-                            replaceContentStatement.executeUpdate();
+                            updateContentStatement.clearParameters();
+                            updateContentStatement.setString(1, kind.getTextContent());
+                            updateContentStatement.setString(2, TYPE_WEEKLY);
+                            updateContentStatement.setString(3, kind.getNodeName());
+                            updateContentStatement.setString(4, sign.getNodeName());
+                            updateContentStatement.setString(5, entry.getKey());
+                            if (updateContentStatement.executeUpdate() == 0) {
+                                insertContentStatement.clearParameters();
+                                insertContentStatement.setString(1, TYPE_WEEKLY);
+                                insertContentStatement.setString(2, kind.getNodeName());
+                                insertContentStatement.setString(3, sign.getNodeName());
+                                insertContentStatement.setString(4, entry.getKey());
+                                insertContentStatement.setString(5, kind.getTextContent());
+                                insertContentStatement.executeUpdate();
+                            }
 
-                            replaceContentStatement.clearParameters();
-                            replaceContentStatement.setString(1, TYPE_WEEKLY);
-                            replaceContentStatement.setString(2, kind.getNodeName());
-                            replaceContentStatement.setString(3, sign.getNodeName());
-                            replaceContentStatement.setString(4, periodValue);
-                            replaceContentStatement.setString(5, kind.getTextContent());
-                            replaceContentStatement.executeUpdate();
+                            updateContentStatement.clearParameters();
+                            updateContentStatement.setString(1, kind.getTextContent());
+                            updateContentStatement.setString(2, TYPE_WEEKLY);
+                            updateContentStatement.setString(3, kind.getNodeName());
+                            updateContentStatement.setString(4, sign.getNodeName());
+                            updateContentStatement.setString(5, periodValue);
+                            if (updateContentStatement.executeUpdate() == 0) {
+                                insertContentStatement.clearParameters();
+                                insertContentStatement.setString(1, TYPE_WEEKLY);
+                                insertContentStatement.setString(2, kind.getNodeName());
+                                insertContentStatement.setString(3, sign.getNodeName());
+                                insertContentStatement.setString(4, periodValue);
+                                insertContentStatement.setString(5, kind.getTextContent());
+                                insertContentStatement.executeUpdate();
+                            }
                         }
                     }
-                    replacePeriodStatement.clearParameters();
-                    replacePeriodStatement.setString(1, TYPE_WEEKLY);
-                    replacePeriodStatement.setString(2, entry.getKey());
-                    replacePeriodStatement.setString(3, periodValue);
-                    replacePeriodStatement.executeUpdate();
+                    updatePeriodStatement.clearParameters();
+                    updatePeriodStatement.setString(1, periodValue);
+                    updatePeriodStatement.setString(2, TYPE_WEEKLY);
+                    updatePeriodStatement.setString(3, entry.getKey());
+                    if (updatePeriodStatement.executeUpdate() == 0) {
+                        insertPeriodStatement.clearParameters();
+                        insertPeriodStatement.setString(1, TYPE_WEEKLY);
+                        insertPeriodStatement.setString(2, entry.getKey());
+                        insertPeriodStatement.setString(3, periodValue);
+                        insertPeriodStatement.executeUpdate();
+                    }
                 }
             }
         } catch (IOException e) {

@@ -11,19 +11,16 @@ import java.sql.SQLException;
  */
 public final class DatabaseHelper {
 
-    private static Connection connection;
-
-    private static void ensureConnection() throws SQLException {
-        synchronized (DatabaseHelper.class) {
-            if (connection == null || !connection.isValid(0)) {
-                connection = DB.getConnection();
+    public static <T> T actionWithDatabase(final ConnectionAction<T> action) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = DB.getConnection();
+            return action.onAction(connection);
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
-    }
-
-    public static <T> T actionWithDatabase(final ConnectionAction<T> action) throws SQLException {
-        ensureConnection();
-        return action.onAction(connection);
     }
 
     public static <T> T actionWithStatement(final StatementAction<T> action, final String sql) throws SQLException {

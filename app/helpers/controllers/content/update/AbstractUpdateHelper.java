@@ -26,16 +26,22 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     private static final int BUF_SIZE = 1024;
 
-    private static final String REPLACE_CONTENT_SQL = "REPLACE INTO horo_texts" +
-            " (type, kind, sign, period, content) VALUE (?, ?, ?, ?, ?)";
-    private static final String REPLACE_PERIOD_SQL = "replace into horo_periods" +
-            " (type, period, `key`) value (?, ?, ?)";
-    private static final String INSERT_RESPONSE_SQL = "INSERT INTO horo_updates (uri, response) VALUE (?, ?)";
+    private static final String UPDATE_CONTENT_SQL = "UPDATE horo_texts SET content=?" +
+            " WHERE type=? AND kind=? AND sign=? AND period=?";
+    private static final String INSERT_CONTENT_SQL = "INSERT INTO horo_texts" +
+            " (type, kind, sign, period, content) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_PERIOD_SQL = "UPDATE horo_periods SET \"key\"=?" +
+            " WHERE type=? AND period=?";
+    private static final String INSERT_PERIOD_SQL = "INSERT INTO horo_periods" +
+            " (type, period, \"key\") VALUES (?, ?, ?)";
+    private static final String INSERT_RESPONSE_SQL = "INSERT INTO horo_updates (uri, response) VALUES (?, ?)";
 
     private final String uri;
 
-    protected PreparedStatement replaceContentStatement;
-    protected PreparedStatement replacePeriodStatement;
+    protected PreparedStatement updateContentStatement;
+    protected PreparedStatement insertContentStatement;
+    protected PreparedStatement updatePeriodStatement;
+    protected PreparedStatement insertPeriodStatement;
 
     /**
      * Constructor.
@@ -53,8 +59,10 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
      * @throws SQLException On sql error
      */
     protected void initStatements(final Connection connection) throws SQLException {
-        this.replaceContentStatement = connection.prepareStatement(REPLACE_CONTENT_SQL);
-        this.replacePeriodStatement = connection.prepareStatement(REPLACE_PERIOD_SQL);
+        this.updateContentStatement = connection.prepareStatement(UPDATE_CONTENT_SQL);
+        this.insertContentStatement = connection.prepareStatement(INSERT_CONTENT_SQL);
+        this.updatePeriodStatement = connection.prepareStatement(UPDATE_PERIOD_SQL);
+        this.insertPeriodStatement = connection.prepareStatement(INSERT_PERIOD_SQL);
     }
 
     /**
@@ -63,13 +71,21 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
      * @throws SQLException On sql error
      */
     protected void clearStatements() throws SQLException {
-        if (this.replaceContentStatement != null) {
-            this.replaceContentStatement.close();
-            this.replaceContentStatement = null;
+        if (this.updateContentStatement != null) {
+            this.updateContentStatement.close();
+            this.updateContentStatement = null;
         }
-        if (this.replacePeriodStatement != null) {
-            this.replacePeriodStatement.close();
-            this.replacePeriodStatement = null;
+        if (this.insertContentStatement != null) {
+            this.insertContentStatement.close();
+            this.insertContentStatement = null;
+        }
+        if (this.updatePeriodStatement != null) {
+            this.updatePeriodStatement.close();
+            this.updatePeriodStatement = null;
+        }
+        if (this.insertPeriodStatement != null) {
+            this.insertPeriodStatement.close();
+            this.insertPeriodStatement = null;
         }
     }
 

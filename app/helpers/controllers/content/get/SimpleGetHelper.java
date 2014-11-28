@@ -111,7 +111,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
     }
 
     private JsonNode internalAction(final PreparedStatement statement, final JsonNode json) throws SQLException {
-        statement.setString(1, json.get(this.param).textValue());
+        statement.setString(1, json.get(this.param).textValue().toUpperCase());
         final ResultSet resultSet = statement.executeQuery();
 
         JsonNode content = NullNode.getInstance();

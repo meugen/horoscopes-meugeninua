@@ -31,6 +31,7 @@ POST        /content/update/monthly/rewrite                   controllers.conten
 POST        /content/update/yearly                            controllers.content.Update.yearly()
 POST        /content/update/yearly/rewrite                    controllers.content.Update.rewriteYearly()
 POST        /crash                                            controllers.Application.crash()
+POST        /test/translate                                   controllers.Application.translate()
 
 GET         /portal/signin                                    controllers.portal.Signin.index()
 GET         /portal/add/horoscope/monthly                     controllers.portal.add.Horoscope.monthly()

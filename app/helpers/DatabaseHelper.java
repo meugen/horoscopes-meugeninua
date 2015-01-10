@@ -12,14 +12,8 @@ import java.sql.SQLException;
 public final class DatabaseHelper {
 
     public static <T> T actionWithDatabase(final ConnectionAction<T> action) throws SQLException {
-        Connection connection = null;
-        try {
-            connection = DB.getConnection();
+        try (Connection connection = DB.getConnection()) {
             return action.onAction(connection);
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
@@ -33,14 +27,8 @@ public final class DatabaseHelper {
 
     private static <T> T internalOnAction(final Connection connection, final StatementAction<T> action,
                                           final String sql) throws SQLException {
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             return action.onAction(statement);
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
         }
     }
 

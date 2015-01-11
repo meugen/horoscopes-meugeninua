@@ -28,18 +28,18 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
     private static final Log LOG = LogFactory.getLog(GetHoroscopeHelper.class);
     private static final String DEFAULT_LOCALE = "ru";
 
-    private static final String GET_HOROSCOPE_SQL = "SELECT t1.period, t1.content FROM horo_texts t1," +
+    private static final String GET_HOROSCOPE_SQL = "SELECT DISTINCT t1.period, t1.content FROM horo_texts t1," +
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=?";
-    private static final String GET_HOROSCOPE_PERIOD_SQL = "SELECT t1.period, t1.content FROM horo_texts t1," +
+    private static final String GET_HOROSCOPE_PERIOD_SQL = "SELECT DISTINCT t1.period, t1.content FROM horo_texts t1," +
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=? and t2.period=?";
-    private static final String TRANSLATE_HOROSCOPE_SQL = "SELECT t1.period, t1.content FROM horo_texts t1," +
+    private static final String TRANSLATE_HOROSCOPE_SQL = "SELECT DISTINCT t1.period, t1.content FROM horo_texts t1," +
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=? and t1.period not in (SELECT t1.period FROM horo_texts t1," +
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=?)";
-    private static final String TRANSLATE_HOROSCOPE_PERIOD_SQL = "SELECT t1.period, t1.content FROM horo_texts t1," +
+    private static final String TRANSLATE_HOROSCOPE_PERIOD_SQL = "SELECT  DISTINCT t1.period, t1.content FROM horo_texts t1," +
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=? and t1.period not in (SELECT t1.period FROM horo_texts t1," +
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +

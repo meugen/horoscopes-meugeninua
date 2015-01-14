@@ -4,6 +4,7 @@ import controllers.portal.add.routes;
 import helpers.controllers.AbstractControllerHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -19,7 +20,7 @@ import java.util.Locale;
  */
 final class HoroscopeMonthlyByHelper extends AbstractControllerHelper {
 
-    private static final Log LOG = LogFactory.getLog(HoroscopeMonthlyByHelper.class);
+    private static final Logger.ALogger LOG = Logger.of(HoroscopeMonthlyByHelper.class);
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd.MMM.yyyy", Locale.ENGLISH);
 
     private String month;

@@ -9,6 +9,7 @@ import helpers.controllers.content.AbstractJsonControllerHelper;
 import helpers.controllers.content.OnFillObjectListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,7 +23,7 @@ import java.sql.SQLException;
  */
 final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
-    private static final Log LOG = LogFactory.getLog(SimpleGetHelper.class);
+    private static final Logger.ALogger LOG = Logger.of(SimpleGetHelper.class);
 
     private String sql;
     private String param;

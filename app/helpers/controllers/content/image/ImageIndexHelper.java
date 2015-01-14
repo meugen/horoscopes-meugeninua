@@ -4,6 +4,7 @@ import helpers.DatabaseHelper;
 import helpers.controllers.AbstractControllerHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -17,7 +18,7 @@ import java.sql.SQLException;
  */
 public final class ImageIndexHelper extends AbstractControllerHelper {
 
-    private static final Log LOG = LogFactory.getLog(ImageIndexHelper.class);
+    private static final Logger.ALogger LOG = Logger.of(ImageIndexHelper.class);
 
     private static final String UPLOADS_PATH = "/home/meugen/horoscopes.meugen.in.ua/uploads";
     private static final String GET_MIME_SQL = "select mime from horo_uploads where name=?";

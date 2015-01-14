@@ -3,6 +3,7 @@ package helpers;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import play.Logger;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -20,8 +21,6 @@ import java.util.List;
  * Created by meugen on 10.01.15.
  */
 public final class TranslateHelper {
-
-    private static final Log LOG = LogFactory.getLog(TranslateHelper.class);
 
     private static final String KEY = "AIzaSyCUQ-JS3EKrwyAdHU9UWl0F_heREO_PY-k";
     private static final String URL = "https://www.googleapis.com/language/translate/v2";
@@ -65,7 +64,6 @@ public final class TranslateHelper {
 
     public List<String> translateAll(final List<String> queries) throws IOException {
         final JsonNode json = Json.parse(this.openTranslateStream(queries));
-        LOG.error(json);
         final Iterator<JsonNode> translations = json.get("data")
                 .get("translations").elements();
 
@@ -77,8 +75,6 @@ public final class TranslateHelper {
     }
 
     private InputStream openTranslateStream(final List<String> queries) throws IOException {
-        // LOG.error(URL);
-
         final HttpURLConnection connection = (HttpURLConnection) new URL(URL).openConnection();
         connection.addRequestProperty("X-HTTP-Method-Override", "GET");
         connection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -94,7 +90,6 @@ public final class TranslateHelper {
         for (String query : queries) {
             builder.append("&q=").append(URLEncoder.encode(query, "UTF-8"));
         }
-        // LOG.error(builder);
 
         try (OutputStream output = connection.getOutputStream()) {
             final PrintWriter writer = new PrintWriter(output);

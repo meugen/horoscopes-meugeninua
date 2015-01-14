@@ -5,6 +5,7 @@ import models.MessageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import play.Logger;
 import play.api.UsefulException;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public final class View extends Controller {
 
-    private static final Log LOG = LogFactory.getLog(View.class);
+    private static final Logger.ALogger LOG = Logger.of(View.class);
 
     private static final String GET_MESSAGES_SQL = "select id, title, message from horo_messages";
     private static final String GET_MESSAGE_SQL = "select id, title, message from horo_messages where id=?";

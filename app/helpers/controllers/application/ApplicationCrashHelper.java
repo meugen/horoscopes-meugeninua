@@ -6,6 +6,7 @@ import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;
 import play.libs.ws.WS;
@@ -21,7 +22,7 @@ import java.util.concurrent.Executors;
  */
 public final class ApplicationCrashHelper implements ControllerHelper {
 
-    private static final Log LOG = LogFactory.getLog(ApplicationCrashHelper.class);
+    private static final Logger.ALogger LOG = Logger.of(ApplicationCrashHelper.class);
 
     private static final ExecutorService SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final String USER_KEY = "uY88LgsdcrA9kYCMDBLYNNpGmijPuf";

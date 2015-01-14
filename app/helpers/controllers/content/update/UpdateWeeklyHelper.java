@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import play.Logger;
 import play.libs.XML;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 final class UpdateWeeklyHelper extends AbstractUpdateHelper {
 
-    private static final Log LOG = LogFactory.getLog(UpdateWeeklyHelper.class);
+    private static final Logger.ALogger LOG = Logger.of(UpdateWeeklyHelper.class);
 
     private static final String TYPE_WEEKLY = "weekly";
     private static final String DELETE_CONTENT_SQL = "delete from horo_texts where type=? and period=?";

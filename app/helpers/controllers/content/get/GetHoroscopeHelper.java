@@ -19,7 +19,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by admin on 23.10.2014.
@@ -52,6 +55,8 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
     private static final String PARAM_SIGN = "sign";
     private static final String PARAM_LOCALE = "locale";
 
+    private static final Map<String, Locale> SYNC_LOCALES = new HashMap<>();
+
     private String period;
 
     /**
@@ -61,6 +66,15 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
      */
     public GetHoroscopeHelper(final JsonNode json) {
         super(json);
+    }
+
+    private static synchronized Locale getSyncLocale(final String locale) {
+        Locale result = SYNC_LOCALES.get(locale);
+        if (result == null) {
+            result = new Locale(locale);
+            SYNC_LOCALES.put(locale, result);
+        }
+        return result;
     }
 
     /**
@@ -88,8 +102,8 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
         Result result;
         try {
             final JsonNode response = DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<JsonNode>() {
-                public JsonNode onAction(Connection statement) throws SQLException {
-                    return GetHoroscopeHelper.this.internalAction(statement, json);
+                public JsonNode onAction(final Connection connection) throws SQLException {
+                    return GetHoroscopeHelper.this.internalAction(connection, json);
                 }
             });
             result = Controller.ok(response);
@@ -106,50 +120,52 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
             return;
         }
 
-        final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, json.get(PARAM_TYPE).textValue());
-            statement.setString(2, json.get(PARAM_KIND).textValue());
-            statement.setString(3, json.get(PARAM_SIGN).textValue());
-            statement.setString(4, DEFAULT_LOCALE);
-            statement.setString(5, json.get(PARAM_TYPE).textValue());
-            statement.setString(6, json.get(PARAM_KIND).textValue());
-            statement.setString(7, json.get(PARAM_SIGN).textValue());
-            statement.setString(8, locale);
-            if (this.period != null) {
-                statement.setString(9, this.period);
-                statement.setString(10, this.period);
-            }
-            final ResultSet resultSet = statement.executeQuery();
+        synchronized (getSyncLocale(locale)) {
+            final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, json.get(PARAM_TYPE).textValue());
+                statement.setString(2, json.get(PARAM_KIND).textValue());
+                statement.setString(3, json.get(PARAM_SIGN).textValue());
+                statement.setString(4, DEFAULT_LOCALE);
+                statement.setString(5, json.get(PARAM_TYPE).textValue());
+                statement.setString(6, json.get(PARAM_KIND).textValue());
+                statement.setString(7, json.get(PARAM_SIGN).textValue());
+                statement.setString(8, locale);
+                if (this.period != null) {
+                    statement.setString(9, this.period);
+                    statement.setString(10, this.period);
+                }
+                final ResultSet resultSet = statement.executeQuery();
 
-            final List<String> periods = new ArrayList<>();
-            final List<String> contents = new ArrayList<>();
-            while (resultSet.next()) {
-                periods.add(resultSet.getString(1));
-                contents.add(resultSet.getString(2));
-            }
+                final List<String> periods = new ArrayList<>();
+                final List<String> contents = new ArrayList<>();
+                while (resultSet.next()) {
+                    periods.add(resultSet.getString(1));
+                    contents.add(resultSet.getString(2));
+                }
 
-            if (!contents.isEmpty()) {
-                final TranslateHelper helper = new TranslateHelper();
-                helper.setTarget(locale);
-                final List<String> translatedContents = helper.translateAll(contents);
+                if (!contents.isEmpty()) {
+                    final TranslateHelper helper = new TranslateHelper();
+                    helper.setTarget(locale);
+                    final List<String> translatedContents = helper.translateAll(contents);
 
-                try (PreparedStatement insert = connection.prepareStatement(INSERT_TRANSLATED_HOROSCOPE)) {
-                    final int count = translatedContents.size();
-                    for (int i = 0; i < count; i++) {
-                        insert.clearParameters();
-                        insert.setString(1, json.get(PARAM_TYPE).textValue());
-                        insert.setString(2, json.get(PARAM_KIND).textValue());
-                        insert.setString(3, json.get(PARAM_SIGN).textValue());
-                        insert.setString(4, periods.get(i));
-                        insert.setString(5, locale);
-                        insert.setString(6, translatedContents.get(i));
-                        insert.execute();
+                    try (PreparedStatement insert = connection.prepareStatement(INSERT_TRANSLATED_HOROSCOPE)) {
+                        final int count = translatedContents.size();
+                        for (int i = 0; i < count; i++) {
+                            insert.clearParameters();
+                            insert.setString(1, json.get(PARAM_TYPE).textValue());
+                            insert.setString(2, json.get(PARAM_KIND).textValue());
+                            insert.setString(3, json.get(PARAM_SIGN).textValue());
+                            insert.setString(4, periods.get(i));
+                            insert.setString(5, locale);
+                            insert.setString(6, translatedContents.get(i));
+                            insert.execute();
+                        }
                     }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

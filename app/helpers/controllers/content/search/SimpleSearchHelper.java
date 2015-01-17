@@ -26,8 +26,25 @@ public final class SimpleSearchHelper extends AbstractControllerHelper {
 
     private static final String ITEMS_KEY = "items";
 
+    private String locale;
     private String sql;
     private OnFillObjectListener onFillObjectListener;
+
+    /**
+     * Getter for locale.
+     * @return Locale
+     */
+    public String getLocale() {
+        return locale;
+    }
+
+    /**
+     * Setter for locale.
+     * @param locale Locale
+     */
+    public void setLocale(final String locale) {
+        this.locale = locale;
+    }
 
     /**
      * Getter for sql.
@@ -84,6 +101,7 @@ public final class SimpleSearchHelper extends AbstractControllerHelper {
     }
 
     private Result internalAction(final PreparedStatement statement) throws SQLException {
+        statement.setString(1, this.locale);
         final ResultSet resultSet = statement.executeQuery();
 
         final ObjectNode content = Json.newObject();

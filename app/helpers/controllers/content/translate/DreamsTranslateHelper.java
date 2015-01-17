@@ -10,26 +10,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by meugen on 14.01.15.
  */
-final class FlowersTranslateHelper extends AbstractTranslateHelper {
+final class DreamsTranslateHelper extends AbstractTranslateHelper {
 
-    private static final String SELECT = "select flower, icon_id, period, content, \"order\" from horo_flowers where locale=?";
-    private static final String INSERT = "insert into horo_flowers (upflower, flower, icon_id, period, content," +
-            " locale, \"order\") values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String CHECK = "select count(id) from horo_flowers where upflower=? and locale=?";
-    private static final String UPDATE = "update horo_flowers set flower=?, icon_id=?, period=?, content=?," +
-            " \"order\"=? where upflower=? and locale=?";
+    private static final String SELECT = "select dream, type, content from horo_dreams_v2 where locale=?";
+    private static final String INSERT = "insert into horo_dreams_v2 (updream, dream, type, content," +
+            " locale) values (?, ?, ?, ?, ?)";
+    private static final String CHECK = "select count(id) from horo_dreams_v2 where updream=? and locale=?";
+    private static final String UPDATE = "update horo_dreams_v2 set dream=?, type=?, content=?" +
+            " where updream=? and locale=?";
 
     /**
      * Constructor.
      * @param lang Language
      */
-    public FlowersTranslateHelper(final String lang) {
+    public DreamsTranslateHelper(final String lang) {
         super(lang);
     }
 
@@ -54,7 +53,6 @@ final class FlowersTranslateHelper extends AbstractTranslateHelper {
                 final List<String> queries = new ArrayList<>();
                 queries.add(resultSet.getString(1));
                 queries.add(resultSet.getString(3));
-                queries.add(resultSet.getString(4));
                 final List<String> translated = this.translateAll(queries);
 
                 if (this.checkTranslated(check, translated.get(0).toUpperCase())) {
@@ -62,10 +60,8 @@ final class FlowersTranslateHelper extends AbstractTranslateHelper {
                     update.setString(1, translated.get(0));
                     update.setInt(2, resultSet.getInt(2));
                     update.setString(3, translated.get(1));
-                    update.setString(4, translated.get(2));
-                    update.setInt(5, resultSet.getInt(5));
-                    update.setString(6, translated.get(0).toUpperCase());
-                    update.setString(7, this.getLocale());
+                    update.setString(4, translated.get(0).toUpperCase());
+                    update.setString(5, this.getLocale());
                     update.execute();
                 } else {
                     insert.clearParameters();
@@ -73,9 +69,7 @@ final class FlowersTranslateHelper extends AbstractTranslateHelper {
                     insert.setString(2, translated.get(0));
                     insert.setInt(3, resultSet.getInt(2));
                     insert.setString(4, translated.get(1));
-                    insert.setString(5, translated.get(2));
-                    insert.setString(6, this.getLocale());
-                    insert.setInt(7, resultSet.getInt(5));
+                    insert.setString(5, this.getLocale());
                     insert.execute();
                 }
             }

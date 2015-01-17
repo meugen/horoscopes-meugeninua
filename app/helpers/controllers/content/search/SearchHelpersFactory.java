@@ -13,17 +13,20 @@ import java.sql.SQLException;
  */
 public final class SearchHelpersFactory {
 
-    private static final String SEARCH_AMULET_SQL = "select type, amulet from horo_amulets_v2 where upamulet like concat(?, '%')";
-    private static final String SEARCH_DREAMS_SQL = "select type, dream from horo_dreams_v2 where updream like concat(?, '%')";
-    private static final String SEARCH_NAMES_SQL = "select sex, name from horo_names_v2 where upname like concat(?, '%')";
+    private static final String SEARCH_AMULET_SQL = "select type, amulet from horo_amulets_v2 where" +
+            " upamulet like concat(?, '%') and locale=? order by type, amulet";
+    private static final String SEARCH_DREAMS_SQL = "select type, dream from horo_dreams_v2 where" +
+            " updream like concat(?, '%') and locale=? order by type, dream";
+    private static final String SEARCH_NAMES_SQL = "select sex, name from horo_names_v2 where upname like concat(?, '%') and locale=?" +
+            " order by sex, name";
     private static final String SEARCH_CHINAS_SQL = "select t1.china, t2.name, t1.period from horo_chinas_v2 t1," +
-            " horo_uploads t2 where t1.icon_id=t2.id order by t1.order";
+            " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
     private static final String SEARCH_DRUIDS_SQL = "select t1.druid, t2.name, t1.period from horo_druids t1," +
-            " horo_uploads t2 where t1.icon_id=t2.id order by t1.order";
+            " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
     private static final String SEARCH_FLOWERS_SQL = "select t1.flower, t2.name, t1.period from horo_flowers t1," +
-            " horo_uploads t2 where t1.icon_id=t2.id order by t1.order";
+            " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
     private static final String SEARCH_JAPANS_SQL = "select t1.japan, t2.name, t1.period from horo_japans t1," +
-            " horo_uploads t2 where t1.icon_id=t2.id order by t1.order";
+            " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
     private static final String TYPE_KEY = "type";
     private static final String AMULET_KEY = "amulet";
     private static final String DREAM_KEY = "dream";
@@ -64,29 +67,33 @@ public final class SearchHelpersFactory {
         return helper;
     }
 
-    public static ControllerHelper newSearchChinasHelper() {
+    public static ControllerHelper newSearchChinasHelper(final String locale) {
         final SimpleSearchHelper helper = new SimpleSearchHelper();
+        helper.setLocale(locale);
         helper.setSql(SEARCH_CHINAS_SQL);
         helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT);
         return helper;
     }
 
-    public static ControllerHelper newSearchDruidsHelper() {
+    public static ControllerHelper newSearchDruidsHelper(final String locale) {
         final SimpleSearchHelper helper = new SimpleSearchHelper();
+        helper.setLocale(locale);
         helper.setSql(SEARCH_DRUIDS_SQL);
         helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT);
         return helper;
     }
 
-    public static ControllerHelper newSearchFlowersHelper() {
+    public static ControllerHelper newSearchFlowersHelper(final String locale) {
         final SimpleSearchHelper helper = new SimpleSearchHelper();
+        helper.setLocale(locale);
         helper.setSql(SEARCH_FLOWERS_SQL);
         helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT);
         return helper;
     }
 
-    public static ControllerHelper newSearchJapansHelper() {
+    public static ControllerHelper newSearchJapansHelper(final String locale) {
         final SimpleSearchHelper helper = new SimpleSearchHelper();
+        helper.setLocale(locale);
         helper.setSql(SEARCH_JAPANS_SQL);
         helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT);
         return helper;

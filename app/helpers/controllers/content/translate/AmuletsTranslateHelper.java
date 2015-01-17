@@ -1,6 +1,7 @@
 package helpers.controllers.content.translate;
 
 import helpers.controllers.Response;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -16,20 +17,20 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-final class FlowersTranslateHelper extends AbstractTranslateHelper {
+final class AmuletsTranslateHelper extends AbstractTranslateHelper {
 
-    private static final String SELECT = "select flower, icon_id, period, content, \"order\" from horo_flowers where locale=?";
-    private static final String INSERT = "insert into horo_flowers (upflower, flower, icon_id, period, content," +
-            " locale, \"order\") values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String CHECK = "select count(id) from horo_flowers where upflower=? and locale=?";
-    private static final String UPDATE = "update horo_flowers set flower=?, icon_id=?, period=?, content=?," +
-            " \"order\"=? where upflower=? and locale=?";
+    private static final String SELECT = "select amulet, type, image_id, content from horo_amulets_v2 where locale=?";
+    private static final String INSERT = "insert into horo_amulets_v2 (upamulet, amulet, type, image_id, content," +
+            " locale) values (?, ?, ?, ?, ?, ?)";
+    private static final String CHECK = "select count(id) from horo_amulets_v2 where upamulet=? and locale=?";
+    private static final String UPDATE = "update horo_amulets_v2 set amulet=?, type=?, image_id=?, content=?" +
+            " where upamulet=? and locale=?";
 
     /**
      * Constructor.
      * @param lang Language
      */
-    public FlowersTranslateHelper(final String lang) {
+    public AmuletsTranslateHelper(final String lang) {
         super(lang);
     }
 
@@ -53,29 +54,30 @@ final class FlowersTranslateHelper extends AbstractTranslateHelper {
             while (resultSet.next()) {
                 final List<String> queries = new ArrayList<>();
                 queries.add(resultSet.getString(1));
-                queries.add(resultSet.getString(3));
-                queries.add(resultSet.getString(4));
+                queries.addAll(Arrays.asList(resultSet.getString(4).split("\\[part\\]")));
                 final List<String> translated = this.translateAll(queries);
 
+                final StringBuilder translatedContent = new StringBuilder(translated.get(1));
+                for (int i = 2; i < translated.size(); i++) {
+                    translatedContent.append("[part]").append(translated.get(i));
+                }
                 if (this.checkTranslated(check, translated.get(0).toUpperCase())) {
                     update.clearParameters();
                     update.setString(1, translated.get(0));
                     update.setInt(2, resultSet.getInt(2));
-                    update.setString(3, translated.get(1));
-                    update.setString(4, translated.get(2));
-                    update.setInt(5, resultSet.getInt(5));
-                    update.setString(6, translated.get(0).toUpperCase());
-                    update.setString(7, this.getLocale());
+                    update.setInt(3, resultSet.getInt(3));
+                    update.setString(4, translatedContent.toString());
+                    update.setString(5, translated.get(0).toUpperCase());
+                    update.setString(6, this.getLocale());
                     update.execute();
                 } else {
                     insert.clearParameters();
                     insert.setString(1, translated.get(0).toUpperCase());
                     insert.setString(2, translated.get(0));
                     insert.setInt(3, resultSet.getInt(2));
-                    insert.setString(4, translated.get(1));
-                    insert.setString(5, translated.get(2));
+                    insert.setInt(4, resultSet.getInt(3));
+                    insert.setString(5, translatedContent.toString());
                     insert.setString(6, this.getLocale());
-                    insert.setInt(7, resultSet.getInt(5));
                     insert.execute();
                 }
             }

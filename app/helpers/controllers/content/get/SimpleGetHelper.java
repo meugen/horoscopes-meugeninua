@@ -25,6 +25,10 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleGetHelper.class);
 
+    private static final String DEFAULT_LOCALE = "ru";
+    private static final String PARAM_LOCALE = "locale";
+
+    private String locale;
     private String sql;
     private String param;
     private OnFillObjectListener onFillObjectListener;
@@ -36,6 +40,22 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
      */
     public SimpleGetHelper(final JsonNode json) {
         super(json);
+    }
+
+    /**
+     * Getter for locale.
+     * @return Locale
+     */
+    public String getLocale() {
+        return locale;
+    }
+
+    /**
+     * Setter for locale.
+     * @param locale Locale
+     */
+    public void setLocale(final String locale) {
+        this.locale = locale;
     }
 
     /**
@@ -113,6 +133,7 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
 
     private JsonNode internalAction(final PreparedStatement statement, final JsonNode json) throws SQLException {
         statement.setString(1, json.get(this.param).textValue().toUpperCase());
+        statement.setString(2, json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE);
         final ResultSet resultSet = statement.executeQuery();
 
         JsonNode content = NullNode.getInstance();

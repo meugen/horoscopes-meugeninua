@@ -11,13 +11,11 @@ import play.mvc.Result;
  */
 public final class Search extends Controller {
 
+    private static final String DEFAULT_LOCALE = "ru";
+
     @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> amulets() {
         return SearchHelpersFactory.newSearchAmuletsHelper(request().body().asJson()).execute();
-    }
-
-    public static F.Promise<Result> chinas() {
-        return SearchHelpersFactory.newSearchChinasHelper().execute();
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -25,20 +23,40 @@ public final class Search extends Controller {
         return SearchHelpersFactory.newSearchDreamsHelper(request().body().asJson()).execute();
     }
 
-    public static F.Promise<Result> druids() {
-        return SearchHelpersFactory.newSearchDruidsHelper().execute();
-    }
-
-    public static F.Promise<Result> flowers() {
-        return SearchHelpersFactory.newSearchFlowersHelper().execute();
-    }
-
-    public static F.Promise<Result> japans() {
-        return SearchHelpersFactory.newSearchJapansHelper().execute();
-    }
-
     @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> names() {
         return SearchHelpersFactory.newSearchNamesHelper(request().body().asJson()).execute();
+    }
+
+    public static F.Promise<Result> chinas() {
+        return chinasByLocale(DEFAULT_LOCALE);
+    }
+
+    public static F.Promise<Result> chinasByLocale(final String locale) {
+        return SearchHelpersFactory.newSearchChinasHelper(locale).execute();
+    }
+
+    public static F.Promise<Result> druids() {
+        return druidsByLocale(DEFAULT_LOCALE);
+    }
+
+    public static F.Promise<Result> druidsByLocale(final String locale) {
+        return SearchHelpersFactory.newSearchDruidsHelper(locale).execute();
+    }
+
+    public static F.Promise<Result> flowers() {
+        return flowersByLocale(DEFAULT_LOCALE);
+    }
+
+    public static F.Promise<Result> flowersByLocale(final String locale) {
+        return SearchHelpersFactory.newSearchFlowersHelper(locale).execute();
+    }
+
+    public static F.Promise<Result> japans() {
+        return japansByLocale(DEFAULT_LOCALE);
+    }
+
+    public static F.Promise<Result> japansByLocale(final String locale) {
+        return SearchHelpersFactory.newSearchJapansHelper(locale).execute();
     }
 }

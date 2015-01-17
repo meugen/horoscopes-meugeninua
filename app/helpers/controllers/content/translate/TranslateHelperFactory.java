@@ -14,4 +14,24 @@ public final class TranslateHelperFactory {
     public static ControllerHelper forFlowers(final String lang) {
         return new FlowersTranslateHelper(lang);
     }
+
+    public static ControllerHelper forDruids(final String lang) {
+        return new DruidsTranslateHelper(lang);
+    }
+
+    public static ControllerHelper forJapans(final String lang) {
+        return new JapansTranslateHelper(lang);
+    }
+
+    public static ControllerHelper forChinas(final String lang) {
+        return new ChinasTranslateHelper(lang);
+    }
+
+    public static ControllerHelper forDreams(final String lang) {
+        return new DreamsTranslateHelper(lang);
+    }
+
+    public static ControllerHelper forAmulets(final String lang) {
+        return new AmuletsTranslateHelper(lang);
+    }
 }

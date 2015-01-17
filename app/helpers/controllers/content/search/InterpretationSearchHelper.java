@@ -25,7 +25,9 @@ final class InterpretationSearchHelper extends AbstractJsonControllerHelper {
 
     private static final Logger.ALogger LOG = Logger.of(InterpretationSearchHelper.class);
 
+    private static final String DEFAULT_LOCALE = "ru";
     private static final String PARAM_SEARCH = "search";
+    private static final String PARAM_LOCALE = "locale";
     private static final String ITEMS_KEY = "items";
 
     private String sql;
@@ -97,6 +99,7 @@ final class InterpretationSearchHelper extends AbstractJsonControllerHelper {
 
     private JsonNode internalAction(final PreparedStatement statement, final JsonNode json) throws SQLException {
         statement.setString(1, json.get(PARAM_SEARCH).textValue().toUpperCase());
+        statement.setString(2, json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE);
         final ResultSet resultSet = statement.executeQuery();
 
         final ObjectNode content = Json.newObject();

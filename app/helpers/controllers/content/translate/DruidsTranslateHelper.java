@@ -10,26 +10,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by meugen on 14.01.15.
  */
-final class FlowersTranslateHelper extends AbstractTranslateHelper {
+final class DruidsTranslateHelper extends AbstractTranslateHelper {
 
-    private static final String SELECT = "select flower, icon_id, period, content, \"order\" from horo_flowers where locale=?";
-    private static final String INSERT = "insert into horo_flowers (upflower, flower, icon_id, period, content," +
+    private static final String SELECT = "select druid, icon_id, period, content, \"order\" from horo_druids where locale=?";
+    private static final String INSERT = "insert into horo_druids (updruid, druid, icon_id, period, content," +
             " locale, \"order\") values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String CHECK = "select count(id) from horo_flowers where upflower=? and locale=?";
-    private static final String UPDATE = "update horo_flowers set flower=?, icon_id=?, period=?, content=?," +
-            " \"order\"=? where upflower=? and locale=?";
+    private static final String CHECK = "select count(id) from horo_druids where updruid=? and locale=?";
+    private static final String UPDATE = "update horo_druids set druid=?, icon_id=?, period=?, content=?," +
+            " \"order\"=? where updruid=? and locale=?";
 
     /**
      * Constructor.
      * @param lang Language
      */
-    public FlowersTranslateHelper(final String lang) {
+    public DruidsTranslateHelper(final String lang) {
         super(lang);
     }
 

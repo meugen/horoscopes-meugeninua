@@ -14,13 +14,13 @@ import java.sql.SQLException;
 public final class GetHelpersFactory {
 
     private static final String GET_AMULET_SQL = "select t2.name, t1.content from horo_amulets_v2 t1," +
-            " horo_uploads t2 where t1.image_id=t2.id and t1.upamulet=?";
-    private static final String GET_CHINA_SQL = "select content from horo_chinas_v2 where upchina=?";
-    private static final String GET_DREAM_SQL = "select content from horo_dreams_v2 where updream=?";
-    private static final String GET_DRUID_SQL = "select content from horo_druids where updruid=?";
-    private static final String GET_FLOWER_SQL = "select content from horo_flowers where upflower=?";
-    private static final String GET_NAME_SQL = "select content from horo_names_v2 where upname=?";
-    private static final String GET_JAPAN_SQL = "select content from horo_japans where upjapan=?";
+            " horo_uploads t2 where t1.image_id=t2.id and t1.upamulet=? and t1.locale=?";
+    private static final String GET_CHINA_SQL = "select content from horo_chinas_v2 where upchina=? and locale=?";
+    private static final String GET_DREAM_SQL = "select content from horo_dreams_v2 where updream=? and locale=?";
+    private static final String GET_DRUID_SQL = "select content from horo_druids where updruid=? and locale=?";
+    private static final String GET_FLOWER_SQL = "select content from horo_flowers where upflower=? and locale=?";
+    private static final String GET_NAME_SQL = "select content from horo_names_v2 where upname=? and locale=?";
+    private static final String GET_JAPAN_SQL = "select content from horo_japans where upjapan=? and locale=?";
     private static final String PARAM_AMULET = "amulet";
     private static final String PARAM_CHINA = "china";
     private static final String PARAM_DREAM = "dream";

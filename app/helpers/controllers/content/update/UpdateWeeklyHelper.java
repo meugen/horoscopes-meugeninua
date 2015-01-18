@@ -12,9 +12,15 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by admin on 24.10.2014.
@@ -86,61 +92,26 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
                     final String periodValue = data.getElementsByTagName("date")
                             .item(0).getAttributes().getNamedItem(TYPE_WEEKLY)
                             .getTextContent();
+                    final String internationalPeriod = this.toInternationalPeriod(periodValue);
                     for (int i = 0; i < signs.getLength(); i++) {
                         final Node sign = signs.item(i);
                         final NodeList kinds = sign.getChildNodes();
                         for (int j = 0; j < kinds.getLength(); j++) {
                             final Node kind = kinds.item(j);
 
-                            updateContentStatement.clearParameters();
-                            updateContentStatement.setString(1, kind.getTextContent());
-                            updateContentStatement.setString(2, TYPE_WEEKLY);
-                            updateContentStatement.setString(3, kind.getNodeName());
-                            updateContentStatement.setString(4, sign.getNodeName());
-                            updateContentStatement.setString(5, entry.getKey());
-                            if (updateContentStatement.executeUpdate() == 0) {
-                                insertContentStatement.clearParameters();
-                                insertContentStatement.setString(1, TYPE_WEEKLY);
-                                insertContentStatement.setString(2, kind.getNodeName());
-                                insertContentStatement.setString(3, sign.getNodeName());
-                                insertContentStatement.setString(4, entry.getKey());
-                                insertContentStatement.setString(5, kind.getTextContent());
-                                insertContentStatement.executeUpdate();
-                            }
-
-                            updateContentStatement.clearParameters();
-                            updateContentStatement.setString(1, kind.getTextContent());
-                            updateContentStatement.setString(2, TYPE_WEEKLY);
-                            updateContentStatement.setString(3, kind.getNodeName());
-                            updateContentStatement.setString(4, sign.getNodeName());
-                            updateContentStatement.setString(5, periodValue);
-                            if (updateContentStatement.executeUpdate() == 0) {
-                                insertContentStatement.clearParameters();
-                                insertContentStatement.setString(1, TYPE_WEEKLY);
-                                insertContentStatement.setString(2, kind.getNodeName());
-                                insertContentStatement.setString(3, sign.getNodeName());
-                                insertContentStatement.setString(4, periodValue);
-                                insertContentStatement.setString(5, kind.getTextContent());
-                                insertContentStatement.executeUpdate();
-                            }
+                            this.insertOrUpdateContent(TYPE_WEEKLY, kind.getNodeName(), sign.getNodeName(),
+                                    periodValue, kind.getTextContent());
+                            this.insertOrUpdateContent(TYPE_WEEKLY, kind.getNodeName(), sign.getNodeName(),
+                                    internationalPeriod, kind.getTextContent());
                         }
                     }
-                    updatePeriodStatement.clearParameters();
-                    updatePeriodStatement.setString(1, periodValue);
-                    updatePeriodStatement.setString(2, TYPE_WEEKLY);
-                    updatePeriodStatement.setString(3, entry.getKey());
-                    if (updatePeriodStatement.executeUpdate() == 0) {
-                        insertPeriodStatement.clearParameters();
-                        insertPeriodStatement.setString(1, TYPE_WEEKLY);
-                        insertPeriodStatement.setString(2, entry.getKey());
-                        insertPeriodStatement.setString(3, periodValue);
-                        insertPeriodStatement.executeUpdate();
-                    }
+                    this.insertOrUpdatePeriod(TYPE_WEEKLY, entry.getKey(), periodValue);
+                    this.insertOrUpdatePeriod(TYPE_WEEKLY, entry.getKey(), internationalPeriod, 2);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         } finally {
             clearStatements();
         }
@@ -168,5 +139,21 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
             this.deletePeriodStatement.close();
             this.deletePeriodStatement = null;
         }
+    }
+
+    private String toInternationalPeriod(final String ruPeriod) throws ParseException {
+        final Pattern pattern = Pattern.compile("^(\\d+) (([^\\d\\s]+) )?- (\\d+) ([^\\d\\s]+)$");
+        final Matcher matcher = pattern.matcher(ruPeriod);
+        if (!matcher.find()) {
+            throw new ParseException("Not valid period: " + ruPeriod, 0);
+        }
+        final String fromText = matcher.group(3) == null ? matcher.group(1) + " " + matcher.group(5)
+                : matcher.group(1) + " " + matcher.group(3);
+        final String toText = matcher.group(4) + " " + matcher.group(5);
+
+        final SimpleDateFormat format = new SimpleDateFormat("dd MMMM", new Locale("ru"));
+        final Date from = format.parse(fromText);
+        final Date to = format.parse(toText);
+        return String.format(Locale.ENGLISH, "%1$td.%1$tm-%2$td.%2$tm", from, to);
     }
 }

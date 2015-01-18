@@ -59,52 +59,12 @@ final class UpdateDailyHelper extends AbstractUpdateHelper {
                     for (int j = 0; j < periods.getLength(); j++) {
                         final Node period = periods.item(j);
 
-                        updateContentStatement.clearParameters();
-                        updateContentStatement.setString(1, period.getTextContent());
-                        updateContentStatement.setString(2, TYPE_DAILY);
-                        updateContentStatement.setString(3, entry.getKey());
-                        updateContentStatement.setString(4, sign.getNodeName());
-                        updateContentStatement.setString(5, period.getNodeName());
-                        if (updateContentStatement.executeUpdate() == 0) {
-                            insertContentStatement.clearParameters();
-                            insertContentStatement.setString(1, TYPE_DAILY);
-                            insertContentStatement.setString(2, entry.getKey());
-                            insertContentStatement.setString(3, sign.getNodeName());
-                            insertContentStatement.setString(4, period.getNodeName());
-                            insertContentStatement.setString(5, period.getTextContent());
-                            insertContentStatement.executeUpdate();
-                        }
-
                         final String periodValue = data.getElementsByTagName("date")
                                 .item(0).getAttributes().getNamedItem(period.getNodeName())
                                 .getTextContent();
-                        updateContentStatement.clearParameters();
-                        updateContentStatement.setString(1, period.getTextContent());
-                        updateContentStatement.setString(2, TYPE_DAILY);
-                        updateContentStatement.setString(3, entry.getKey());
-                        updateContentStatement.setString(4, sign.getNodeName());
-                        updateContentStatement.setString(5, periodValue);
-                        if (updateContentStatement.executeUpdate() == 0) {
-                            insertContentStatement.clearParameters();
-                            insertContentStatement.setString(1, TYPE_DAILY);
-                            insertContentStatement.setString(2, entry.getKey());
-                            insertContentStatement.setString(3, sign.getNodeName());
-                            insertContentStatement.setString(4, periodValue);
-                            insertContentStatement.setString(5, period.getTextContent());
-                            insertContentStatement.executeUpdate();
-                        }
-
-                        updatePeriodStatement.clearParameters();
-                        updatePeriodStatement.setString(1, periodValue);
-                        updatePeriodStatement.setString(2, TYPE_DAILY);
-                        updatePeriodStatement.setString(3, period.getNodeName());
-                        if (updatePeriodStatement.executeUpdate() == 0) {
-                            insertPeriodStatement.clearParameters();
-                            insertPeriodStatement.setString(1, TYPE_DAILY);
-                            insertPeriodStatement.setString(2, period.getNodeName());
-                            insertPeriodStatement.setString(3, periodValue);
-                            insertPeriodStatement.executeUpdate();
-                        }
+                        this.insertOrUpdateContent(TYPE_DAILY, entry.getKey(), sign.getNodeName(), periodValue,
+                                period.getTextContent());
+                        this.insertOrUpdatePeriod(TYPE_DAILY, period.getNodeName(), periodValue);
                     }
                 }
             }

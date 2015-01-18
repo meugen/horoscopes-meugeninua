@@ -26,11 +26,11 @@ public final class Translate extends Controller {
         return TranslateHelperFactory.forChinas(lang).execute();
     }
 
-    public static F.Promise<Result> dreamsTo(final String lang) {
-        return TranslateHelperFactory.forDreams(lang).execute();
+    public static F.Promise<Result> dreamsTo(final String lang, final Integer max) {
+        return TranslateHelperFactory.forDreams(lang, max).execute();
     }
 
-    public static F.Promise<Result> amuletsTo(final String lang) {
-        return TranslateHelperFactory.forAmulets(lang).execute();
+    public static F.Promise<Result> amuletsTo(final String lang, final Integer max) {
+        return TranslateHelperFactory.forAmulets(lang, max).execute();
     }
 }

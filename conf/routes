@@ -32,8 +32,8 @@ GET         /content/translate/flowers/to/:lang        controllers.content.Trans
 GET         /content/translate/druids/to/:lang         controllers.content.Translate.druidsTo(lang)
 GET         /content/translate/japans/to/:lang         controllers.content.Translate.japansTo(lang)
 GET         /content/translate/chinas/to/:lang         controllers.content.Translate.chinasTo(lang)
-GET         /content/translate/dreams/to/:lang         controllers.content.Translate.dreamsTo(lang)
-GET         /content/translate/amulets/to/:lang        controllers.content.Translate.amuletsTo(lang)
+GET         /content/translate/dreams/to/:lang/max/:max         controllers.content.Translate.dreamsTo(lang, max: Integer)
+GET         /content/translate/amulets/to/:lang/max/:max        controllers.content.Translate.amuletsTo(lang, max: Integer)
 POST        /crash                                     controllers.Application.crash()
 
 GET         /portal/signin                             controllers.portal.Signin.index()

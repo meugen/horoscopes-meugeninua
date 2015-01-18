@@ -27,11 +27,11 @@ public final class TranslateHelperFactory {
         return new ChinasTranslateHelper(lang);
     }
 
-    public static ControllerHelper forDreams(final String lang) {
-        return new DreamsTranslateHelper(lang);
+    public static ControllerHelper forDreams(final String lang, final int max) {
+        return new DreamsTranslateHelper(lang, max);
     }
 
-    public static ControllerHelper forAmulets(final String lang) {
-        return new AmuletsTranslateHelper(lang);
+    public static ControllerHelper forAmulets(final String lang, final int max) {
+        return new AmuletsTranslateHelper(lang, max);
     }
 }

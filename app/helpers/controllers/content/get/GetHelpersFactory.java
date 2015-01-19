@@ -15,11 +15,15 @@ public final class GetHelpersFactory {
 
     private static final String GET_AMULET_SQL = "select t2.name, t1.content from horo_amulets_v2 t1," +
             " horo_uploads t2 where t1.image_id=t2.id and t1.upamulet=? and t1.locale=?";
+    private static final String GET_AMULET_BY_ID_SQL = "select t2.name, t1.content from horo_amulets_v2 t1," +
+            " horo_uploads t2 where t1.image_id=t2.id and t1.id=?";
     private static final String GET_CHINA_SQL = "select content from horo_chinas_v2 where upchina=? and locale=?";
     private static final String GET_DREAM_SQL = "select content from horo_dreams_v2 where updream=? and locale=?";
+    private static final String GET_DREAM_BY_ID_SQL = "select content from horo_dreams_v2 where id=?";
     private static final String GET_DRUID_SQL = "select content from horo_druids where updruid=? and locale=?";
     private static final String GET_FLOWER_SQL = "select content from horo_flowers where upflower=? and locale=?";
     private static final String GET_NAME_SQL = "select content from horo_names_v2 where upname=? and locale=?";
+    private static final String GET_NAME_BY_ID_SQL = "select content from horo_names_v2 where id=?";
     private static final String GET_JAPAN_SQL = "select content from horo_japans where upjapan=? and locale=?";
     private static final String PARAM_AMULET = "amulet";
     private static final String PARAM_CHINA = "china";
@@ -56,6 +60,13 @@ public final class GetHelpersFactory {
         return helper;
     }
 
+    public static ControllerHelper newGetAmuletHelper(final Integer id) {
+        final SimpleGetByIdHelper helper = new SimpleGetByIdHelper(id);
+        helper.setSql(GET_AMULET_BY_ID_SQL);
+        helper.setOnFillObjectListener(AMULET_FILL_OBJECT_LISTENER);
+        return helper;
+    }
+
     public static ControllerHelper newGetChinaHelper(final JsonNode json) {
         final SimpleGetHelper helper = new SimpleGetHelper(json);
         helper.setParam(PARAM_CHINA);
@@ -68,6 +79,13 @@ public final class GetHelpersFactory {
         final SimpleGetHelper helper = new SimpleGetHelper(json);
         helper.setParam(PARAM_DREAM);
         helper.setSql(GET_DREAM_SQL);
+        helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT_LISTENER);
+        return helper;
+    }
+
+    public static ControllerHelper newGetDreamHelper(final Integer id) {
+        final SimpleGetByIdHelper helper = new SimpleGetByIdHelper(id);
+        helper.setSql(GET_DREAM_BY_ID_SQL);
         helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT_LISTENER);
         return helper;
     }
@@ -92,6 +110,13 @@ public final class GetHelpersFactory {
         final SimpleGetHelper helper = new SimpleGetHelper(json);
         helper.setParam(PARAM_NAME);
         helper.setSql(GET_NAME_SQL);
+        helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT_LISTENER);
+        return helper;
+    }
+
+    public static ControllerHelper newGetNameHelper(final Integer id) {
+        final SimpleGetByIdHelper helper = new SimpleGetByIdHelper(id);
+        helper.setSql(GET_NAME_BY_ID_SQL);
         helper.setOnFillObjectListener(SIMPLE_FILL_OBJECT_LISTENER);
         return helper;
     }

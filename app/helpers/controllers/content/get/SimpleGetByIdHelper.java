@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
+import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.Response;
 import helpers.controllers.content.AbstractJsonControllerHelper;
 import helpers.controllers.content.OnFillObjectListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -21,24 +20,24 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
-final class SimpleGetHelper extends AbstractJsonControllerHelper {
+final class SimpleGetByIdHelper extends AbstractControllerHelper {
 
-    private static final Logger.ALogger LOG = Logger.of(SimpleGetHelper.class);
+    private static final Logger.ALogger LOG = Logger.of(SimpleGetByIdHelper.class);
 
     private static final String DEFAULT_LOCALE = "ru";
     private static final String PARAM_LOCALE = "locale";
 
+    private final Integer id;
     private String sql;
-    private String param;
     private OnFillObjectListener onFillObjectListener;
 
     /**
      * Constructor.
      *
-     * @param json Json
+     * @param id Id
      */
-    public SimpleGetHelper(final JsonNode json) {
-        super(json);
+    public SimpleGetByIdHelper(final Integer id) {
+        this.id = id;
     }
 
     /**
@@ -57,24 +56,6 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
      */
     public void setSql(final String sql) {
         this.sql = sql;
-    }
-
-    /**
-     * Getter for param.
-     *
-     * @return Param
-     */
-    public String getParam() {
-        return param;
-    }
-
-    /**
-     * Setter for param.
-     *
-     * @param param Param
-     */
-    public void setParam(final String param) {
-        this.param = param;
     }
 
     /**
@@ -98,12 +79,12 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
     /**
      * {@inheritDoc}
      */
-    protected Result action(final JsonNode json) {
+    protected Result action() {
         Result result;
         try {
             final JsonNode response = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
                 public JsonNode onAction(PreparedStatement statement) throws SQLException {
-                    return SimpleGetHelper.this.internalAction(statement, json);
+                    return SimpleGetByIdHelper.this.internalAction(statement);
                 }
             }, this.sql);
             result = Controller.ok(response);
@@ -114,9 +95,8 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
         return result;
     }
 
-    private JsonNode internalAction(final PreparedStatement statement, final JsonNode json) throws SQLException {
-        statement.setString(1, json.get(this.param).textValue().toUpperCase());
-        statement.setString(2, json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE);
+    private JsonNode internalAction(final PreparedStatement statement) throws SQLException {
+        statement.setInt(1, this.id);
         final ResultSet resultSet = statement.executeQuery();
 
         JsonNode content = NullNode.getInstance();
@@ -126,13 +106,6 @@ final class SimpleGetHelper extends AbstractJsonControllerHelper {
             content = object;
         }
         return Response.content(content).asJson();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String[] getNotNullFields() {
-        return new String[]{this.param};
     }
 
 }

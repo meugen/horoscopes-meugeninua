@@ -16,6 +16,10 @@ public final class Get extends Controller {
         return GetHelpersFactory.newGetAmuletHelper(request().body().asJson()).execute();
     }
 
+    public static F.Promise<Result> amuletById(final Integer id) {
+        return GetHelpersFactory.newGetAmuletHelper(id).execute();
+    }
+
     @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> china() {
         return GetHelpersFactory.newGetChinaHelper(request().body().asJson()).execute();
@@ -24,6 +28,10 @@ public final class Get extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> dream() {
         return GetHelpersFactory.newGetDreamHelper(request().body().asJson()).execute();
+    }
+
+    public static F.Promise<Result> dreamById(final Integer id) {
+        return GetHelpersFactory.newGetDreamHelper(id).execute();
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -54,5 +62,9 @@ public final class Get extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> name() {
         return GetHelpersFactory.newGetNameHelper(request().body().asJson()).execute();
+    }
+
+    public static F.Promise<Result> nameById(final Integer id) {
+        return GetHelpersFactory.newGetNameHelper(id).execute();
     }
 }

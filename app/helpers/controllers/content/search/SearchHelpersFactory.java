@@ -13,12 +13,12 @@ import java.sql.SQLException;
  */
 public final class SearchHelpersFactory {
 
-    private static final String SEARCH_AMULET_SQL = "select type, amulet from horo_amulets_v2 where" +
+    private static final String SEARCH_AMULET_SQL = "select id, type, amulet from horo_amulets_v2 where" +
             " upamulet like concat(?, '%') and locale=? order by type, amulet";
-    private static final String SEARCH_DREAMS_SQL = "select type, dream from horo_dreams_v2 where" +
+    private static final String SEARCH_DREAMS_SQL = "select id, type, dream from horo_dreams_v2 where" +
             " updream like concat(?, '%') and locale=? order by type, dream";
-    private static final String SEARCH_NAMES_SQL = "select sex, name from horo_names_v2 where upname like concat(?, '%') and locale=?" +
-            " order by sex, name";
+    private static final String SEARCH_NAMES_SQL = "select id, sex, name from horo_names_v2 where" +
+            " upname like concat(?, '%') and locale=? order by sex, name";
     private static final String SEARCH_CHINAS_SQL = "select t1.china, t2.name, t1.period from horo_chinas_v2 t1," +
             " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
     private static final String SEARCH_DRUIDS_SQL = "select t1.druid, t2.name, t1.period from horo_druids t1," +
@@ -119,8 +119,9 @@ public final class SearchHelpersFactory {
          * {@inheritDoc}
          */
         public void onFillObject(final ObjectNode object, final ResultSet resultSet) throws SQLException {
-            object.put(this.typeKey, resultSet.getInt(1));
-            object.put(this.dataKey, resultSet.getString(2));
+            object.put("id", resultSet.getInt(1));
+            object.put(this.typeKey, resultSet.getInt(2));
+            object.put(this.dataKey, resultSet.getString(3));
         }
     }
 }

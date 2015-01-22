@@ -137,8 +137,8 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
                 statement.setString(9, locale);
                 statement.setInt(10, version);
                 if (this.period != null) {
-                    statement.setString(9, this.period);
-                    statement.setString(10, this.period);
+                    statement.setString(11, this.period);
+                    statement.setString(12, this.period);
                 }
                 final ResultSet resultSet = statement.executeQuery();
 

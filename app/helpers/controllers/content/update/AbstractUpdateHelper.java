@@ -17,6 +17,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -28,8 +29,8 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     private static final int BUF_SIZE = 1024;
 
-    private static final String UPDATE_CONTENT_SQL = "UPDATE horo_texts SET content=?" +
-            " WHERE type=? AND kind=? AND sign=? AND period=?";
+    private static final String COUNT_CONTENT_SQL = "SELECT count(id) FROM horo_texts" +
+            " WHERE type=? AND kind=? AND sign=? AND period=? AND locale=?";
     private static final String INSERT_CONTENT_SQL = "INSERT INTO horo_texts" +
             " (type, kind, sign, period, content) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_PERIOD_SQL = "UPDATE horo_periods SET \"key\"=?" +
@@ -40,7 +41,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     private final String uri;
 
-    private PreparedStatement updateContentStatement;
+    private PreparedStatement countContentStatement;
     private PreparedStatement insertContentStatement;
     private PreparedStatement updatePeriodStatement;
     private PreparedStatement insertPeriodStatement;
@@ -61,7 +62,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
      * @throws SQLException On sql error
      */
     protected void initStatements(final Connection connection) throws SQLException {
-        this.updateContentStatement = connection.prepareStatement(UPDATE_CONTENT_SQL);
+        this.countContentStatement = connection.prepareStatement(COUNT_CONTENT_SQL);
         this.insertContentStatement = connection.prepareStatement(INSERT_CONTENT_SQL);
         this.updatePeriodStatement = connection.prepareStatement(UPDATE_PERIOD_SQL);
         this.insertPeriodStatement = connection.prepareStatement(INSERT_PERIOD_SQL);
@@ -73,9 +74,9 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
      * @throws SQLException On sql error
      */
     protected void clearStatements() throws SQLException {
-        if (this.updateContentStatement != null) {
-            this.updateContentStatement.close();
-            this.updateContentStatement = null;
+        if (this.countContentStatement != null) {
+            this.countContentStatement.close();
+            this.countContentStatement = null;
         }
         if (this.insertContentStatement != null) {
             this.insertContentStatement.close();
@@ -91,15 +92,22 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
         }
     }
 
+    private int getCount(final String type, final String kind, final String sign,
+                         final String period) throws SQLException {
+        countContentStatement.clearParameters();
+        countContentStatement.setString(1, type);
+        countContentStatement.setString(2, kind);
+        countContentStatement.setString(3, sign);
+        countContentStatement.setString(4, period);
+        countContentStatement.setString(5, "ru");
+        try (ResultSet resultSet = countContentStatement.executeQuery()) {
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        }
+    }
+
     protected final void insertOrUpdateContent(final String type, final String kind, final String sign,
                                                final String period, final String content) throws SQLException {
-        updateContentStatement.clearParameters();
-        updateContentStatement.setString(1, content);
-        updateContentStatement.setString(2, type);
-        updateContentStatement.setString(3, kind);
-        updateContentStatement.setString(4, sign);
-        updateContentStatement.setString(5, period);
-        if (updateContentStatement.executeUpdate() == 0) {
+        if (this.getCount(type, kind, sign, period) == 0) {
             insertContentStatement.clearParameters();
             insertContentStatement.setString(1, type);
             insertContentStatement.setString(2, kind);

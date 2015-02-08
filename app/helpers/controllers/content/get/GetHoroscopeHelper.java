@@ -98,6 +98,7 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
     protected Result action(final JsonNode json) {
         Result result;
         try {
+            translateAll(json);
             final JsonNode response = DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<JsonNode>() {
                 public JsonNode onAction(final Connection connection) throws SQLException {
                     return GetHoroscopeHelper.this.internalAction(connection, json);
@@ -117,6 +118,16 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
         return locale;
     }
 
+    private void translateAll(final JsonNode json) throws SQLException {
+        DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Void>() {
+            @Override
+            public Void onAction(final Connection connection) throws SQLException {
+                GetHoroscopeHelper.this.translateAll(connection, json);
+                return null;
+            }
+        });
+    }
+
     private void translateAll(final Connection connection, final JsonNode json) throws SQLException {
         final String locale = this.getLocale(json);
         if (DEFAULT_LOCALE.equals(locale)) {
@@ -124,6 +135,8 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
         }
 
         synchronized (GetHoroscopeHelper.class) {
+            connection.setAutoCommit(false);
+
             final int version = json.has(PARAM_VERSION) ? json.get(PARAM_VERSION).asInt() : DEFAULT_VERSION;
             final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -169,23 +182,18 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
                         }
                     }
                 }
+                connection.commit();
             } catch (IOException e) {
+                connection.rollback();
                 throw new RuntimeException(e);
             }
         }
     }
 
     private JsonNode internalAction(final Connection connection, final JsonNode json) throws SQLException {
-        connection.setAutoCommit(false);
-        try {
-            this.translateAll(connection, json);
-
-            final String sql = this.period == null ? GET_HOROSCOPE_SQL : GET_HOROSCOPE_PERIOD_SQL;
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                return this.internalAction(statement, json);
-            }
-        } finally {
-            connection.commit();
+        final String sql = this.period == null ? GET_HOROSCOPE_SQL : GET_HOROSCOPE_PERIOD_SQL;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            return this.internalAction(statement, json);
         }
     }
 

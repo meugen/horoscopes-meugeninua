@@ -19,10 +19,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by admin on 23.10.2014.
@@ -57,7 +60,8 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
     private static final String PARAM_LOCALE = "locale";
     private static final String PARAM_VERSION = "version";
 
-    private static final Map<String, Locale> SYNC_LOCALES = new HashMap<>();
+    private static final Set<String> RU_LOCALES = new HashSet<>(Arrays.asList("ru", "uk", "be", "bg", "az",
+            "lv", "lt", "et", "hy", "kk", "ky", "mo"));
 
     private String period;
 
@@ -68,15 +72,6 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
      */
     public GetHoroscopeHelper(final JsonNode json) {
         super(json);
-    }
-
-    private static synchronized Locale getSyncLocale(final String locale) {
-        Locale result = SYNC_LOCALES.get(locale);
-        if (result == null) {
-            result = new Locale(locale);
-            SYNC_LOCALES.put(locale, result);
-        }
-        return result;
     }
 
     /**
@@ -117,12 +112,13 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
     }
 
     private void translateAll(final Connection connection, final JsonNode json) throws SQLException {
-        final String locale = json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE;
+        String locale = json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE;
+        locale = RU_LOCALES.contains(locale) ? "ru" : "en";
         if (DEFAULT_LOCALE.equals(locale)) {
             return;
         }
 
-        synchronized (getSyncLocale(locale)) {
+        synchronized (GetHoroscopeHelper.class) {
             final int version = json.has(PARAM_VERSION) ? json.get(PARAM_VERSION).asInt() : DEFAULT_VERSION;
             final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
             try (PreparedStatement statement = connection.prepareStatement(sql)) {

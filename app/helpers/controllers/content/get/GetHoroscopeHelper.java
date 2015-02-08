@@ -111,9 +111,14 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
         return result;
     }
 
-    private void translateAll(final Connection connection, final JsonNode json) throws SQLException {
+    private String getLocale(final JsonNode json) {
         String locale = json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE;
         locale = RU_LOCALES.contains(locale) ? "ru" : "en";
+        return locale;
+    }
+
+    private void translateAll(final Connection connection, final JsonNode json) throws SQLException {
+        final String locale = this.getLocale(json);
         if (DEFAULT_LOCALE.equals(locale)) {
             return;
         }
@@ -188,7 +193,7 @@ final class GetHoroscopeHelper extends AbstractJsonControllerHelper {
         statement.setString(1, json.get(PARAM_TYPE).textValue());
         statement.setString(2, json.get(PARAM_KIND).textValue());
         statement.setString(3, json.get(PARAM_SIGN).textValue());
-        statement.setString(4, json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE);
+        statement.setString(4, this.getLocale(json));
         statement.setInt(5, json.has(PARAM_VERSION) ? json.get(PARAM_VERSION).asInt() : DEFAULT_VERSION);
         if (this.period != null) {
             statement.setString(6, this.period);

@@ -55,6 +55,11 @@ public final class Get extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
+    public static F.Promise<Result> horoscopesFor() {
+        return GetHelpersFactory.newGetHoroscopesForHelper(request().body().asJson()).execute();
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> japan() {
         return GetHelpersFactory.newGetJapanHelper(request().body().asJson()).execute();
     }

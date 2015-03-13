@@ -138,4 +138,8 @@ public final class GetHelpersFactory {
         helper.setPeriod(period);
         return helper;
     }
+
+    public static ControllerHelper newGetHoroscopesForHelper(final JsonNode json) {
+        return new GetHoroscopesForHelper(json);
+    }
 }

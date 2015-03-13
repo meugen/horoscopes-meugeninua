@@ -7,6 +7,7 @@ GET         /                                                   controllers.Appl
 GET         /content/image/:name                                controllers.content.Image.index(name)
 POST        /content/get/horoscope                              controllers.content.Get.horoscope()
 POST        /content/get/horoscope/:period                      controllers.content.Get.horoscopeByPeriod(period)
+POST         /content/get/horoscopes/for                        controllers.content.Get.horoscopesFor()
 POST        /content/search/names                               controllers.content.Search.names()
 POST        /content/get/name                                   controllers.content.Get.name()
 GET         /content/get/name/:id                               controllers.content.Get.nameById(id: Integer)

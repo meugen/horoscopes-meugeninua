@@ -1,6 +1,7 @@
 package helpers.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
 import helpers.TranslateHelper;
@@ -52,6 +53,7 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=? and t2.version=? and t2.period=?) and t2.period=?";
     private static final String PARAM_VERSION = "version";
+    private static final String PARAM_PERIODS = "periods";
 
     private String period;
 
@@ -88,10 +90,22 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
     protected Result action(final JsonNode json) {
         Result result;
         try {
-            translateAll(json);
+            final ArrayNode periods = (ArrayNode) json.get("periods");
+
+            StringBuilder builder = null;
+            if (periods != null && periods.size() > 0) {
+                builder = new StringBuilder(" AND (1=0");
+                for (JsonNode period : periods) {
+                    builder.append(String.format(" OR t1.period='%s'", period.asText()));
+                }
+                builder.append(")");
+            }
+            final String where = builder == null ? "" : builder.toString();
+
+            translateAll(json, where);
             final JsonNode response = DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<JsonNode>() {
                 public JsonNode onAction(final Connection connection) throws SQLException {
-                    return GetHoroscopeHelper.this.internalAction(connection, json);
+                    return GetHoroscopeHelper.this.internalAction(connection, json, where);
                 }
             });
             result = Controller.ok(response);
@@ -102,12 +116,12 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
         return result;
     }
 
-    private void translateAll(final JsonNode json) throws SQLException {
+    private void translateAll(final JsonNode json, final String where) throws SQLException {
         final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
         DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Void>() {
             @Override
             public Void onAction(final Connection connection) throws SQLException {
-                GetHoroscopeHelper.this.translateAll(connection, sql, json);
+                GetHoroscopeHelper.this.translateAll(connection, sql + where, json);
                 return null;
             }
         });
@@ -135,9 +149,10 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
         }
     }
 
-    private JsonNode internalAction(final Connection connection, final JsonNode json) throws SQLException {
+    private JsonNode internalAction(final Connection connection, final JsonNode json,
+                                    final String where) throws SQLException {
         final String sql = this.period == null ? GET_HOROSCOPE_SQL : GET_HOROSCOPE_PERIOD_SQL;
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql + where)) {
             return this.internalAction(statement, json);
         }
     }

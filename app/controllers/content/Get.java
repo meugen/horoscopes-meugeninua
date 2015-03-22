@@ -60,6 +60,20 @@ public final class Get extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
+    public static F.Promise<Result> keys() {
+        return GetHelpersFactory.newGetKeysHelper(request().body().asJson()).execute();
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static F.Promise<Result> keysByPeriod(final String period) {
+        return GetHelpersFactory.newGetKeysHelper(request().body().asJson(), period).execute();
+    }
+
+    public static F.Promise<Result> keysFor() {
+        return GetHelpersFactory.newGetKeysForHelper().execute();
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
     public static F.Promise<Result> japan() {
         return GetHelpersFactory.newGetJapanHelper(request().body().asJson()).execute();
     }

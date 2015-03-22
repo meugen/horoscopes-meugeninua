@@ -1,6 +1,7 @@
 package helpers.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonObject;
 import helpers.DatabaseHelper;
@@ -25,9 +26,9 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
 
     private static final Logger.ALogger LOG = Logger.of(GetHoroscopesForHelper.class);
 
-    private static final String SELECT = "SELECT type, period, content FROM horo_texts t WHERE kind=?" +
-            " AND sign=? AND locale=? AND period IN (SELECT key FROM horo_periods p WHERE p.type=t.type AND" +
-            " p.period IN ('today', 'cur', 'second') AND (p.type='weekly' AND p.version=2 OR p.type<>'weekly'))";
+    private static final String SELECT = "SELECT type, period, content FROM horo_texts t1 WHERE kind=?" +
+            " AND sign=? AND locale=? AND period IN (SELECT key FROM horo_periods p1 WHERE p1.type=t1.type AND" +
+            " p1.period IN ('today', 'cur', 'second') AND (p1.type='weekly' AND p1.version=2 OR p1.type<>'weekly'))";
     private static final String TRANSLATE = "SELECT t1.type, t1.period, t1.content FROM horo_texts t1 WHERE t1.kind=?" +
             " AND t1.sign=? AND t1.locale=? AND t1.period IN (SELECT p1.key FROM horo_periods p1 WHERE p1.type=t1.type AND" +
             " p1.period IN ('today', 'cur', 'second') AND (p1.type='weekly' AND p1.version=2 OR p1.type<>'weekly'))" +
@@ -36,6 +37,7 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
             " p2.period IN ('today', 'cur', 'second') AND (p2.type='weekly' AND p2.version=2 OR p2.type<>'weekly')))";
 
     private static final String DEFAULT_KIND = "common";
+    private static final String PARAM_PERIODS = "periods";
 
     /**
      * Constructor.
@@ -49,12 +51,23 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
      */
     protected Result action(final JsonNode json) {
         try {
-            this.translateAll(json);
+            final ArrayNode periods = (ArrayNode) json.get(PARAM_PERIODS);
+
+            String where = "";
+            if (periods.size() > 0) {
+                final StringBuilder builder = new StringBuilder(" AND (1=0");
+                for (JsonNode period : periods) {
+                    builder.append(String.format(" OR t1.period='%s'", period.asText()));
+                }
+                builder.append(")");
+                where = builder.toString();
+            }
+            this.translateAll(json, where);
             final JsonNode response = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
                 public JsonNode onAction(final PreparedStatement statement) throws SQLException {
                     return GetHoroscopesForHelper.this.internalAction(statement, json);
                 }
-            }, SELECT);
+            }, SELECT + where);
             return Controller.ok(response);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -82,12 +95,12 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
         }
     }
 
-    private void translateAll(final JsonNode json) throws SQLException {
+    private void translateAll(final JsonNode json, final String where) throws SQLException {
         final ObjectNode object = (ObjectNode) json;
         object.put(PARAM_KIND, DEFAULT_KIND);
         DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Void>() {
             public Void onAction(final Connection connection) throws SQLException {
-                translateAll(connection, TRANSLATE, object);
+                translateAll(connection, TRANSLATE + where, object);
                 return null;
             }
         });
@@ -110,6 +123,6 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
      * {@inheritDoc}
      */
     protected String[] getNotNullFields() {
-        return new String[] { PARAM_LOCALE, PARAM_SIGN };
+        return new String[] { PARAM_LOCALE, PARAM_SIGN, PARAM_PERIODS };
     }
 }

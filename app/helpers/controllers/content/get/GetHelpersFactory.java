@@ -142,4 +142,18 @@ public final class GetHelpersFactory {
     public static ControllerHelper newGetHoroscopesForHelper(final JsonNode json) {
         return new GetHoroscopesForHelper(json);
     }
+
+    public static ControllerHelper newGetKeysHelper(final JsonNode json) {
+        return new GetKeysHelper(json);
+    }
+
+    public static ControllerHelper newGetKeysHelper(final JsonNode json, final String period) {
+        final GetKeysHelper helper = new GetKeysHelper(json);
+        helper.setPeriod(period);
+        return helper;
+    }
+
+    public static ControllerHelper newGetKeysForHelper() {
+        return new GetKeysForHelper();
+    }
 }

@@ -1,6 +1,7 @@
 package helpers.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
 import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.Response;
@@ -23,7 +24,7 @@ public final class GetKeysForHelper extends AbstractControllerHelper {
 
     private static final Logger.ALogger LOG = Logger.of(GetKeysForHelper.class);
 
-    private static final String GET_KEYS_FOR_SQL = "SELECT DISTINCT key FROM horo_periods p1 WHERE p1.period IN" +
+    private static final String GET_KEYS_FOR_SQL = "SELECT DISTINCT type, key FROM horo_periods p1 WHERE p1.period IN" +
             " ('today', 'cur', 'second') AND (p1.type='weekly' AND p1.version=2 OR p1.type<>'weekly')";
 
     /**
@@ -45,11 +46,11 @@ public final class GetKeysForHelper extends AbstractControllerHelper {
 
     private JsonNode internalAction(final PreparedStatement statement) throws SQLException {
         try (ResultSet resultSet = statement.executeQuery()) {
-            final Set<String> result = new HashSet<>();
+            final ObjectNode result = Json.newObject();
             while (resultSet.next()) {
-                result.add(resultSet.getString(1));
+                result.put(resultSet.getString(1), resultSet.getString(2));
             }
-            return Json.toJson(result);
+            return result;
         }
     }
 }

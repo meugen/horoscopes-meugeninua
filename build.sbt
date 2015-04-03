@@ -21,3 +21,6 @@ libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"
 libraryDependencies += "org.jsoup" % "jsoup" % "1.8.1"
 
 libraryDependencies += "org.webjars" % "angular-ui-bootstrap" % "0.12.0"
+
+
+fork in run := true

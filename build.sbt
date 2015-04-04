@@ -22,5 +22,7 @@ libraryDependencies += "org.jsoup" % "jsoup" % "1.8.1"
 
 libraryDependencies += "org.webjars" % "angular-ui-bootstrap" % "0.12.0"
 
+libraryDependencies += "joda-time" % "joda-time" % "2.7"
+
 
 fork in run := true

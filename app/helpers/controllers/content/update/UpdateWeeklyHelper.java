@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import play.Logger;
+import play.i18n.Messages;
 import play.libs.XML;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
 
     private static final Map<String, Object> MONDAY_WEEKLY_PERIODS;
     private static final Map<String, Object> SATURDAY_WEEKLY_PERIODS;
+    private static final Map<String, Integer> MONTH_CODES;
 
     static {
         MONDAY_WEEKLY_PERIODS = new HashMap<>();
@@ -46,6 +48,20 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
         SATURDAY_WEEKLY_PERIODS.put("next", "http://img.ignio.com/r/export/utf/xml/weekly/cur.xml");
         SATURDAY_WEEKLY_PERIODS.put("cur", "http://img.ignio.com/r/export/utf/xml/weekly/prev.xml");
         SATURDAY_WEEKLY_PERIODS.put("prev", 0);
+
+        MONTH_CODES = new HashMap<>();
+        MONTH_CODES.put(Messages.get("month.january"), Calendar.JANUARY);
+        MONTH_CODES.put(Messages.get("month.february"), Calendar.FEBRUARY);
+        MONTH_CODES.put(Messages.get("month.march"), Calendar.MARCH);
+        MONTH_CODES.put(Messages.get("month.april"), Calendar.APRIL);
+        MONTH_CODES.put(Messages.get("month.may"), Calendar.MAY);
+        MONTH_CODES.put(Messages.get("month.june"), Calendar.JUNE);
+        MONTH_CODES.put(Messages.get("month.july"), Calendar.JULY);
+        MONTH_CODES.put(Messages.get("month.august"), Calendar.AUGUST);
+        MONTH_CODES.put(Messages.get("month.september"), Calendar.SEPTEMBER);
+        MONTH_CODES.put(Messages.get("month.october"), Calendar.OCTOBER);
+        MONTH_CODES.put(Messages.get("month.november"), Calendar.NOVEMBER);
+        MONTH_CODES.put(Messages.get("month.december"), Calendar.DECEMBER);
     }
 
     private PreparedStatement deleteContentStatement;
@@ -147,13 +163,14 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
         if (!matcher.find()) {
             throw new ParseException("Not valid period: " + ruPeriod, 0);
         }
-        final String fromText = matcher.group(3) == null ? matcher.group(1) + " " + matcher.group(5)
-                : matcher.group(1) + " " + matcher.group(3);
-        final String toText = matcher.group(4) + " " + matcher.group(5);
+        final Calendar from = Calendar.getInstance();
+        from.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(1)));
+        from.set(Calendar.MONTH, MONTH_CODES.get(matcher.group(3) == null
+                ? matcher.group(5) : matcher.group(3)));
+        final Calendar to = Calendar.getInstance();
+        to.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(4)));
+        to.set(Calendar.MONTH, MONTH_CODES.get(matcher.group(5)));
 
-        final SimpleDateFormat format = new SimpleDateFormat("dd MMMM", new Locale("ru"));
-        final Date from = format.parse(fromText);
-        final Date to = format.parse(toText);
         return String.format(Locale.ENGLISH, "%1$td.%1$tm-%2$td.%2$tm", from, to);
     }
 }

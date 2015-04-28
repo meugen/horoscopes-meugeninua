@@ -8,3 +8,16 @@ message.html.no-message=Сообщение не найдено
 got.new.error.message=Получено новое сообщение об ошибке
 
 views.text.portal.add.horoscope.monthly.title=Добавление месячного гороскопа
+
+month.january=января
+month.february=февраля
+month.march=марта
+month.april=апреля
+month.may=мая
+month.june=июня
+month.july=июля
+month.august=августа
+month.september=сентября
+month.october=октября
+month.november=ноября
+month.december=декабря

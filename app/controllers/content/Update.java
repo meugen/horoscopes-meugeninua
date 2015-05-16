@@ -1,12 +1,7 @@
 package controllers.content;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import helpers.controllers.content.CheckJsonHelper;
 import helpers.controllers.content.update.UpdateHelpersFactory;
-import helpers.controllers.content.update.UpdateMonthlyHelper;
-import helpers.controllers.content.update.UpdateYearlyHelper;
 import play.libs.F;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 

@@ -7,8 +7,6 @@ import helpers.DatabaseHelper;
 import helpers.controllers.Response;
 import helpers.controllers.content.AbstractJsonControllerHelper;
 import helpers.controllers.content.OnFillObjectListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;

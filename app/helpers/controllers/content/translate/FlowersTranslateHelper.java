@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,6 +26,7 @@ final class FlowersTranslateHelper extends AbstractTranslateHelper {
 
     /**
      * Constructor.
+     *
      * @param lang Language
      */
     public FlowersTranslateHelper(final String lang) {
@@ -48,8 +48,8 @@ final class FlowersTranslateHelper extends AbstractTranslateHelper {
 
     private void processResults(final Connection connection, final ResultSet resultSet) throws SQLException {
         try (PreparedStatement insert = connection.prepareStatement(INSERT);
-                PreparedStatement check = connection.prepareStatement(CHECK);
-                PreparedStatement update = connection.prepareStatement(UPDATE)) {
+             PreparedStatement check = connection.prepareStatement(CHECK);
+             PreparedStatement update = connection.prepareStatement(UPDATE)) {
             while (resultSet.next()) {
                 final List<String> queries = new ArrayList<>();
                 queries.add(resultSet.getString(1));

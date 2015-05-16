@@ -3,11 +3,8 @@ package helpers.controllers.content.get;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.JsonObject;
 import helpers.DatabaseHelper;
-import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.Response;
-import helpers.controllers.content.AbstractJsonControllerHelper;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -20,6 +17,7 @@ import java.sql.SQLException;
 
 /**
  * Helper for get horoscopes for sign.
+ *
  * @author meugen
  */
 final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
@@ -123,6 +121,6 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
      * {@inheritDoc}
      */
     protected String[] getNotNullFields() {
-        return new String[] { PARAM_LOCALE, PARAM_SIGN, PARAM_PERIODS };
+        return new String[]{PARAM_LOCALE, PARAM_SIGN, PARAM_PERIODS};
     }
 }

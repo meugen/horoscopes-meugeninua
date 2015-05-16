@@ -2,8 +2,6 @@ package helpers.controllers.content.image;
 
 import helpers.DatabaseHelper;
 import helpers.controllers.AbstractControllerHelper;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;

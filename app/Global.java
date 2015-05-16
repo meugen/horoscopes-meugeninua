@@ -10,6 +10,7 @@ import runnables.ControllerHelperRunnable;
 import scala.concurrent.ExecutionContextExecutor;
 import scala.concurrent.duration.Duration;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,7 +32,7 @@ public final class Global extends GlobalSettings {
         while (daily.isBeforeNow()) {
             daily = daily.plusDays(1);
         }
-        final int dailyDelayInSeconds = Seconds.secondsBetween(new DateTime(), daily).getSeconds();
+        final int dailyDelayInSeconds = Seconds.secondsBetween(DateTime.now(), daily).getSeconds();
 
         final ActorSystem system = Akka.system();
         system.scheduler().schedule(

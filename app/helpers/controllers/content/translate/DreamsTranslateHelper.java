@@ -30,6 +30,7 @@ final class DreamsTranslateHelper extends AbstractTranslateHelper {
 
     /**
      * Constructor.
+     *
      * @param lang Language
      */
     public DreamsTranslateHelper(final String lang, final int limit) {
@@ -70,7 +71,7 @@ final class DreamsTranslateHelper extends AbstractTranslateHelper {
 
     private void processResults(final Connection connection, final ResultSet resultSet) throws SQLException {
         try (PreparedStatement insert = connection.prepareStatement(INSERT);
-                PreparedStatement update = connection.prepareStatement(UPDATE)) {
+             PreparedStatement update = connection.prepareStatement(UPDATE)) {
             while (resultSet.next()) {
                 final List<String> queries = new ArrayList<>();
                 queries.add(resultSet.getString(1));

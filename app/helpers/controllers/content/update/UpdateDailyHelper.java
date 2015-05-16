@@ -1,7 +1,6 @@
 package helpers.controllers.content.update;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import helpers.controllers.Response;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -45,7 +44,7 @@ final class UpdateDailyHelper extends AbstractUpdateHelper {
         super(uri);
     }
 
-    public void internalAction(final Connection connection) throws SQLException {
+    public Response internalAction(final Connection connection) throws SQLException {
         try {
             this.initStatements(connection);
 
@@ -68,6 +67,7 @@ final class UpdateDailyHelper extends AbstractUpdateHelper {
                     }
                 }
             }
+            return Response.empty();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);

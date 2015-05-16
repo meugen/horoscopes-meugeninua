@@ -1,9 +1,9 @@
 package controllers.content;
 
 import helpers.controllers.content.translate.TranslateHelperFactory;
-import play.mvc.Result;
 import play.libs.F;
 import play.mvc.Controller;
+import play.mvc.Result;
 
 /**
  * Created by meugen on 14.01.15.

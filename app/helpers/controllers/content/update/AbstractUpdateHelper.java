@@ -2,11 +2,8 @@ package helpers.controllers.content.update;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import helpers.DatabaseHelper;
-import helpers.controllers.Response;
 import helpers.controllers.AbstractControllerHelper;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Node;
+import helpers.controllers.Response;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -169,13 +166,11 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
         Result result;
         JsonNode response;
         try {
-            DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Void>() {
-                public Void onAction(final Connection connection) throws SQLException {
-                    AbstractUpdateHelper.this._internalAction(connection);
-                    return null;
+            response = DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Response>() {
+                public Response onAction(final Connection connection) throws SQLException {
+                    return AbstractUpdateHelper.this._internalAction(connection);
                 }
-            });
-            response = Response.empty().asJson();
+            }).asJson();
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -186,10 +181,12 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
         return result;
     }
 
-    private void _internalAction(final Connection connection) throws SQLException {
+    private Response _internalAction(final Connection connection) throws SQLException {
         connection.setAutoCommit(false);
-        this.internalAction(connection);
+        final Response response = this.internalAction(connection);
         connection.commit();
+
+        return response;
     }
 
     /**
@@ -198,7 +195,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
      * @param connection Connection
      * @throws SQLException On some sql error
      */
-    public abstract void internalAction(final Connection connection) throws SQLException;
+    public abstract Response internalAction(final Connection connection) throws SQLException;
 
     private void storeResponse(final JsonNode response) {
         try {

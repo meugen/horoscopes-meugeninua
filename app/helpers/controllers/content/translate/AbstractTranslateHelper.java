@@ -4,16 +4,12 @@ import helpers.DatabaseHelper;
 import helpers.TranslateHelper;
 import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.Response;
-import org.apache.commons.lang3.StringUtils;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,6 +21,7 @@ abstract class AbstractTranslateHelper extends AbstractControllerHelper {
 
     /**
      * Constructor.
+     *
      * @param lang Language
      */
     protected AbstractTranslateHelper(final String lang) {
@@ -58,6 +55,7 @@ abstract class AbstractTranslateHelper extends AbstractControllerHelper {
 
     /**
      * Action with connection.
+     *
      * @param connection Connection
      * @return Result
      * @throws SQLException On SQL error
@@ -66,6 +64,7 @@ abstract class AbstractTranslateHelper extends AbstractControllerHelper {
 
     /**
      * Translate all queries.
+     *
      * @param queries Queries
      * @return Translated queries
      * @throws IOException I/O error

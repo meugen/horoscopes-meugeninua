@@ -3,11 +3,9 @@ package helpers.controllers.content.search;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
-import helpers.controllers.Response;
 import helpers.controllers.AbstractControllerHelper;
+import helpers.controllers.Response;
 import helpers.controllers.content.OnFillObjectListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -32,6 +30,7 @@ public final class SimpleSearchHelper extends AbstractControllerHelper {
 
     /**
      * Getter for locale.
+     *
      * @return Locale
      */
     public String getLocale() {
@@ -40,6 +39,7 @@ public final class SimpleSearchHelper extends AbstractControllerHelper {
 
     /**
      * Setter for locale.
+     *
      * @param locale Locale
      */
     public void setLocale(final String locale) {

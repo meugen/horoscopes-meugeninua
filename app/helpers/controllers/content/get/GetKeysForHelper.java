@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
 import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.Response;
-import helpers.controllers.content.AbstractJsonControllerHelper;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -14,8 +13,6 @@ import play.mvc.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by meugen on 22.03.15.

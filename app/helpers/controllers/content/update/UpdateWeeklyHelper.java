@@ -1,7 +1,6 @@
 package helpers.controllers.content.update;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import helpers.controllers.Response;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -9,14 +8,11 @@ import play.Logger;
 import play.i18n.Messages;
 import play.libs.XML;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -76,13 +72,14 @@ final class UpdateWeeklyHelper extends AbstractUpdateHelper {
         super(uri);
     }
 
-    public void internalAction(final Connection connection) throws SQLException {
+    public Response internalAction(final Connection connection) throws SQLException {
         final int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
             this.internalAction(connection, SATURDAY_WEEKLY_PERIODS);
         } else {
             this.internalAction(connection, MONDAY_WEEKLY_PERIODS);
         }
+        return Response.empty();
     }
 
     private void internalAction(final Connection connection, final Map<String, Object> periods) throws SQLException {

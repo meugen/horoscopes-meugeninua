@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import helpers.DatabaseHelper;
 import helpers.controllers.AbstractControllerHelper;
 import helpers.controllers.Response;
-import helpers.controllers.content.AbstractJsonControllerHelper;
 import helpers.controllers.content.OnFillObjectListener;
 import play.Logger;
 import play.libs.Json;

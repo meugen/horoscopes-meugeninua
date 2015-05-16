@@ -1,9 +1,6 @@
 package helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import play.Logger;
 import play.libs.Json;
 
 import java.io.IOException;

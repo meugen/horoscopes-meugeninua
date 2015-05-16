@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import helpers.controllers.ControllerHelper;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;

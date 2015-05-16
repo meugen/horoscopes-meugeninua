@@ -9,11 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by meugen on 13.03.15.
@@ -33,6 +29,7 @@ abstract class TranslateHoroscopesHelper extends AbstractJsonControllerHelper {
 
     /**
      * Constructor.
+     *
      * @param json Json
      */
     protected TranslateHoroscopesHelper(final JsonNode json) {

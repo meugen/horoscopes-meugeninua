@@ -32,6 +32,7 @@ public final class GetKeysHelper extends AbstractJsonControllerHelper {
 
     /**
      * Constructor.
+     *
      * @param json Json
      */
     public GetKeysHelper(final JsonNode json) {
@@ -40,6 +41,7 @@ public final class GetKeysHelper extends AbstractJsonControllerHelper {
 
     /**
      * Getter for period.
+     *
      * @return Period
      */
     public String getPeriod() {
@@ -48,6 +50,7 @@ public final class GetKeysHelper extends AbstractJsonControllerHelper {
 
     /**
      * Setter for period.
+     *
      * @param period Period
      */
     public void setPeriod(final String period) {
@@ -91,6 +94,6 @@ public final class GetKeysHelper extends AbstractJsonControllerHelper {
      * {@inheritDoc}
      */
     protected String[] getNotNullFields() {
-        return new String[] { PARAM_TYPE, PARAM_VERSION };
+        return new String[]{PARAM_TYPE, PARAM_VERSION};
     }
 }

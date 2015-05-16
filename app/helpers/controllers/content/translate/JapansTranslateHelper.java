@@ -26,6 +26,7 @@ final class JapansTranslateHelper extends AbstractTranslateHelper {
 
     /**
      * Constructor.
+     *
      * @param lang Language
      */
     public JapansTranslateHelper(final String lang) {
@@ -47,8 +48,8 @@ final class JapansTranslateHelper extends AbstractTranslateHelper {
 
     private void processResults(final Connection connection, final ResultSet resultSet) throws SQLException {
         try (PreparedStatement insert = connection.prepareStatement(INSERT);
-                PreparedStatement check = connection.prepareStatement(CHECK);
-                PreparedStatement update = connection.prepareStatement(UPDATE)) {
+             PreparedStatement check = connection.prepareStatement(CHECK);
+             PreparedStatement update = connection.prepareStatement(UPDATE)) {
             while (resultSet.next()) {
                 final List<String> queries = new ArrayList<>();
                 queries.add(resultSet.getString(1));

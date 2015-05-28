@@ -34,11 +34,7 @@ abstract class AbstractTranslateHelper extends AbstractControllerHelper {
      */
     protected final Result action() {
         try {
-            return DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Result>() {
-                public Result onAction(final Connection connection) throws SQLException {
-                    return AbstractTranslateHelper.this.internalAction(connection);
-                }
-            });
+            return DatabaseHelper.actionWithDatabase(this::internalAction);
         } catch (SQLException e) {
             return Controller.internalServerError(Response.error(e).asJson());
         }

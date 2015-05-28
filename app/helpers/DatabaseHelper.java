@@ -18,11 +18,7 @@ public final class DatabaseHelper {
     }
 
     public static <T> T actionWithStatement(final StatementAction<T> action, final String sql) throws SQLException {
-        return actionWithDatabase(new ConnectionAction<T>() {
-            public T onAction(Connection connection) throws SQLException {
-                return internalOnAction(connection, action, sql);
-            }
-        });
+        return actionWithDatabase((connection) -> internalOnAction(connection, action, sql));
     }
 
     private static <T> T internalOnAction(final Connection connection, final StatementAction<T> action,

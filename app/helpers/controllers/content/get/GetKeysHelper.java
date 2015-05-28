@@ -63,11 +63,8 @@ public final class GetKeysHelper extends AbstractJsonControllerHelper {
     protected Result action(final JsonNode json) {
         try {
             final String sql = this.period == null ? GET_KEYS_SQL : GET_KEYS_PERIOD_SQL;
-            final JsonNode result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
-                public JsonNode onAction(final PreparedStatement statement) throws SQLException {
-                    return internalAction(statement, json);
-                }
-            }, sql);
+            final JsonNode result = DatabaseHelper.actionWithStatement((statement) ->
+                    internalAction(statement, json), sql);
             return Controller.ok(result);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);

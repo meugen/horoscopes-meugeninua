@@ -1,11 +1,5 @@
 package net.pushover.client;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -16,11 +10,15 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Implementation of {@link PushoverClient}
- * 
+ *
  * @author Sean Scanlon <sean.scanlon@gmail.com>
- * 
  * @since Dec 18, 2012
  */
 public class PushoverRestClient implements PushoverClient {
@@ -90,7 +88,7 @@ public class PushoverRestClient implements PushoverClient {
 
     /**
      * Optionally provide an alternative {@link HttpClient}
-     * 
+     *
      * @param httpClient
      */
     public void setHttpClient(HttpClient httpClient) {

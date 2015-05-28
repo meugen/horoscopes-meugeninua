@@ -82,11 +82,8 @@ final class InterpretationSearchHelper extends AbstractJsonControllerHelper {
     protected Result action(final JsonNode json) {
         Result result;
         try {
-            final JsonNode response = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
-                public JsonNode onAction(PreparedStatement statement) throws SQLException {
-                    return InterpretationSearchHelper.this.internalAction(statement, json);
-                }
-            }, this.sql);
+            final JsonNode response = DatabaseHelper.actionWithStatement((statement) ->
+                    internalAction(statement, json), this.sql);
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

@@ -166,11 +166,7 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
         Result result;
         JsonNode response;
         try {
-            response = DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Response>() {
-                public Response onAction(final Connection connection) throws SQLException {
-                    return AbstractUpdateHelper.this._internalAction(connection);
-                }
-            }).asJson();
+            response = DatabaseHelper.actionWithDatabase(this::_internalAction).asJson();
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -199,20 +195,18 @@ abstract class AbstractUpdateHelper extends AbstractControllerHelper {
 
     private void storeResponse(final JsonNode response) {
         try {
-            DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Void>() {
-                public Void onAction(final PreparedStatement statement) throws SQLException {
-                    AbstractUpdateHelper.this.storeResponse(statement, response);
-                    return null;
-                }
-            }, INSERT_RESPONSE_SQL);
+            DatabaseHelper.actionWithStatement((statement) -> storeResponse(statement, response),
+                    INSERT_RESPONSE_SQL);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
-    private void storeResponse(final PreparedStatement statement, final JsonNode response) throws SQLException {
+    private Void storeResponse(final PreparedStatement statement, final JsonNode response) throws SQLException {
         statement.setString(1, this.uri);
         statement.setString(2, response.toString());
         statement.executeUpdate();
+
+        return null;
     }
 }

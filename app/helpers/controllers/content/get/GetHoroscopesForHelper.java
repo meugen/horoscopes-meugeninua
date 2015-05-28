@@ -10,7 +10,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,11 +60,8 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
                 where = builder.toString();
             }
             this.translateAll(json, where);
-            final JsonNode response = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
-                public JsonNode onAction(final PreparedStatement statement) throws SQLException {
-                    return GetHoroscopesForHelper.this.internalAction(statement, json);
-                }
-            }, SELECT + where);
+            final JsonNode response = DatabaseHelper.actionWithStatement((statement) ->
+                    internalAction(statement, json), SELECT + where);
             return Controller.ok(response);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -84,10 +80,10 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
                 final ObjectNode sign = Json.newObject();
                 sign.put(resultSet.getString(2), resultSet.getString(3));
                 final ObjectNode kind = Json.newObject();
-                kind.put(json.get(PARAM_SIGN).textValue(), sign);
+                kind.set(json.get(PARAM_SIGN).textValue(), sign);
                 final ObjectNode type = Json.newObject();
-                type.put(DEFAULT_KIND, kind);
-                content.put(resultSet.getString(1), type);
+                type.set(DEFAULT_KIND, kind);
+                content.set(resultSet.getString(1), type);
             }
             return Response.content(content).asJson();
         }
@@ -96,12 +92,7 @@ final class GetHoroscopesForHelper extends TranslateHoroscopesHelper {
     private void translateAll(final JsonNode json, final String where) throws SQLException {
         final ObjectNode object = (ObjectNode) json;
         object.put(PARAM_KIND, DEFAULT_KIND);
-        DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Void>() {
-            public Void onAction(final Connection connection) throws SQLException {
-                translateAll(connection, TRANSLATE + where, object);
-                return null;
-            }
-        });
+        DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, TRANSLATE + where, object));
     }
 
     /**

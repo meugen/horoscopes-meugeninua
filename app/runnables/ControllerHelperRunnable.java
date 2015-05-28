@@ -4,6 +4,7 @@ import helpers.controllers.ControllerHelper;
 
 /**
  * Runnable for execute controller helper.
+ *
  * @author meugen
  */
 public final class ControllerHelperRunnable implements Runnable {
@@ -12,6 +13,7 @@ public final class ControllerHelperRunnable implements Runnable {
 
     /**
      * Constructor.
+     *
      * @param controllerHelper Controller helper
      */
     public ControllerHelperRunnable(final ControllerHelper controllerHelper) {

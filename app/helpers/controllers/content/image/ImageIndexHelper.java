@@ -51,11 +51,7 @@ public final class ImageIndexHelper extends AbstractControllerHelper {
     private String getMimeByName() {
         String mime = null;
         try {
-            mime = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<String>() {
-                public String onAction(PreparedStatement statement) throws SQLException {
-                    return getMimeByName(statement);
-                }
-            }, GET_MIME_SQL);
+            mime = DatabaseHelper.actionWithStatement(this::getMimeByName, GET_MIME_SQL);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }

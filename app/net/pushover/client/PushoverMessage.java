@@ -1,9 +1,7 @@
 package net.pushover.client;
 
 /**
- * 
  * @author Sean Scanlon <sean.scanlon@gmail.com>
- * 
  * @since Dec 18, 2012
  */
 public class PushoverMessage {

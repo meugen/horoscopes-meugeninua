@@ -38,7 +38,7 @@ final class UpdateAllHelper extends AbstractUpdateHelper {
         final ObjectNode content = Json.newObject();
         for (Map.Entry<String, AbstractUpdateHelper> entry : updates.entrySet()) {
             final Response response = entry.getValue().internalAction(connection);
-            content.put(entry.getKey(), response.asJson());
+            content.set(entry.getKey(), response.asJson());
         }
         return Response.content(content);
     }

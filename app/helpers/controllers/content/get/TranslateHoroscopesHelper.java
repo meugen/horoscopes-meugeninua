@@ -36,11 +36,11 @@ abstract class TranslateHoroscopesHelper extends AbstractJsonControllerHelper {
         super(json);
     }
 
-    protected final void translateAll(final Connection connection, final String sql,
+    protected final Void translateAll(final Connection connection, final String sql,
                                       final JsonNode json) throws SQLException {
         final String locale = this.getLocale(json);
         if (DEFAULT_LOCALE.equals(locale)) {
-            return;
+            return null;
         }
 
         synchronized (TranslateHoroscopesHelper.class) {
@@ -79,6 +79,8 @@ abstract class TranslateHoroscopesHelper extends AbstractJsonControllerHelper {
                     }
                 }
                 connection.commit();
+
+                return null;
             } catch (IOException e) {
                 connection.rollback();
                 throw new RuntimeException(e);

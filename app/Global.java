@@ -1,5 +1,4 @@
 import akka.actor.ActorSystem;
-import akka.actor.Scheduler;
 import helpers.controllers.content.update.UpdateHelpersFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
@@ -7,14 +6,13 @@ import play.Application;
 import play.GlobalSettings;
 import play.libs.Akka;
 import runnables.ControllerHelperRunnable;
-import scala.concurrent.ExecutionContextExecutor;
 import scala.concurrent.duration.Duration;
 
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Global settings.
+ *
  * @author meugen
  */
 public final class Global extends GlobalSettings {

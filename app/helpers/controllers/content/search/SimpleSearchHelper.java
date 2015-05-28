@@ -88,11 +88,7 @@ public final class SimpleSearchHelper extends AbstractControllerHelper {
     protected Result action() {
         Result result;
         try {
-            result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<Result>() {
-                public Result onAction(PreparedStatement statement) throws SQLException {
-                    return SimpleSearchHelper.this.internalAction(statement);
-                }
-            }, this.sql);
+            result = DatabaseHelper.actionWithStatement(this::internalAction, this.sql);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             result = Controller.ok(Response.error(e).asJson());

@@ -90,11 +90,8 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
             final String where = builder == null ? "" : builder.toString();
 
             translateAll(json, where);
-            final JsonNode response = DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<JsonNode>() {
-                public JsonNode onAction(final Connection connection) throws SQLException {
-                    return GetHoroscopeHelper.this.internalAction(connection, json, where);
-                }
-            });
+            final JsonNode response = DatabaseHelper.actionWithDatabase((connection) ->
+                    internalAction(connection, json, where));
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -105,13 +102,7 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
 
     private void translateAll(final JsonNode json, final String where) throws SQLException {
         final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
-        DatabaseHelper.actionWithDatabase(new DatabaseHelper.ConnectionAction<Void>() {
-            @Override
-            public Void onAction(final Connection connection) throws SQLException {
-                GetHoroscopeHelper.this.translateAll(connection, sql + where, json);
-                return null;
-            }
-        });
+        DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, sql + where, json));
     }
 
     /**
@@ -160,11 +151,11 @@ final class GetHoroscopeHelper extends TranslateHoroscopesHelper {
                 sign.put(resultSet.getString(1), resultSet.getString(2));
             }
             final ObjectNode kind = Json.newObject();
-            kind.put(json.get(PARAM_SIGN).textValue(), sign);
+            kind.set(json.get(PARAM_SIGN).textValue(), sign);
             final ObjectNode type = Json.newObject();
-            type.put(json.get(PARAM_KIND).textValue(), kind);
+            type.set(json.get(PARAM_KIND).textValue(), kind);
             final ObjectNode content = Json.newObject();
-            content.put(json.get(PARAM_TYPE).textValue(), type);
+            content.set(json.get(PARAM_TYPE).textValue(), type);
             return Response.content(content).asJson();
         }
     }

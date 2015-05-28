@@ -1,16 +1,15 @@
 package net.pushover.client;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * encapsulate service response parsing / building

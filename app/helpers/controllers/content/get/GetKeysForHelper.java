@@ -29,11 +29,8 @@ public final class GetKeysForHelper extends AbstractControllerHelper {
      */
     protected Result action() {
         try {
-            final JsonNode result = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
-                public JsonNode onAction(final PreparedStatement statement) throws SQLException {
-                    return internalAction(statement);
-                }
-            }, GET_KEYS_FOR_SQL);
+            final JsonNode result = DatabaseHelper.actionWithStatement(this::internalAction,
+                    GET_KEYS_FOR_SQL);
             return Controller.ok(result);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);

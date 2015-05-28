@@ -81,11 +81,7 @@ final class SimpleGetByIdHelper extends AbstractControllerHelper {
     protected Result action() {
         Result result;
         try {
-            final JsonNode response = DatabaseHelper.actionWithStatement(new DatabaseHelper.StatementAction<JsonNode>() {
-                public JsonNode onAction(PreparedStatement statement) throws SQLException {
-                    return SimpleGetByIdHelper.this.internalAction(statement);
-                }
-            }, this.sql);
+            final JsonNode response = DatabaseHelper.actionWithStatement(this::internalAction, this.sql);
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

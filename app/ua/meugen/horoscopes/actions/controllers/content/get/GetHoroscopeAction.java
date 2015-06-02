@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -95,7 +95,7 @@ final class GetHoroscopeAction extends TranslateHoroscopesAction {
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Controller.internalServerError(Response.error(e).asJson());
+            result = Controller.internalServerError(BaseResponse.error(e).asJson());
         }
         return result;
     }
@@ -156,7 +156,7 @@ final class GetHoroscopeAction extends TranslateHoroscopesAction {
             type.set(json.get(PARAM_KIND).textValue(), kind);
             final ObjectNode content = Json.newObject();
             content.set(json.get(PARAM_TYPE).textValue(), type);
-            return Response.content(content).asJson();
+            return BaseResponse.content(content).asJson();
         }
     }
 

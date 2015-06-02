@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.stereotype.Component;
 import play.libs.Json;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by meugen on 10.01.15.
  */
+@Component
 public final class TranslateHelper {
 
     private static final String KEY = "AIzaSyCUQ-JS3EKrwyAdHU9UWl0F_heREO_PY-k";

@@ -1,7 +1,6 @@
 package ua.meugen.horoscopes.actions.controllers.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import ua.meugen.horoscopes.actions.controllers.ControllerAction;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
 import play.Logger;

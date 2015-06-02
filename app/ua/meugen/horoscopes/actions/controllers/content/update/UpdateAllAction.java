@@ -1,10 +1,10 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.libs.Json;
+import ua.meugen.horoscopes.actions.responses.UpdateAllResponse;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,12 +16,20 @@ import java.util.Map;
  * Created by admin on 24.10.2014.
  */
 @Component
-public final class UpdateAllAction extends AbstractUpdateAction {
+public final class UpdateAllAction extends AbstractUpdateAction<UpdateAllResponse> {
 
     /**
      * {@inheritDoc}
      */
-    public Response internalAction(final Connection connection) throws SQLException {
+    @Override
+    protected UpdateAllResponse newResponse() {
+        return new UpdateAllResponse();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public UpdateAllResponse internalAction(final Connection connection) throws SQLException {
         final Map<String, AbstractUpdateAction> updates = new HashMap<>();
         updates.put("daily", new UpdateDailyAction("akka /content/update/daily"));
         final int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
@@ -29,11 +37,10 @@ public final class UpdateAllAction extends AbstractUpdateAction {
             updates.put("weekly", new UpdateWeeklyAction("akka /content/update/weekly"));
         }
 
-        final ObjectNode content = Json.newObject();
+        final UpdateAllResponse response = this.newOkResponse();
         for (Map.Entry<String, AbstractUpdateAction> entry : updates.entrySet()) {
-            final Response response = entry.getValue().internalAction(connection);
-            content.set(entry.getKey(), response.asJson());
+            response.getContent().put(entry.getKey(), entry.getValue().internalAction(connection));
         }
-        return Response.content(content);
+        return response;
     }
 }

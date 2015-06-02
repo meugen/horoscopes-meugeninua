@@ -1,7 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
 import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * Created by admin on 24.10.2014.
  */
 @Component
-public final class UpdateWeeklyAction extends AbstractUpdateAction {
+public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse> {
 
     private static final Logger.ALogger LOG = Logger.of(UpdateWeeklyAction.class);
 
@@ -73,14 +73,25 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction {
         this.setUri(uri);
     }
 
-    public Response internalAction(final Connection connection) throws SQLException {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected BaseResponse newResponse() {
+        return new BaseResponse();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public BaseResponse internalAction(final Connection connection) throws SQLException {
         final int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
             this.internalAction(connection, SATURDAY_WEEKLY_PERIODS);
         } else {
             this.internalAction(connection, MONDAY_WEEKLY_PERIODS);
         }
-        return Response.empty();
+        return this.newOkResponse();
     }
 
     private void internalAction(final Connection connection, final Map<String, Object> periods) throws SQLException {

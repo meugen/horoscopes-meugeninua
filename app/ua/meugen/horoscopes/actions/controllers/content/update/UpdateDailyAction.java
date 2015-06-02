@@ -1,7 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
 import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by admin on 24.10.2014.
  */
 @Component
-public final class UpdateDailyAction extends AbstractUpdateAction {
+public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> {
 
     private static final Logger.ALogger LOG = Logger.of(UpdateDailyAction.class);
 
@@ -45,7 +45,15 @@ public final class UpdateDailyAction extends AbstractUpdateAction {
         this.setUri(uri);
     }
 
-    public Response internalAction(final Connection connection) throws SQLException {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected BaseResponse newResponse() {
+        return this.newOkResponse();
+    }
+
+    public BaseResponse internalAction(final Connection connection) throws SQLException {
         try {
             this.initStatements(connection);
 
@@ -68,7 +76,7 @@ public final class UpdateDailyAction extends AbstractUpdateAction {
                     }
                 }
             }
-            return Response.empty();
+            return this.newOkResponse();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);

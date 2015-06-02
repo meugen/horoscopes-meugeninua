@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
-import ua.meugen.horoscopes.actions.controllers.Response;
+import org.springframework.stereotype.Component;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -16,7 +17,8 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-final class AmuletsTranslateAction extends AbstractTranslateAction {
+@Component
+public final class AmuletsTranslateAction extends AbstractTranslateAction {
 
     private static final String COUNT = "select count(id) from horo_amulets_v2 where locale=?" +
             " and amulet not in (select rus_amulet from horo_amulets_v2 where locale=?)";
@@ -27,15 +29,15 @@ final class AmuletsTranslateAction extends AbstractTranslateAction {
     private static final String UPDATE = "update horo_amulets_v2 set amulet=?, type=?, image_id=?, content=?" +
             " where upamulet=? and locale=? and rus_amulet=?";
 
-    private final int limit;
+    private int limit;
 
     /**
-     * Constructor.
-     *
-     * @param lang Language
+     * Setter for lang and limit.
+     * @param lang Lang
+     * @param limit Limit
      */
-    public AmuletsTranslateAction(final String lang, final int limit) {
-        super(lang);
+    public void setLangAndLimit(final String lang, final int limit) {
+        this.setLang(lang);
         this.limit = limit;
     }
 
@@ -61,7 +63,7 @@ final class AmuletsTranslateAction extends AbstractTranslateAction {
             select.setInt(3, this.limit);
             try (ResultSet resultSet = select.executeQuery()) {
                 this.processResults(connection, resultSet);
-                final Response response = Response.empty();
+                final BaseResponse response = this.newOkResponse();
                 response.setMessage(String.format("%d of %d amulets translated. %d left",
                         Math.min(this.limit, total), total, this.getTotalCount(connection)));
                 return Controller.ok(response.asJson());

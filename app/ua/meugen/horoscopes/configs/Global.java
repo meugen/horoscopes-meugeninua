@@ -3,6 +3,7 @@ package ua.meugen.horoscopes.configs;
 import akka.actor.ActorSystem;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import play.api.mvc.EssentialFilter;
 import ua.meugen.horoscopes.actions.controllers.content.update.UpdateAllAction;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;

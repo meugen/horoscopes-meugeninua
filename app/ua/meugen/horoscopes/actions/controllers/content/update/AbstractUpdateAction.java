@@ -2,8 +2,8 @@ package ua.meugen.horoscopes.actions.controllers.content.update;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.AbstractControllerAction;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -20,7 +20,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 24.10.2014.
  */
-abstract class AbstractUpdateAction extends AbstractControllerAction {
+abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractSimpleControllerAction<Resp> {
 
     private static final Logger.ALogger LOG = Logger.of(AbstractUpdateAction.class);
 
@@ -167,18 +167,18 @@ abstract class AbstractUpdateAction extends AbstractControllerAction {
         try {
             response = DatabaseHelper.actionWithDatabase(this::_internalAction).asJson();
             result = Controller.ok(response);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LOG.error(e.getMessage(), e);
-            response = Response.error(e).asJson();
+            response = this.newErrorResponse(e).asJson();
             result = Controller.internalServerError(response);
         }
         this.storeResponse(response);
         return result;
     }
 
-    private Response _internalAction(final Connection connection) throws SQLException {
+    private Resp _internalAction(final Connection connection) throws SQLException {
         connection.setAutoCommit(false);
-        final Response response = this.internalAction(connection);
+        final Resp response = this.internalAction(connection);
         connection.commit();
 
         return response;
@@ -190,7 +190,7 @@ abstract class AbstractUpdateAction extends AbstractControllerAction {
      * @param connection Connection
      * @throws SQLException On some sql error
      */
-    public abstract Response internalAction(final Connection connection) throws SQLException;
+    public abstract Resp internalAction(final Connection connection) throws SQLException;
 
     private void storeResponse(final JsonNode response) {
         try {

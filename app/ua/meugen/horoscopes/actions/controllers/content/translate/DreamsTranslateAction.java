@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
-import ua.meugen.horoscopes.actions.controllers.Response;
+import org.springframework.stereotype.Component;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -15,7 +16,8 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-final class DreamsTranslateAction extends AbstractTranslateAction {
+@Component
+public final class DreamsTranslateAction extends AbstractTranslateAction {
 
     private static final String COUNT = "select count(id) from horo_dreams_v2 where locale=?" +
             " and dream not in (select rus_dream from horo_dreams_v2 where locale=?)";
@@ -26,15 +28,15 @@ final class DreamsTranslateAction extends AbstractTranslateAction {
     private static final String UPDATE = "update horo_dreams_v2 set dream=?, type=?, content=?" +
             " where updream=? and locale=? and rus_dream=?";
 
-    private final int limit;
+    private int limit;
 
     /**
-     * Constructor.
-     *
-     * @param lang Language
+     * Setter for lang and limit.
+     * @param lang Lang
+     * @param limit limit
      */
-    public DreamsTranslateAction(final String lang, final int limit) {
-        super(lang);
+    public void setLangAndLimit(final String lang, final int limit) {
+        this.setLang(lang);
         this.limit = limit;
     }
 
@@ -61,7 +63,7 @@ final class DreamsTranslateAction extends AbstractTranslateAction {
             try (ResultSet resultSet = select.executeQuery()) {
                 this.processResults(connection, resultSet);
 
-                final Response response = Response.empty();
+                final BaseResponse response = this.newOkResponse();
                 response.setMessage(String.format("%d of %d dreams translated. %d left",
                         Math.min(this.limit, total), total, this.getTotalCount(connection)));
                 return Controller.ok(response.asJson());

@@ -3,8 +3,8 @@ package ua.meugen.horoscopes.actions.controllers.content.search;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.AbstractControllerAction;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import ua.meugen.horoscopes.actions.controllers.content.OnFillObjectListener;
 import play.Logger;
 import play.libs.Json;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 /**
  * Created by meugen on 23.10.14.
  */
-public final class SimpleSearchAction extends AbstractControllerAction {
+public final class SimpleSearchAction extends AbstractSimpleControllerAction {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleSearchAction.class);
 
@@ -91,7 +91,7 @@ public final class SimpleSearchAction extends AbstractControllerAction {
             result = DatabaseHelper.actionWithStatement(this::internalAction, this.sql);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Controller.ok(Response.error(e).asJson());
+            result = Controller.ok(BaseResponse.error(e).asJson());
         }
         return result;
     }
@@ -107,6 +107,6 @@ public final class SimpleSearchAction extends AbstractControllerAction {
             this.onFillObjectListener.onFillObject(item, resultSet);
             items.add(item);
         }
-        return Controller.ok(Response.content(content).asJson());
+        return Controller.ok(BaseResponse.content(content).asJson());
     }
 }

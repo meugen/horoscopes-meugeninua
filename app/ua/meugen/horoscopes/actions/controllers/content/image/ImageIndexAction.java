@@ -1,7 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.image;
 
 import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.AbstractControllerAction;
+import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
-public final class ImageIndexAction extends AbstractControllerAction {
+public final class ImageIndexAction extends AbstractSimpleControllerAction {
 
     private static final Logger.ALogger LOG = Logger.of(ImageIndexAction.class);
 

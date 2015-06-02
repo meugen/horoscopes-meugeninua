@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.AbstractControllerAction;
-import ua.meugen.horoscopes.actions.controllers.Response;
+import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import ua.meugen.horoscopes.actions.controllers.content.OnFillObjectListener;
 import play.Logger;
 import play.libs.Json;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
-final class SimpleGetByIdAction extends AbstractControllerAction {
+final class SimpleGetByIdAction extends AbstractSimpleControllerAction {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleGetByIdAction.class);
 
@@ -85,7 +85,7 @@ final class SimpleGetByIdAction extends AbstractControllerAction {
             result = Controller.ok(response);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Controller.internalServerError(Response.error(e).asJson());
+            result = Controller.internalServerError(BaseResponse.error(e).asJson());
         }
         return result;
     }
@@ -100,7 +100,7 @@ final class SimpleGetByIdAction extends AbstractControllerAction {
             this.onFillObjectListener.onFillObject(object, resultSet);
             content = object;
         }
-        return Response.content(content).asJson();
+        return BaseResponse.content(content).asJson();
     }
 
 }

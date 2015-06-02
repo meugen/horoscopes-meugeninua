@@ -2,7 +2,6 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.TranslateHelper;
-import ua.meugen.horoscopes.actions.controllers.content.AbstractJsonControllerAction;
 
 import java.io.IOException;
 import java.sql.Connection;

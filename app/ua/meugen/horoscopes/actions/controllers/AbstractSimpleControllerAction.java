@@ -2,21 +2,19 @@ package ua.meugen.horoscopes.actions.controllers;
 
 import play.libs.F;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 /**
  * Created by admin on 23.10.2014.
  */
-public abstract class AbstractControllerAction implements ControllerAction {
+public abstract class AbstractSimpleControllerAction<Resp extends BaseResponse>
+        extends AbstractControllerResponses<Resp> {
 
     /**
      * {@inheritDoc}
      */
     public final F.Promise<Result> execute() {
-        return F.Promise.promise(new F.Function0<Result>() {
-            public Result apply() throws Throwable {
-                return AbstractControllerAction.this.action();
-            }
-        });
+        return F.Promise.promise(this::action);
     }
 
     /**

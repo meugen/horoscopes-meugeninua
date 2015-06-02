@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
-import ua.meugen.horoscopes.actions.controllers.Response;
+import org.springframework.stereotype.Component;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -15,7 +16,8 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-final class JapansTranslateAction extends AbstractTranslateAction {
+@Component
+public final class JapansTranslateAction extends AbstractTranslateAction {
 
     private static final String SELECT = "select japan, icon_id, period, content, \"order\" from horo_japans where locale=?";
     private static final String INSERT = "insert into horo_japans (upjapan, japan, icon_id, period, content," +
@@ -25,15 +27,6 @@ final class JapansTranslateAction extends AbstractTranslateAction {
             " \"order\"=? where upjapan=? and locale=?";
 
     /**
-     * Constructor.
-     *
-     * @param lang Language
-     */
-    public JapansTranslateAction(final String lang) {
-        super(lang);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected Result action(final Connection connection) throws SQLException {
@@ -41,7 +34,7 @@ final class JapansTranslateAction extends AbstractTranslateAction {
             select.setString(1, "ru");
             try (ResultSet resultSet = select.executeQuery()) {
                 this.processResults(connection, resultSet);
-                return Controller.ok(Response.empty().asJson());
+                return Controller.ok(this.newOkResponse().asJson());
             }
         }
     }

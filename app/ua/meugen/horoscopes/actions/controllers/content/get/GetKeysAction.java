@@ -2,8 +2,7 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.Response;
-import ua.meugen.horoscopes.actions.controllers.content.AbstractJsonControllerAction;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -68,7 +67,7 @@ public final class GetKeysAction extends AbstractJsonControllerAction {
             return Controller.ok(result);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
-            return Controller.internalServerError(Response.error(e).asJson());
+            return Controller.internalServerError(BaseResponse.error(e).asJson());
         }
     }
 

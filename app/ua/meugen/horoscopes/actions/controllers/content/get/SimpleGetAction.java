@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import ua.meugen.horoscopes.actions.controllers.content.OnFillObjectListener;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;

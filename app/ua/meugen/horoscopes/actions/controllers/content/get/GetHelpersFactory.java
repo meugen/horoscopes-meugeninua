@@ -2,7 +2,6 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ua.meugen.horoscopes.actions.controllers.content.OnFillObjectListener;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

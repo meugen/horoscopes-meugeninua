@@ -2,23 +2,29 @@ package ua.meugen.horoscopes.actions.controllers.content.search;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.stereotype.Component;
+import play.mvc.Results;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.dto.SimpleDto;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import ua.meugen.horoscopes.actions.controllers.content.OnFillObjectListener;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.responses.ItemsResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by meugen on 23.10.14.
  */
-public final class SimpleSearchAction extends AbstractSimpleControllerAction {
+@Component
+public final class SimpleSearchAction extends AbstractSimpleControllerAction<ItemsResponse<SimpleDto>> {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleSearchAction.class);
 
@@ -26,7 +32,6 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction {
 
     private String locale;
     private String sql;
-    private OnFillObjectListener onFillObjectListener;
 
     /**
      * Getter for locale.
@@ -65,21 +70,11 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction {
     }
 
     /**
-     * Getter for on fill object listener.
-     *
-     * @return On fill object listener
+     * {@inheritDoc}
      */
-    public OnFillObjectListener getOnFillObjectListener() {
-        return onFillObjectListener;
-    }
-
-    /**
-     * Setter for on fill object listener.
-     *
-     * @param onFillObjectListener Listener
-     */
-    public void setOnFillObjectListener(final OnFillObjectListener onFillObjectListener) {
-        this.onFillObjectListener = onFillObjectListener;
+    @Override
+    protected ItemsResponse<SimpleDto> newResponse() {
+        return null;
     }
 
     /**
@@ -88,25 +83,31 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction {
     protected Result action() {
         Result result;
         try {
-            result = DatabaseHelper.actionWithStatement(this::internalAction, this.sql);
+            final ItemsResponse<SimpleDto> response = DatabaseHelper
+                    .actionWithStatement(this::internalAction, this.sql);
+            result = Results.ok(response.asJson());
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Controller.ok(BaseResponse.error(e).asJson());
+            result = Controller.ok(this.newErrorResponse(e).asJson());
         }
         return result;
     }
 
-    private Result internalAction(final PreparedStatement statement) throws SQLException {
+    private ItemsResponse<SimpleDto> internalAction(final PreparedStatement statement) throws SQLException {
         statement.setString(1, this.locale);
-        final ResultSet resultSet = statement.executeQuery();
+        try (ResultSet resultSet = statement.executeQuery()) {
+            final List<SimpleDto> items = new ArrayList<>();
+            while (resultSet.next()) {
+                final SimpleDto simpleDto = new SimpleDto();
+                simpleDto.setName(resultSet.getString(1));
+                simpleDto.setIcon(resultSet.getString(2));
+                simpleDto.setPeriod(resultSet.getString(3));
+                items.add(simpleDto);
+            }
 
-        final ObjectNode content = Json.newObject();
-        final ArrayNode items = content.putArray(ITEMS_KEY);
-        while (resultSet.next()) {
-            final ObjectNode item = Json.newObject();
-            this.onFillObjectListener.onFillObject(item, resultSet);
-            items.add(item);
+            final ItemsResponse<SimpleDto> response = this.newOkResponse();
+            response.setItems(items);
+            return response;
         }
-        return Controller.ok(BaseResponse.content(content).asJson());
     }
 }

@@ -2,6 +2,10 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.TranslateHelper;
+import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
+import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
+import ua.meugen.horoscopes.actions.responses.HoroscopesResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,31 +17,32 @@ import java.util.*;
 /**
  * Created by meugen on 13.03.15.
  */
-abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction {
+abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction<HoroscopesRequest> {
 
     private static final String INSERT_TRANSLATED_HOROSCOPE = "INSERT INTO horo_texts" +
             " (type, kind, sign, period, locale, content) VALUES (?, ?, ?, ?, ?, ?)";
     private static final Set<String> RU_LOCALES = new HashSet<>(Arrays.asList("ru", "uk", "be", "bg", "az",
             "lv", "lt", "et", "hy", "kk", "ky", "mo"));
 
-    protected static final String PARAM_LOCALE = "locale";
     protected static final String DEFAULT_LOCALE = "ru";
-    protected static final String PARAM_TYPE = "type";
-    protected static final String PARAM_KIND = "kind";
-    protected static final String PARAM_SIGN = "sign";
+
+    protected final ControllerResponsesFactory<HoroscopesResponse> factory;
 
     /**
-     * Constructor.
-     *
-     * @param json Json
+     * Default constructor.
      */
-    protected TranslateHoroscopesAction(final JsonNode json) {
-        super(json);
+    protected TranslateHoroscopesAction() {
+        super(HoroscopesRequest.class);
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
+    }
+
+    private HoroscopesResponse newResponse() {
+        return new HoroscopesResponse();
     }
 
     protected final Void translateAll(final Connection connection, final String sql,
-                                      final JsonNode json) throws SQLException {
-        final String locale = this.getLocale(json);
+                                      final HoroscopesRequest request) throws SQLException {
+        final String locale = this.getLocale(request);
         if (DEFAULT_LOCALE.equals(locale)) {
             return null;
         }
@@ -46,7 +51,7 @@ abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction {
             connection.setAutoCommit(false);
 
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                this.bindStatement(statement, json, locale);
+                this.bindStatement(statement, request, locale);
                 final ResultSet resultSet = statement.executeQuery();
 
                 final List<String> types = new ArrayList<>();
@@ -68,8 +73,8 @@ abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction {
                         for (int i = 0; i < count; i++) {
                             insert.clearParameters();
                             insert.setString(1, types.get(i));
-                            insert.setString(2, json.get(PARAM_KIND).textValue());
-                            insert.setString(3, json.get(PARAM_SIGN).textValue());
+                            insert.setString(2, request.getKind());
+                            insert.setString(3, request.getSign());
                             insert.setString(4, periods.get(i));
                             insert.setString(5, locale);
                             insert.setString(6, translatedContents.get(i));
@@ -87,12 +92,12 @@ abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction {
         }
     }
 
-    protected final String getLocale(final JsonNode json) {
-        String locale = json.has(PARAM_LOCALE) ? json.get(PARAM_LOCALE).textValue() : DEFAULT_LOCALE;
+    protected final String getLocale(final HoroscopesRequest request) {
+        String locale = request.getLocale();
         locale = RU_LOCALES.contains(locale) ? "ru" : "en";
         return locale;
     }
 
-    protected abstract void bindStatement(final PreparedStatement statement, final JsonNode json,
+    protected abstract void bindStatement(final PreparedStatement statement, final HoroscopesRequest request,
                                           final String locale) throws SQLException;
 }

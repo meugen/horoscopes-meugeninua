@@ -50,7 +50,7 @@ public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> 
      */
     @Override
     protected BaseResponse newResponse() {
-        return this.newOkResponse();
+        return new BaseResponse();
     }
 
     public BaseResponse internalAction(final Connection connection) throws SQLException {
@@ -76,7 +76,7 @@ public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> 
                     }
                 }
             }
-            return this.newOkResponse();
+            return this.factory.newOkResponse();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);

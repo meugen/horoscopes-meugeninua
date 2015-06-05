@@ -34,7 +34,7 @@ public final class FlowersTranslateAction extends AbstractTranslateAction {
             select.setString(1, "ru");
             try (ResultSet resultSet = select.executeQuery()) {
                 this.processResults(connection, resultSet);
-                return Controller.ok(this.newOkResponse().asJson());
+                return Controller.ok(this.factory.newOkResponse().asJson());
             }
         }
     }

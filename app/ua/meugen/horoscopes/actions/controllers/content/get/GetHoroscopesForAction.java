@@ -3,7 +3,9 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.stereotype.Component;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.libs.Json;
@@ -19,7 +21,8 @@ import java.sql.SQLException;
  *
  * @author meugen
  */
-final class GetHoroscopesForAction extends TranslateHoroscopesAction {
+@Component
+public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
 
     private static final Logger.ALogger LOG = Logger.of(GetHoroscopesForAction.class);
 
@@ -33,46 +36,25 @@ final class GetHoroscopesForAction extends TranslateHoroscopesAction {
             " AND t2.sign=? AND t2.locale=? AND t2.period IN (SELECT p2.key FROM horo_periods p2 WHERE p2.type=t2.type AND" +
             " p2.period IN ('today', 'cur', 'second') AND (p2.type='weekly' AND p2.version=2 OR p2.type<>'weekly')))";
 
-    private static final String DEFAULT_KIND = "common";
-    private static final String PARAM_PERIODS = "periods";
-
-    /**
-     * Constructor.
-     */
-    public GetHoroscopesForAction(final JsonNode json) {
-        super(json);
-    }
-
     /**
      * {@inheritDoc}
      */
-    protected Result action(final JsonNode json) {
+    protected Result action(final HoroscopesRequest request) {
         try {
-            final ArrayNode periods = (ArrayNode) json.get(PARAM_PERIODS);
-
-            String where = "";
-            if (periods.size() > 0) {
-                final StringBuilder builder = new StringBuilder(" AND (1=0");
-                for (JsonNode period : periods) {
-                    builder.append(String.format(" OR t1.period='%s'", period.asText()));
-                }
-                builder.append(")");
-                where = builder.toString();
-            }
-            this.translateAll(json, where);
+            this.translateAll(request);
             final JsonNode response = DatabaseHelper.actionWithStatement((statement) ->
-                    internalAction(statement, json), SELECT + where);
+                    internalAction(statement, request), SELECT);
             return Controller.ok(response);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
-            return Controller.internalServerError(BaseResponse.error(e).asJson());
+            return Controller.internalServerError(this.factory.newErrorResponse(e).asJson());
         }
     }
 
-    private JsonNode internalAction(final PreparedStatement statement, final JsonNode json) throws SQLException {
-        statement.setString(1, DEFAULT_KIND);
-        statement.setString(2, json.get(PARAM_SIGN).textValue());
-        statement.setString(3, this.getLocale(json));
+    private JsonNode internalAction(final PreparedStatement statement, final HoroscopesRequest request) throws SQLException {
+        statement.setString(1, request.getKind());
+        statement.setString(2, request.getSign());
+        statement.setString(3, this.getLocale(request));
 
         try (ResultSet resultSet = statement.executeQuery()) {
             final ObjectNode content = Json.newObject();
@@ -89,22 +71,20 @@ final class GetHoroscopesForAction extends TranslateHoroscopesAction {
         }
     }
 
-    private void translateAll(final JsonNode json, final String where) throws SQLException {
-        final ObjectNode object = (ObjectNode) json;
-        object.put(PARAM_KIND, DEFAULT_KIND);
-        DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, TRANSLATE + where, object));
+    private void translateAll(final HoroscopesRequest request) throws SQLException {
+        DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, TRANSLATE, request));
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void bindStatement(final PreparedStatement statement, final JsonNode json,
+    protected void bindStatement(final PreparedStatement statement, final HoroscopesRequest request,
                                  final String locale) throws SQLException {
-        statement.setString(1, DEFAULT_KIND);
-        statement.setString(2, json.get(PARAM_SIGN).textValue());
+        statement.setString(1, request.getKind());
+        statement.setString(2, request.getSign());
         statement.setString(3, DEFAULT_LOCALE);
-        statement.setString(4, DEFAULT_KIND);
-        statement.setString(5, json.get(PARAM_SIGN).textValue());
+        statement.setString(4, request.getKind());
+        statement.setString(5, request.getSign());
         statement.setString(6, locale);
     }
 

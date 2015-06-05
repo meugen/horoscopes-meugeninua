@@ -1,7 +1,6 @@
 package ua.meugen.horoscopes.controllers.content;
 
 import org.springframework.stereotype.Service;
-import ua.meugen.horoscopes.actions.controllers.content.get.GetHelpersFactory;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;

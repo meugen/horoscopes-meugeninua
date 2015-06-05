@@ -63,7 +63,7 @@ public final class DreamsTranslateAction extends AbstractTranslateAction {
             try (ResultSet resultSet = select.executeQuery()) {
                 this.processResults(connection, resultSet);
 
-                final BaseResponse response = this.newOkResponse();
+                final BaseResponse response = this.factory.newOkResponse();
                 response.setMessage(String.format("%d of %d dreams translated. %d left",
                         Math.min(this.limit, total), total, this.getTotalCount(connection)));
                 return Controller.ok(response.asJson());

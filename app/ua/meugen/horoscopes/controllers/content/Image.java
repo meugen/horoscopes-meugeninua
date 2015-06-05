@@ -1,5 +1,6 @@
 package ua.meugen.horoscopes.controllers.content;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.meugen.horoscopes.actions.controllers.content.image.ImageIndexAction;
 import play.libs.F;
@@ -12,7 +13,11 @@ import play.mvc.Result;
 @Service
 public final class Image extends Controller {
 
+    @Autowired
+    private ImageIndexAction imageIndexAction;
+
     public F.Promise<Result> index(final String name) {
-        return new ImageIndexAction(name).execute();
+        this.imageIndexAction.setName(name);
+        return this.imageIndexAction.execute();
     }
 }

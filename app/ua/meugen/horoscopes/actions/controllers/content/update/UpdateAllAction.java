@@ -1,9 +1,6 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import play.libs.Json;
 import ua.meugen.horoscopes.actions.responses.UpdateAllResponse;
 
 import java.sql.Connection;
@@ -37,7 +34,7 @@ public final class UpdateAllAction extends AbstractUpdateAction<UpdateAllRespons
             updates.put("weekly", new UpdateWeeklyAction("akka /content/update/weekly"));
         }
 
-        final UpdateAllResponse response = this.newOkResponse();
+        final UpdateAllResponse response = this.factory.newOkResponse();
         for (Map.Entry<String, AbstractUpdateAction> entry : updates.entrySet()) {
             response.getContent().put(entry.getKey(), entry.getValue().internalAction(connection));
         }

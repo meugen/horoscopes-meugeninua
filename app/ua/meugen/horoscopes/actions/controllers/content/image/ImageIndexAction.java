@@ -1,5 +1,6 @@
 package ua.meugen.horoscopes.actions.controllers.content.image;
 
+import org.springframework.stereotype.Component;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
 import play.Logger;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
+@Component
 public final class ImageIndexAction extends AbstractSimpleControllerAction {
 
     private static final Logger.ALogger LOG = Logger.of(ImageIndexAction.class);
@@ -21,14 +23,13 @@ public final class ImageIndexAction extends AbstractSimpleControllerAction {
     private static final String UPLOADS_PATH = "/home/meugen/horoscopes.meugen.in.ua/uploads";
     private static final String GET_MIME_SQL = "select mime from horo_uploads where name=?";
 
-    private final String name;
+    private String name;
 
-    /**
-     * Constructor.
-     *
-     * @param name Image name
-     */
-    public ImageIndexAction(final String name) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
         this.name = name;
     }
 

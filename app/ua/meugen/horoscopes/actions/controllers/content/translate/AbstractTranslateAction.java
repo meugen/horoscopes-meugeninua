@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.TranslateHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
+import ua.meugen.horoscopes.actions.controllers.ResponseCreator;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,10 +18,19 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-abstract class AbstractTranslateAction extends AbstractSimpleControllerAction<BaseResponse> {
+abstract class AbstractTranslateAction extends AbstractSimpleControllerAction {
 
     @Autowired
     private TranslateHelper helper;
+
+    /**
+     * Factory for create responses.
+     */
+    protected final ControllerResponsesFactory<BaseResponse> factory;
+
+    protected AbstractTranslateAction() {
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
+    }
 
     public void setLang(final String lang) {
         this.helper.setTarget(lang);
@@ -28,8 +39,7 @@ abstract class AbstractTranslateAction extends AbstractSimpleControllerAction<Ba
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected final BaseResponse newResponse() {
+    private BaseResponse newResponse() {
         return new BaseResponse();
     }
 
@@ -40,7 +50,7 @@ abstract class AbstractTranslateAction extends AbstractSimpleControllerAction<Ba
         try {
             return DatabaseHelper.actionWithDatabase(this::internalAction);
         } catch (SQLException e) {
-            return Controller.internalServerError(this.newErrorResponse(e).asJson());
+            return Controller.internalServerError(this.factory.newErrorResponse(e).asJson());
         }
     }
 

@@ -9,8 +9,7 @@ import ua.meugen.horoscopes.actions.responses.BaseResponse;
 /**
  * Created by admin on 02.06.2015.
  */
-public abstract class AbstractJsonControllerAction<Resp extends BaseResponse, Req>
-        extends AbstractControllerResponses<Resp> {
+public abstract class AbstractJsonControllerAction<Req> {
 
     private final Class<Req> reqClazz;
 

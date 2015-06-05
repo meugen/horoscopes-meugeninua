@@ -91,7 +91,7 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse>
         } else {
             this.internalAction(connection, MONDAY_WEEKLY_PERIODS);
         }
-        return this.newOkResponse();
+        return this.factory.newOkResponse();
     }
 
     private void internalAction(final Connection connection, final Map<String, Object> periods) throws SQLException {

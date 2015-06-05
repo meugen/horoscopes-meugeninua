@@ -7,8 +7,7 @@ import ua.meugen.horoscopes.actions.responses.BaseResponse;
 /**
  * Created by admin on 23.10.2014.
  */
-public abstract class AbstractSimpleControllerAction<Resp extends BaseResponse>
-        extends AbstractControllerResponses<Resp> {
+public abstract class AbstractSimpleControllerAction {
 
     /**
      * {@inheritDoc}

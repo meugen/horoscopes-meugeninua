@@ -5,15 +5,25 @@ import ua.meugen.horoscopes.actions.responses.BaseResponse;
 /**
  * Created by admin on 02.06.2015.
  */
-public abstract class AbstractControllerResponses<Resp extends BaseResponse> {
+public final class ControllerResponsesFactory<Resp extends BaseResponse> {
+
+    private final ResponseCreator<Resp> creator;
+
+    /**
+     * Constructor.
+     * @param creator Response creator
+     */
+    public ControllerResponsesFactory(final ResponseCreator<Resp> creator) {
+        this.creator = creator;
+    }
 
     /**
      * Create response with error.
      * @param throwable Throwable
      * @return Response
      */
-    protected final Resp newErrorResponse(final Throwable throwable) {
-        final Resp response = this.newResponse();
+    public final Resp newErrorResponse(final Throwable throwable) {
+        final Resp response = this.creator.newResponse();
         response.setMessage(throwable.getMessage());
         response.setStatus(BaseResponse.Status.ERROR);
         return response;
@@ -23,16 +33,10 @@ public abstract class AbstractControllerResponses<Resp extends BaseResponse> {
      * Create ok response.
      * @return Response
      */
-    protected final Resp newOkResponse() {
-        final Resp response = this.newResponse();
+    public final Resp newOkResponse() {
+        final Resp response = this.creator.newResponse();
         response.setMessage("");
         response.setStatus(BaseResponse.Status.OK);
         return response;
     }
-
-    /**
-     * Create new response.
-     * @return New response
-     */
-    protected abstract Resp newResponse();
 }

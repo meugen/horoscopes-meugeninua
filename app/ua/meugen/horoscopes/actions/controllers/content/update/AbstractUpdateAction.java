@@ -2,6 +2,7 @@ package ua.meugen.horoscopes.actions.controllers.content.update;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 24.10.2014.
  */
-abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractSimpleControllerAction<Resp> {
+abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractSimpleControllerAction {
 
     private static final Logger.ALogger LOG = Logger.of(AbstractUpdateAction.class);
 
@@ -43,6 +44,15 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
     private PreparedStatement updatePeriodStatement;
     private PreparedStatement insertPeriodStatement;
 
+    /**
+     * Factory for create responses.
+     */
+    protected final ControllerResponsesFactory<Resp> factory;
+
+    protected AbstractUpdateAction() {
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
+    }
+
     public final String getUri() {
         return uri;
     }
@@ -50,6 +60,12 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
     public final void setUri(final String uri) {
         this.uri = uri;
     }
+
+    /**
+     * Create new response.
+     * @return Response
+     */
+    protected abstract Resp newResponse();
 
     /**
      * Init statements with connection.
@@ -169,7 +185,7 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
             result = Controller.ok(response);
         } catch (Throwable e) {
             LOG.error(e.getMessage(), e);
-            response = this.newErrorResponse(e).asJson();
+            response = this.factory.newErrorResponse(e).asJson();
             result = Controller.internalServerError(response);
         }
         this.storeResponse(response);

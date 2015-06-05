@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import play.mvc.Results;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.dto.SimpleDto;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
@@ -24,14 +25,18 @@ import java.util.List;
  * Created by meugen on 23.10.14.
  */
 @Component
-public final class SimpleSearchAction extends AbstractSimpleControllerAction<ItemsResponse<SimpleDto>> {
+public final class SimpleSearchAction extends AbstractSimpleControllerAction {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleSearchAction.class);
 
-    private static final String ITEMS_KEY = "items";
+    private final ControllerResponsesFactory<ItemsResponse<SimpleDto>> factory;
 
     private String locale;
     private String sql;
+
+    public SimpleSearchAction() {
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
+    }
 
     /**
      * Getter for locale.
@@ -72,9 +77,8 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction<Ite
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected ItemsResponse<SimpleDto> newResponse() {
-        return null;
+    private ItemsResponse<SimpleDto> newResponse() {
+        return new ItemsResponse<>();
     }
 
     /**
@@ -88,7 +92,7 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction<Ite
             result = Results.ok(response.asJson());
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Controller.ok(this.newErrorResponse(e).asJson());
+            result = Controller.ok(this.factory.newErrorResponse(e).asJson());
         }
         return result;
     }
@@ -105,7 +109,7 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction<Ite
                 items.add(simpleDto);
             }
 
-            final ItemsResponse<SimpleDto> response = this.newOkResponse();
+            final ItemsResponse<SimpleDto> response = this.factory.newOkResponse();
             response.setItems(items);
             return response;
         }

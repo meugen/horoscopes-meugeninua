@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by admin on 03.06.2015.
  */
-public class ItemsResponse<T> extends BaseResponse {
+public final class ItemsResponse<T> extends BaseResponse {
 
     private List<T> items;
 

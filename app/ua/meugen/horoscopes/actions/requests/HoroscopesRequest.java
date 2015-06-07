@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by admin on 05.06.2015.
  */
-public class HoroscopesRequest {
+public final class HoroscopesRequest {
 
     private String locale = "ru";
     private int version = 1;

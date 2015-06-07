@@ -14,6 +14,9 @@ import java.util.Map;
  */
 public final class HoroscopesSerializer extends JsonSerializer<HoroscopesDto> {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void serialize(final HoroscopesDto value, final JsonGenerator jgen, final SerializerProvider provider) throws IOException, JsonProcessingException {
         jgen.writeObjectFieldStart(value.getType());

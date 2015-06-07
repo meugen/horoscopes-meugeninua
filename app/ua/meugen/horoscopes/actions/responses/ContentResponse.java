@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * Created by admin on 02.06.2015.
  */
-public class ContentResponse extends BaseResponse {
+public final class ContentResponse extends BaseResponse {
 
     private JsonNode content;
 

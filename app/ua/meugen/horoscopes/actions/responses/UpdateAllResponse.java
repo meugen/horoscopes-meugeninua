@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by admin on 02.06.2015.
  */
-public class UpdateAllResponse extends BaseResponse {
+public final class UpdateAllResponse extends BaseResponse {
 
     private Map<String, BaseResponse> content = new HashMap<>();
 

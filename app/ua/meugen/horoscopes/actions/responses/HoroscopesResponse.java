@@ -5,7 +5,7 @@ import ua.meugen.horoscopes.actions.dto.HoroscopesDto;
 /**
  * Created by admin on 05.06.2015.
  */
-public class HoroscopesResponse extends BaseResponse {
+public final class HoroscopesResponse extends BaseResponse {
 
     private HoroscopesDto content;
 

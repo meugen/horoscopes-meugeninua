@@ -15,6 +15,7 @@ import play.mvc.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Helper for get horoscopes for sign.
@@ -36,12 +37,25 @@ public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
             " AND t2.sign=? AND t2.locale=? AND t2.period IN (SELECT p2.key FROM horo_periods p2 WHERE p2.type=t2.type AND" +
             " p2.period IN ('today', 'cur', 'second') AND (p2.type='weekly' AND p2.version=2 OR p2.type<>'weekly')))";
 
+    private static final String DEFAULT_KIND = "common";
+
     /**
      * {@inheritDoc}
      */
     protected Result action(final HoroscopesRequest request) {
         try {
-            this.translateAll(request);
+            final List<String> periods = request.getPeriods();
+
+            final StringBuilder where = new StringBuilder();
+            if (!periods.isEmpty()) {
+                where.append(" AND (1=0");
+                for (String period : periods) {
+                    where.append(String.format(" OR t1.period='%s'", period));
+                }
+                where.append(")");
+            }
+
+            this.translateAll(request, where);
             final JsonNode response = DatabaseHelper.actionWithStatement((statement) ->
                     internalAction(statement, request), SELECT);
             return Controller.ok(response);
@@ -71,8 +85,8 @@ public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
         }
     }
 
-    private void translateAll(final HoroscopesRequest request) throws SQLException {
-        DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, TRANSLATE, request));
+    private void translateAll(final HoroscopesRequest request, final CharSequence where) throws SQLException {
+        DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, TRANSLATE + where, request));
     }
 
     /**
@@ -80,18 +94,11 @@ public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
      */
     protected void bindStatement(final PreparedStatement statement, final HoroscopesRequest request,
                                  final String locale) throws SQLException {
-        statement.setString(1, request.getKind());
+        statement.setString(1, DEFAULT_KIND);
         statement.setString(2, request.getSign());
         statement.setString(3, DEFAULT_LOCALE);
-        statement.setString(4, request.getKind());
+        statement.setString(4, DEFAULT_KIND);
         statement.setString(5, request.getSign());
         statement.setString(6, locale);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String[] getNotNullFields() {
-        return new String[]{PARAM_LOCALE, PARAM_SIGN, PARAM_PERIODS};
     }
 }

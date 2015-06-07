@@ -1,20 +1,24 @@
 package ua.meugen.horoscopes.actions.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
+import ua.meugen.horoscopes.actions.dto.HoroscopesForDto;
+import ua.meugen.horoscopes.actions.requests.BaseHoroscopesRequest;
 import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.responses.HoroscopesForResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +27,7 @@ import java.util.List;
  * @author meugen
  */
 @Component
-public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
+public final class GetHoroscopesForAction extends TranslateHoroscopesAction<BaseHoroscopesRequest> {
 
     private static final Logger.ALogger LOG = Logger.of(GetHoroscopesForAction.class);
 
@@ -39,10 +43,24 @@ public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
 
     private static final String DEFAULT_KIND = "common";
 
+    private final ControllerResponsesFactory<HoroscopesForResponse> factory;
+
+    /**
+     * Default constructor.
+     */
+    public GetHoroscopesForAction() {
+        super(BaseHoroscopesRequest.class);
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
+    }
+
+    private HoroscopesForResponse newResponse() {
+        return new HoroscopesForResponse();
+    }
+
     /**
      * {@inheritDoc}
      */
-    protected Result action(final HoroscopesRequest request) {
+    protected Result action(final BaseHoroscopesRequest request) {
         try {
             final List<String> periods = request.getPeriods();
 
@@ -56,43 +74,47 @@ public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
             }
 
             this.translateAll(request, where);
-            final JsonNode response = DatabaseHelper.actionWithStatement((statement) ->
+            final HoroscopesForResponse response = DatabaseHelper.actionWithStatement((statement) ->
                     internalAction(statement, request), SELECT);
-            return Controller.ok(response);
+            return Controller.ok(response.asJson());
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             return Controller.internalServerError(this.factory.newErrorResponse(e).asJson());
         }
     }
 
-    private JsonNode internalAction(final PreparedStatement statement, final HoroscopesRequest request) throws SQLException {
-        statement.setString(1, request.getKind());
+    private HoroscopesForResponse internalAction(final PreparedStatement statement, final BaseHoroscopesRequest request) throws SQLException {
+        statement.setString(1, DEFAULT_KIND);
         statement.setString(2, request.getSign());
         statement.setString(3, this.getLocale(request));
 
         try (ResultSet resultSet = statement.executeQuery()) {
-            final ObjectNode content = Json.newObject();
+            final List<HoroscopesForDto.Container> items = new ArrayList<>();
             while (resultSet.next()) {
-                final ObjectNode sign = Json.newObject();
-                sign.put(resultSet.getString(2), resultSet.getString(3));
-                final ObjectNode kind = Json.newObject();
-                kind.set(json.get(PARAM_SIGN).textValue(), sign);
-                final ObjectNode type = Json.newObject();
-                type.set(DEFAULT_KIND, kind);
-                content.set(resultSet.getString(1), type);
+                final HoroscopesForDto.Container container = new HoroscopesForDto.Container();
+                container.setType(resultSet.getString(1));
+                container.setKind(DEFAULT_KIND);
+                container.setPeriod(resultSet.getString(2));
+                container.setHoroscope(resultSet.getString(3));
+                items.add(container);
             }
-            return BaseResponse.content(content).asJson();
+            final HoroscopesForDto horoscopesForDto = new HoroscopesForDto();
+            horoscopesForDto.setSign(request.getSign());
+            horoscopesForDto.setItems(items);
+            final HoroscopesForResponse response = this.factory.newOkResponse();
+            response.setContent(horoscopesForDto);
+            return response;
         }
     }
 
-    private void translateAll(final HoroscopesRequest request, final CharSequence where) throws SQLException {
+    private void translateAll(final BaseHoroscopesRequest request, final CharSequence where) throws SQLException {
         DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, TRANSLATE + where, request));
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void bindStatement(final PreparedStatement statement, final HoroscopesRequest request,
+    protected void bindStatement(final PreparedStatement statement, final BaseHoroscopesRequest request,
                                  final String locale) throws SQLException {
         statement.setString(1, DEFAULT_KIND);
         statement.setString(2, request.getSign());
@@ -100,5 +122,13 @@ public final class GetHoroscopesForAction extends TranslateHoroscopesAction {
         statement.setString(4, DEFAULT_KIND);
         statement.setString(5, request.getSign());
         statement.setString(6, locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getKind(final BaseHoroscopesRequest request) {
+        return DEFAULT_KIND;
     }
 }

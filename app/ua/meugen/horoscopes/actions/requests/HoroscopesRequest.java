@@ -8,25 +8,13 @@ import java.util.List;
 /**
  * Created by admin on 05.06.2015.
  */
-public final class HoroscopesRequest {
+public final class HoroscopesRequest extends BaseHoroscopesRequest {
 
-    private String locale = "ru";
     private int version = 1;
     @JsonProperty(required = true)
     private String type;
     @JsonProperty(required = true)
     private String kind;
-    @JsonProperty(required = true)
-    private String sign;
-    private List<String> periods = new ArrayList<>();
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(final String locale) {
-        this.locale = locale;
-    }
 
     public int getVersion() {
         return version;
@@ -50,21 +38,5 @@ public final class HoroscopesRequest {
 
     public void setKind(final String kind) {
         this.kind = kind;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(final String sign) {
-        this.sign = sign;
-    }
-
-    public List<String> getPeriods() {
-        return periods;
-    }
-
-    public void setPeriods(final List<String> periods) {
-        this.periods = periods;
     }
 }

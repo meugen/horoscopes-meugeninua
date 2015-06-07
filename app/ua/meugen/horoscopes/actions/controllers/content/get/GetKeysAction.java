@@ -2,6 +2,7 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.libs.Json;

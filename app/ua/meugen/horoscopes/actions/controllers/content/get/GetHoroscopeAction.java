@@ -27,7 +27,7 @@ import java.util.Map;
  * Created by admin on 23.10.2014.
  */
 @Component
-public final class GetHoroscopeAction extends TranslateHoroscopesAction {
+public final class GetHoroscopeAction extends TranslateHoroscopesAction<HoroscopesRequest> {
 
     private static final Logger.ALogger LOG = Logger.of(GetHoroscopeAction.class);
 
@@ -48,7 +48,21 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction {
             " horo_periods t2 WHERE t2.key=t1.period and t2.type=t1.type and t1.type=? and t1.kind=?" +
             " and t1.sign=? and t1.locale=? and t2.version=? and t2.period=?) and t2.period=?";
 
+    private final ControllerResponsesFactory<HoroscopesResponse> factory;
+
     private String period;
+
+    /**
+     * Default constructor.
+     */
+    public GetHoroscopeAction() {
+        super(HoroscopesRequest.class);
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
+    }
+
+    private HoroscopesResponse newResponse() {
+        return new HoroscopesResponse();
+    }
 
     /**
      * Getter for period.
@@ -99,6 +113,14 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction {
     private void translateAll(final HoroscopesRequest request, final CharSequence where) throws SQLException {
         final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
         DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, sql + where, request));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getKind(final HoroscopesRequest request) {
+        return request.getKind();
     }
 
     /**

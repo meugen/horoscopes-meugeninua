@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.TranslateHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
+import ua.meugen.horoscopes.actions.requests.BaseHoroscopesRequest;
 import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
 import ua.meugen.horoscopes.actions.responses.HoroscopesResponse;
 
@@ -17,7 +18,7 @@ import java.util.*;
 /**
  * Created by meugen on 13.03.15.
  */
-abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction<HoroscopesRequest> {
+abstract class TranslateHoroscopesAction<Req extends BaseHoroscopesRequest> extends AbstractJsonControllerAction<Req> {
 
     private static final String INSERT_TRANSLATED_HOROSCOPE = "INSERT INTO horo_texts" +
             " (type, kind, sign, period, locale, content) VALUES (?, ?, ?, ?, ?, ?)";
@@ -26,22 +27,16 @@ abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction<Ho
 
     protected static final String DEFAULT_LOCALE = "ru";
 
-    protected final ControllerResponsesFactory<HoroscopesResponse> factory;
-
     /**
      * Default constructor.
+     * @param reqClass Class for request
      */
-    protected TranslateHoroscopesAction() {
-        super(HoroscopesRequest.class);
-        this.factory = new ControllerResponsesFactory<>(this::newResponse);
-    }
-
-    private HoroscopesResponse newResponse() {
-        return new HoroscopesResponse();
+    protected TranslateHoroscopesAction(final Class<Req> reqClass) {
+        super(reqClass);
     }
 
     protected final Void translateAll(final Connection connection, final String sql,
-                                      final HoroscopesRequest request) throws SQLException {
+                                      final Req request) throws SQLException {
         final String locale = this.getLocale(request);
         if (DEFAULT_LOCALE.equals(locale)) {
             return null;
@@ -73,7 +68,7 @@ abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction<Ho
                         for (int i = 0; i < count; i++) {
                             insert.clearParameters();
                             insert.setString(1, types.get(i));
-                            insert.setString(2, request.getKind());
+                            insert.setString(2, this.getKind(request));
                             insert.setString(3, request.getSign());
                             insert.setString(4, periods.get(i));
                             insert.setString(5, locale);
@@ -92,12 +87,14 @@ abstract class TranslateHoroscopesAction extends AbstractJsonControllerAction<Ho
         }
     }
 
-    protected final String getLocale(final HoroscopesRequest request) {
+    protected final String getLocale(final Req request) {
         String locale = request.getLocale();
         locale = RU_LOCALES.contains(locale) ? "ru" : "en";
         return locale;
     }
 
-    protected abstract void bindStatement(final PreparedStatement statement, final HoroscopesRequest request,
+    protected abstract String getKind(final Req request);
+
+    protected abstract void bindStatement(final PreparedStatement statement, final Req request,
                                           final String locale) throws SQLException;
 }

@@ -8,34 +8,34 @@ import java.util.List;
 /**
  * Created by meugen on 07.06.15.
  */
-public final class HoroscopesForRequest {
+public class BaseHoroscopesRequest {
 
     @JsonProperty(required = true)
     private String sign;
     private String locale = "ru";
     private List<String> periods = new ArrayList<>();
 
-    public String getSign() {
+    public final String getSign() {
         return sign;
     }
 
-    public void setSign(String sign) {
+    public final void setSign(String sign) {
         this.sign = sign;
     }
 
-    public String getLocale() {
+    public final String getLocale() {
         return locale;
     }
 
-    public void setLocale(String locale) {
+    public final void setLocale(String locale) {
         this.locale = locale;
     }
 
-    public List<String> getPeriods() {
+    public final List<String> getPeriods() {
         return periods;
     }
 
-    public void setPeriods(List<String> periods) {
+    public final void setPeriods(List<String> periods) {
         this.periods = periods;
     }
 }

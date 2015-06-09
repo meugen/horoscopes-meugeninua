@@ -3,13 +3,17 @@ package ua.meugen.horoscopes.actions.controllers.content.get;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.stereotype.Component;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.responses.SimpleResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,88 +22,55 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
-final class SimpleGetByIdAction extends AbstractSimpleControllerAction {
+public final class SimpleGetByIdAction extends AbstractJsonControllerAction<Integer> {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleGetByIdAction.class);
 
-    private static final String DEFAULT_LOCALE = "ru";
-    private static final String PARAM_LOCALE = "locale";
+    private final ControllerResponsesFactory<SimpleResponse> factory;
 
-    private final Integer id;
-    private String sql;
-    private OnFillObjectListener onFillObjectListener;
+    private final String sql;
 
     /**
-     * Constructor.
-     *
-     * @param id Id
+     * Default constructor.
      */
-    public SimpleGetByIdAction(final Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * Getter for sql.
-     *
-     * @return Sql
-     */
-    public String getSql() {
-        return sql;
-    }
-
-    /**
-     * Setter for sql.
-     *
-     * @param sql Sql
-     */
-    public void setSql(final String sql) {
+    public SimpleGetByIdAction(final String sql) {
+        super(Integer.class);
         this.sql = sql;
+        this.factory = new ControllerResponsesFactory<>(this::newResponse);
     }
 
-    /**
-     * Getter for on fill object listener.
-     *
-     * @return Listener
-     */
-    public OnFillObjectListener getOnFillObjectListener() {
-        return onFillObjectListener;
-    }
-
-    /**
-     * Setter for on fill object listener.
-     *
-     * @param onFillObjectListener Listener
-     */
-    public void setOnFillObjectListener(final OnFillObjectListener onFillObjectListener) {
-        this.onFillObjectListener = onFillObjectListener;
+    private SimpleResponse newResponse() {
+        return new SimpleResponse();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected Result action() {
+    protected Result action(final Integer request) {
         Result result;
         try {
-            final JsonNode response = DatabaseHelper.actionWithStatement(this::internalAction, this.sql);
-            result = Controller.ok(response);
+            final SimpleResponse response = DatabaseHelper.actionWithStatement(
+                    (statement) -> internalAction(statement, request), this.sql);
+            result = Controller.ok(response.asJson());
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            result = Controller.internalServerError(BaseResponse.error(e).asJson());
+            result = Controller.internalServerError(this.factory.newErrorResponse(e).asJson());
         }
         return result;
     }
 
-    private JsonNode internalAction(final PreparedStatement statement) throws SQLException {
-        statement.setInt(1, this.id);
+    private SimpleResponse internalAction(final PreparedStatement statement, final Integer id) throws SQLException {
+        statement.setInt(1, id);
         final ResultSet resultSet = statement.executeQuery();
 
-        JsonNode content = NullNode.getInstance();
+        SimpleResponse response;
         if (resultSet.next()) {
-            final ObjectNode object = Json.newObject();
-            this.onFillObjectListener.onFillObject(object, resultSet);
-            content = object;
+            response = this.factory.newOkResponse();
+            response.setText(resultSet.getString(1));
+        } else {
+            response = this.factory.newNotFoundResponse();
         }
-        return BaseResponse.content(content).asJson();
+        return response;
     }
 
 }

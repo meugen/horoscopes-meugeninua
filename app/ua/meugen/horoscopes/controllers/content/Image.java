@@ -17,7 +17,6 @@ public final class Image extends Controller {
     private ImageIndexAction imageIndexAction;
 
     public F.Promise<Result> index(final String name) {
-        this.imageIndexAction.setName(name);
-        return this.imageIndexAction.execute();
+        return this.imageIndexAction.execute(name);
     }
 }

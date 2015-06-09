@@ -1,10 +1,12 @@
 package ua.meugen.horoscopes.controllers.content;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.controllers.content.get.*;
 
 /**
  * Created by meugen on 02.07.14.
@@ -12,79 +14,83 @@ import play.mvc.Result;
 @Service
 public final class Get extends Controller {
 
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> amulet() {
-        return GetHelpersFactory.newGetAmuletHelper(request().body().asJson()).execute();
-    }
+    @Autowired
+    private GetHoroscopeAction getHoroscopeAction;
+
+    @Autowired
+    private GetHoroscopesForAction getHoroscopesForAction;
+
+    @Autowired
+    private GetKeysAction getKeysAction;
+
+    @Autowired
+    private GetKeysForAction getKeysForAction;
+
+    @Autowired
+    private SimpleGetByIdAction getAmuletAction;
+
+    @Autowired
+    private SimpleGetByIdAction getDreamAction;
+
+    @Autowired
+    private SimpleGetByIdAction getNameAction;
+
+    @Autowired
+    private SimpleGetByIdAction getDruidAction;
+
+    @Autowired
+    private SimpleGetByIdAction getChinaAction;
+
+    @Autowired
+    private SimpleGetByIdAction getFlowerAction;
+
+    @Autowired
+    private SimpleGetByIdAction getJapanAction;
 
     public F.Promise<Result> amuletById(final Integer id) {
-        return GetHelpersFactory.newGetAmuletHelper(id).execute();
+        return this.getAmuletAction.execute(id);
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> china() {
-        return GetHelpersFactory.newGetChinaHelper(request().body().asJson()).execute();
-    }
-
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> dream() {
-        return GetHelpersFactory.newGetDreamHelper(request().body().asJson()).execute();
+    public F.Promise<Result> chinaById(final Integer id) {
+        return this.getChinaAction.execute(id);
     }
 
     public F.Promise<Result> dreamById(final Integer id) {
-        return GetHelpersFactory.newGetDreamHelper(id).execute();
+        return this.getChinaAction.execute(id);
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> druid() {
-        return GetHelpersFactory.newGetDruidHelper(request().body().asJson()).execute();
+    public F.Promise<Result> druidById(final Integer id) {
+        return this.getDruidAction.execute(id);
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> flower() {
-        return GetHelpersFactory.newGetFlowerHelper(request().body().asJson()).execute();
+    public F.Promise<Result> flowerById(final Integer id) {
+        return this.getFlowerAction.execute(id);
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> horoscope() {
-        return GetHelpersFactory.newGetHoroscopeHelper(request().body().asJson()).execute();
-    }
-
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> horoscopeByPeriod(final String period) {
-        return GetHelpersFactory.newGetHoroscopeHelper(request().body().asJson(), period).execute();
+        return this.getHoroscopeAction.execute(request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> horoscopesFor() {
-        return GetHelpersFactory.newGetHoroscopesForHelper(request().body().asJson()).execute();
+        return this.getHoroscopesForAction.execute(request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> keys() {
-        return GetHelpersFactory.newGetKeysHelper(request().body().asJson()).execute();
-    }
-
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> keysByPeriod(final String period) {
-        return GetHelpersFactory.newGetKeysHelper(request().body().asJson(), period).execute();
+        return this.getKeysAction.execute(request().body().asJson());
     }
 
     public F.Promise<Result> keysFor() {
-        return GetHelpersFactory.newGetKeysForHelper().execute();
+        return this.getKeysForAction.execute();
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> japan() {
-        return GetHelpersFactory.newGetJapanHelper(request().body().asJson()).execute();
-    }
-
-    @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> name() {
-        return GetHelpersFactory.newGetNameHelper(request().body().asJson()).execute();
+    public F.Promise<Result> japanById(final Integer id) {
+        return this.getJapanAction.execute(id);
     }
 
     public F.Promise<Result> nameById(final Integer id) {
-        return GetHelpersFactory.newGetNameHelper(id).execute();
+        return this.getNameAction.execute(id);
     }
 }

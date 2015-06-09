@@ -15,6 +15,7 @@ public final class HoroscopesRequest extends BaseHoroscopesRequest {
     private String type;
     @JsonProperty(required = true)
     private String kind;
+    private String period;
 
     public int getVersion() {
         return version;
@@ -38,5 +39,13 @@ public final class HoroscopesRequest extends BaseHoroscopesRequest {
 
     public void setKind(final String kind) {
         this.kind = kind;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(final String period) {
+        this.period = period;
     }
 }

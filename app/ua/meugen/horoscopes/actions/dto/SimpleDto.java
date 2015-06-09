@@ -5,9 +5,26 @@ package ua.meugen.horoscopes.actions.dto;
  */
 public final class SimpleDto {
 
+    private int id;
     private String name;
     private String icon;
     private String period;
+
+    /**
+     * Getter for id.
+     * @return Id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id.
+     * @param id Id
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
 
     /**
      * Getter for name.

@@ -103,9 +103,10 @@ public final class SimpleSearchAction extends AbstractSimpleControllerAction {
             final List<SimpleDto> items = new ArrayList<>();
             while (resultSet.next()) {
                 final SimpleDto simpleDto = new SimpleDto();
-                simpleDto.setName(resultSet.getString(1));
-                simpleDto.setIcon(resultSet.getString(2));
-                simpleDto.setPeriod(resultSet.getString(3));
+                simpleDto.setId(resultSet.getInt(1));
+                simpleDto.setName(resultSet.getString(2));
+                simpleDto.setIcon(resultSet.getString(3));
+                simpleDto.setPeriod(resultSet.getString(4));
                 items.add(simpleDto);
             }
 

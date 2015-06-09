@@ -30,6 +30,15 @@ public abstract class AbstractJsonControllerAction<Req> {
         return F.Promise.promise(() -> internalAction(json));
     }
 
+    /**
+     * Promise for action with request.
+     * @param request Request
+     * @return Promise result
+     */
+    public F.Promise<Result> execute(final Req request) {
+        return F.Promise.promise(() -> action(request));
+    }
+
     private Result internalAction(final JsonNode json) {
         final Req request = Json.fromJson(json, this.reqClazz);
         return this.action(request);

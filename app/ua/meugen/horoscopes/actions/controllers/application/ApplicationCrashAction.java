@@ -3,6 +3,7 @@ package ua.meugen.horoscopes.actions.controllers.application;
 import com.fasterxml.jackson.databind.JsonNode;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
+import org.springframework.stereotype.Component;
 import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;
@@ -17,36 +18,23 @@ import java.util.concurrent.Executors;
 /**
  * Created by admin on 23.10.2014.
  */
-public final class ApplicationCrashAction implements ControllerAction {
+@Component
+public final class ApplicationCrashAction {
 
     private static final Logger.ALogger LOG = Logger.of(ApplicationCrashAction.class);
 
-    private static final ExecutorService SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final String USER_KEY = "uY88LgsdcrA9kYCMDBLYNNpGmijPuf";
     private static final String APP_TOKEN = "ah7JwRJZ5CY8a4VtfKUkpttUA6kCRH";
 
-    private final JsonNode json;
+    private static ExecutorService SERVICE;
 
-    /**
-     * Constructor.
-     *
-     * @param json Json
-     */
-    public ApplicationCrashAction(JsonNode json) {
-        this.json = json;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public F.Promise<Result> execute() {
+    public F.Promise<Result> execute(final JsonNode json) {
+        if (SERVICE == null) {
+            SERVICE = Executors.newSingleThreadScheduledExecutor();
+        }
         SERVICE.execute(new PushoverRunnable());
         return WS.url("http://127.0.0.1:5984/acra-horoscopes/_design/acra-storage/_update/report")
-                .put(this.json).map(new F.Function<WSResponse, Result>() {
-                    public Result apply(WSResponse wsResponse) throws Throwable {
-                        return Controller.ok(wsResponse.getBody());
-                    }
-                });
+                .put(json).map((wsResponse) -> Controller.ok(wsResponse.getBody()));
     }
 
     public static final class PushoverRunnable implements Runnable {

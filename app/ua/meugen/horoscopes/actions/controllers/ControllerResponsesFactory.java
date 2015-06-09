@@ -39,4 +39,15 @@ public final class ControllerResponsesFactory<Resp extends BaseResponse> {
         response.setStatus(BaseResponse.Status.OK);
         return response;
     }
+
+    /**
+     * Create not found response.
+     * @return Response
+     */
+    public final Resp newNotFoundResponse() {
+        final Resp response = this.creator.newResponse();
+        response.setMessage("");
+        response.setStatus(BaseResponse.Status.NOT_FOUND);
+        return response;
+    }
 }

@@ -50,8 +50,6 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction<Horoscop
 
     private final ControllerResponsesFactory<HoroscopesResponse> factory;
 
-    private String period;
-
     /**
      * Default constructor.
      */
@@ -62,24 +60,6 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction<Horoscop
 
     private HoroscopesResponse newResponse() {
         return new HoroscopesResponse();
-    }
-
-    /**
-     * Getter for period.
-     *
-     * @return Period
-     */
-    public String getPeriod() {
-        return period;
-    }
-
-    /**
-     * Setter for period.
-     *
-     * @param period Period
-     */
-    public void setPeriod(final String period) {
-        this.period = period;
     }
 
     /**
@@ -111,7 +91,7 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction<Horoscop
     }
 
     private void translateAll(final HoroscopesRequest request, final CharSequence where) throws SQLException {
-        final String sql = this.period == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
+        final String sql = request.getPeriod() == null ? TRANSLATE_HOROSCOPE_SQL : TRANSLATE_HOROSCOPE_PERIOD_SQL;
         DatabaseHelper.actionWithDatabase((connection) -> translateAll(connection, sql + where, request));
     }
 
@@ -139,15 +119,16 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction<Horoscop
         statement.setString(8, request.getSign());
         statement.setString(9, locale);
         statement.setInt(10, version);
-        if (this.period != null) {
-            statement.setString(11, this.period);
-            statement.setString(12, this.period);
+        final String period  = request.getPeriod();
+        if (period != null) {
+            statement.setString(11, period);
+            statement.setString(12, period);
         }
     }
 
     private HoroscopesResponse internalAction(final Connection connection, final HoroscopesRequest request,
                                               final CharSequence where) throws SQLException {
-        final String sql = this.period == null ? GET_HOROSCOPE_SQL : GET_HOROSCOPE_PERIOD_SQL;
+        final String sql = request.getPeriod() == null ? GET_HOROSCOPE_SQL : GET_HOROSCOPE_PERIOD_SQL;
         try (PreparedStatement statement = connection.prepareStatement(sql + where)) {
             return this.internalAction(statement, request);
         }
@@ -159,8 +140,9 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction<Horoscop
         statement.setString(3, request.getSign());
         statement.setString(4, this.getLocale(request));
         statement.setInt(5, request.getVersion());
-        if (this.period != null) {
-            statement.setString(6, this.period);
+        final String period = request.getPeriod();
+        if (period != null) {
+            statement.setString(6, period);
         }
 
         try (ResultSet resultSet = statement.executeQuery()) {

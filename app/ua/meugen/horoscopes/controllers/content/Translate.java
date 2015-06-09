@@ -6,6 +6,8 @@ import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.controllers.content.translate.*;
+import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
+import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
 
 /**
  * Created by meugen on 14.01.15.
@@ -32,32 +34,40 @@ public final class Translate extends Controller {
     private JapansTranslateAction japansTranslateAction;
 
     public F.Promise<Result> flowersTo(final String lang) {
-        this.flowersTranslateAction.setLang(lang);
-        return this.flowersTranslateAction.execute();
+        final BaseTranslateRequest request = new BaseTranslateRequest();
+        request.setLang(lang);
+        return this.flowersTranslateAction.execute(request);
     }
 
     public F.Promise<Result> druidsTo(final String lang) {
-        this.druidsTranslateAction.setLang(lang);
-        return this.druidsTranslateAction.execute();
+        final BaseTranslateRequest request = new BaseTranslateRequest();
+        request.setLang(lang);
+        return this.druidsTranslateAction.execute(request);
     }
 
     public F.Promise<Result> japansTo(final String lang) {
-        this.japansTranslateAction.setLang(lang);
-        return this.japansTranslateAction.execute();
+        final BaseTranslateRequest request = new BaseTranslateRequest();
+        request.setLang(lang);
+        return this.japansTranslateAction.execute(request);
     }
 
     public F.Promise<Result> chinasTo(final String lang) {
-        this.chinasTranslateAction.setLang(lang);
-        return this.chinasTranslateAction.execute();
+        final BaseTranslateRequest request = new BaseTranslateRequest();
+        request.setLang(lang);
+        return this.chinasTranslateAction.execute(request);
     }
 
     public F.Promise<Result> dreamsTo(final String lang, final Integer max) {
-        this.dreamsTranslateAction.setLangAndLimit(lang, max);
-        return this.dreamsTranslateAction.execute();
+        final LimitTranslateRequest request = new LimitTranslateRequest();
+        request.setLang(lang);
+        request.setLimit(max);
+        return this.dreamsTranslateAction.execute(request);
     }
 
     public F.Promise<Result> amuletsTo(final String lang, final Integer max) {
-        this.amuletsTranslateAction.setLangAndLimit(lang, max);
-        return this.amuletsTranslateAction.execute();
+        final LimitTranslateRequest request = new LimitTranslateRequest();
+        request.setLang(lang);
+        request.setLimit(max);
+        return this.amuletsTranslateAction.execute(request);
     }
 }

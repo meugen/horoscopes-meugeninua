@@ -3,9 +3,11 @@ package ua.meugen.horoscopes.actions.controllers.content.translate;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.TranslateHelper;
+import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.controllers.ResponseCreator;
+import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,22 +20,16 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-abstract class AbstractTranslateAction extends AbstractSimpleControllerAction {
-
-    @Autowired
-    private TranslateHelper helper;
+abstract class AbstractTranslateAction<Req extends BaseTranslateRequest> extends AbstractJsonControllerAction<Req> {
 
     /**
      * Factory for create responses.
      */
     protected final ControllerResponsesFactory<BaseResponse> factory;
 
-    protected AbstractTranslateAction() {
+    protected AbstractTranslateAction(final Class<Req> reqClazz) {
+        super(reqClazz);
         this.factory = new ControllerResponsesFactory<>(this::newResponse);
-    }
-
-    public void setLang(final String lang) {
-        this.helper.setTarget(lang);
     }
 
     /**
@@ -46,18 +42,18 @@ abstract class AbstractTranslateAction extends AbstractSimpleControllerAction {
     /**
      * {@inheritDoc}
      */
-    protected final Result action() {
+    protected final Result action(final Req req) {
         try {
-            return DatabaseHelper.actionWithDatabase(this::internalAction);
+            return DatabaseHelper.actionWithDatabase((connection) -> internalAction(connection, req));
         } catch (SQLException e) {
             return Controller.internalServerError(this.factory.newErrorResponse(e).asJson());
         }
     }
 
-    private Result internalAction(final Connection connection) throws SQLException {
+    private Result internalAction(final Connection connection, final Req request) throws SQLException {
         try {
             connection.setAutoCommit(false);
-            return this.action(connection);
+            return this.action(connection, request);
         } finally {
             connection.commit();
         }
@@ -70,7 +66,7 @@ abstract class AbstractTranslateAction extends AbstractSimpleControllerAction {
      * @return Result
      * @throws SQLException On SQL error
      */
-    protected abstract Result action(final Connection connection) throws SQLException;
+    protected abstract Result action(final Connection connection, final Req request) throws SQLException;
 
     /**
      * Translate all queries.
@@ -79,11 +75,9 @@ abstract class AbstractTranslateAction extends AbstractSimpleControllerAction {
      * @return Translated queries
      * @throws IOException I/O error
      */
-    protected final List<String> translateAll(final List<String> queries) throws IOException {
-        return this.helper.translateAll(queries);
-    }
-
-    protected final String getLocale() {
-        return this.helper.getTarget();
+    protected final List<String> translateAll(final List<String> queries, final Req request) throws IOException {
+        final TranslateHelper helper = new TranslateHelper();
+        helper.setTarget(request.getLang());
+        return helper.translateAll(queries);
     }
 }

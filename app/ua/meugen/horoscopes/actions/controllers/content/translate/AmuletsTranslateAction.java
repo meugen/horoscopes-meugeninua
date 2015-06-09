@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
 import org.springframework.stereotype.Component;
+import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by meugen on 14.01.15.
  */
 @Component
-public final class AmuletsTranslateAction extends AbstractTranslateAction {
+public final class AmuletsTranslateAction extends AbstractTranslateAction<LimitTranslateRequest> {
 
     private static final String COUNT = "select count(id) from horo_amulets_v2 where locale=?" +
             " and amulet not in (select rus_amulet from horo_amulets_v2 where locale=?)";
@@ -29,22 +30,17 @@ public final class AmuletsTranslateAction extends AbstractTranslateAction {
     private static final String UPDATE = "update horo_amulets_v2 set amulet=?, type=?, image_id=?, content=?" +
             " where upamulet=? and locale=? and rus_amulet=?";
 
-    private int limit;
-
     /**
-     * Setter for lang and limit.
-     * @param lang Lang
-     * @param limit Limit
+     * Default constructor.
      */
-    public void setLangAndLimit(final String lang, final int limit) {
-        this.setLang(lang);
-        this.limit = limit;
+    public AmuletsTranslateAction() {
+        super(LimitTranslateRequest.class);
     }
 
-    private int getTotalCount(final Connection connection) throws SQLException {
+    private int getTotalCount(final Connection connection, final LimitTranslateRequest request) throws SQLException {
         try (PreparedStatement count = connection.prepareStatement(COUNT)) {
             count.setString(1, "ru");
-            count.setString(2, this.getLocale());
+            count.setString(2, request.getLang());
             try (ResultSet resultSet = count.executeQuery()) {
                 resultSet.next();
                 return resultSet.getInt(1);
@@ -55,30 +51,31 @@ public final class AmuletsTranslateAction extends AbstractTranslateAction {
     /**
      * {@inheritDoc}
      */
-    protected Result action(final Connection connection) throws SQLException {
-        final int total = this.getTotalCount(connection);
+    protected Result action(final Connection connection, final LimitTranslateRequest request) throws SQLException {
+        final int total = this.getTotalCount(connection, request);
         try (PreparedStatement select = connection.prepareStatement(SELECT)) {
             select.setString(1, "ru");
-            select.setString(2, this.getLocale());
-            select.setInt(3, this.limit);
+            select.setString(2, request.getLang());
+            select.setInt(3, request.getLimit());
             try (ResultSet resultSet = select.executeQuery()) {
-                this.processResults(connection, resultSet);
+                this.processResults(connection, resultSet, request);
                 final BaseResponse response = this.factory.newOkResponse();
                 response.setMessage(String.format("%d of %d amulets translated. %d left",
-                        Math.min(this.limit, total), total, this.getTotalCount(connection)));
+                        Math.min(request.getLimit(), total), total, this.getTotalCount(connection, request)));
                 return Controller.ok(response.asJson());
             }
         }
     }
 
-    private void processResults(final Connection connection, final ResultSet resultSet) throws SQLException {
+    private void processResults(final Connection connection, final ResultSet resultSet,
+                                final LimitTranslateRequest request) throws SQLException {
         try (PreparedStatement insert = connection.prepareStatement(INSERT);
              PreparedStatement update = connection.prepareStatement(UPDATE)) {
             while (resultSet.next()) {
                 final List<String> queries = new ArrayList<>();
                 queries.add(resultSet.getString(1));
                 queries.addAll(Arrays.asList(resultSet.getString(4).split("\\[part\\]")));
-                final List<String> translated = this.translateAll(queries);
+                final List<String> translated = this.translateAll(queries, request);
 
                 final StringBuilder translatedContent = new StringBuilder(translated.get(1));
                 for (int i = 2; i < translated.size(); i++) {
@@ -90,7 +87,7 @@ public final class AmuletsTranslateAction extends AbstractTranslateAction {
                 update.setInt(3, resultSet.getInt(3));
                 update.setString(4, translatedContent.toString());
                 update.setString(5, translated.get(0).toUpperCase());
-                update.setString(6, this.getLocale());
+                update.setString(6, request.getLang());
                 update.setString(7, queries.get(0));
                 if (update.executeUpdate() == 0) {
                     insert.clearParameters();
@@ -99,7 +96,7 @@ public final class AmuletsTranslateAction extends AbstractTranslateAction {
                     insert.setInt(3, resultSet.getInt(2));
                     insert.setInt(4, resultSet.getInt(3));
                     insert.setString(5, translatedContent.toString());
-                    insert.setString(6, this.getLocale());
+                    insert.setString(6, request.getLang());
                     insert.setString(7, queries.get(0));
                     insert.execute();
                 }

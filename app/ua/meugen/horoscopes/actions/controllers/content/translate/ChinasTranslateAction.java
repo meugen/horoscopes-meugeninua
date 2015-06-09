@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
 import org.springframework.stereotype.Component;
+import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by meugen on 14.01.15.
  */
 @Component
-public final class ChinasTranslateAction extends AbstractTranslateAction {
+public final class ChinasTranslateAction extends AbstractTranslateAction<BaseTranslateRequest> {
 
     private static final String SELECT = "select china, icon_id, period, content, \"order\" from horo_chinas_v2 where locale=?";
     private static final String INSERT = "insert into horo_chinas_v2 (upchina, china, icon_id, period, content," +
@@ -26,20 +27,25 @@ public final class ChinasTranslateAction extends AbstractTranslateAction {
     private static final String UPDATE = "update horo_chinas_v2 set china=?, icon_id=?, period=?, content=?," +
             " \"order\"=? where upchina=? and locale=?";
 
+    public ChinasTranslateAction() {
+        super(BaseTranslateRequest.class);
+    }
+
     /**
      * {@inheritDoc}
      */
-    protected Result action(final Connection connection) throws SQLException {
+    protected Result action(final Connection connection, final BaseTranslateRequest request) throws SQLException {
         try (PreparedStatement select = connection.prepareStatement(SELECT)) {
             select.setString(1, "ru");
             try (ResultSet resultSet = select.executeQuery()) {
-                this.processResults(connection, resultSet);
+                this.processResults(connection, resultSet, request);
                 return Controller.ok(this.factory.newOkResponse().asJson());
             }
         }
     }
 
-    private void processResults(final Connection connection, final ResultSet resultSet) throws SQLException {
+    private void processResults(final Connection connection, final ResultSet resultSet,
+                                final BaseTranslateRequest request) throws SQLException {
         try (PreparedStatement insert = connection.prepareStatement(INSERT);
              PreparedStatement check = connection.prepareStatement(CHECK);
              PreparedStatement update = connection.prepareStatement(UPDATE)) {
@@ -48,9 +54,9 @@ public final class ChinasTranslateAction extends AbstractTranslateAction {
                 queries.add(resultSet.getString(1));
                 queries.add(resultSet.getString(3));
                 queries.add(resultSet.getString(4));
-                final List<String> translated = this.translateAll(queries);
+                final List<String> translated = this.translateAll(queries, request);
 
-                if (this.checkTranslated(check, translated.get(0).toUpperCase())) {
+                if (this.checkTranslated(check, translated.get(0).toUpperCase(), request)) {
                     update.clearParameters();
                     update.setString(1, translated.get(0));
                     update.setInt(2, resultSet.getInt(2));
@@ -58,7 +64,7 @@ public final class ChinasTranslateAction extends AbstractTranslateAction {
                     update.setString(4, translated.get(2));
                     update.setInt(5, resultSet.getInt(5));
                     update.setString(6, translated.get(0).toUpperCase());
-                    update.setString(7, this.getLocale());
+                    update.setString(7, request.getLang());
                     update.execute();
                 } else {
                     insert.clearParameters();
@@ -67,7 +73,7 @@ public final class ChinasTranslateAction extends AbstractTranslateAction {
                     insert.setInt(3, resultSet.getInt(2));
                     insert.setString(4, translated.get(1));
                     insert.setString(5, translated.get(2));
-                    insert.setString(6, this.getLocale());
+                    insert.setString(6, request.getLang());
                     insert.setInt(7, resultSet.getInt(5));
                     insert.execute();
                 }
@@ -77,10 +83,11 @@ public final class ChinasTranslateAction extends AbstractTranslateAction {
         }
     }
 
-    private boolean checkTranslated(final PreparedStatement statement, final String text) throws SQLException {
+    private boolean checkTranslated(final PreparedStatement statement, final String text,
+                                    final BaseTranslateRequest request) throws SQLException {
         statement.clearParameters();
         statement.setString(1, text);
-        statement.setString(2, this.getLocale());
+        statement.setString(2, request.getLang());
         try (ResultSet resultSet = statement.executeQuery()) {
             return resultSet.next() && resultSet.getInt(1) > 0;
         }

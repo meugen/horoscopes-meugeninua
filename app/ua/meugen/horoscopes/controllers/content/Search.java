@@ -19,13 +19,13 @@ public final class Search extends Controller {
 
     private static final String DEFAULT_LOCALE = "ru";
 
-    private static final String SEARCH_CHINAS_SQL = "select t1.china, t2.name, t1.period from horo_chinas_v2 t1," +
+    private static final String SEARCH_CHINAS_SQL = "select t1.id, t1.china, t2.name, t1.period from horo_chinas_v2 t1," +
             " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
-    private static final String SEARCH_DRUIDS_SQL = "select t1.druid, t2.name, t1.period from horo_druids t1," +
+    private static final String SEARCH_DRUIDS_SQL = "select t1.id, t1.druid, t2.name, t1.period from horo_druids t1," +
             " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
-    private static final String SEARCH_FLOWERS_SQL = "select t1.flower, t2.name, t1.period from horo_flowers t1," +
+    private static final String SEARCH_FLOWERS_SQL = "select t1.id, t1.flower, t2.name, t1.period from horo_flowers t1," +
             " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
-    private static final String SEARCH_JAPANS_SQL = "select t1.japan, t2.name, t1.period from horo_japans t1," +
+    private static final String SEARCH_JAPANS_SQL = "select t1.id, t1.japan, t2.name, t1.period from horo_japans t1," +
             " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";
 
     @Autowired

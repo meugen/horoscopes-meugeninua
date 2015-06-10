@@ -11,6 +11,7 @@ public final class AmuletDto {
 
     /**
      * Getter for id.
+     *
      * @return Id
      */
     public int getId() {
@@ -19,6 +20,7 @@ public final class AmuletDto {
 
     /**
      * Setter for id.
+     *
      * @param id Id
      */
     public void setId(final int id) {
@@ -27,6 +29,7 @@ public final class AmuletDto {
 
     /**
      * Getter for type.
+     *
      * @return Type
      */
     public int getType() {
@@ -35,6 +38,7 @@ public final class AmuletDto {
 
     /**
      * Setter for type.
+     *
      * @param type Type
      */
     public void setType(final int type) {
@@ -43,6 +47,7 @@ public final class AmuletDto {
 
     /**
      * Getter for amulet.
+     *
      * @return Amulet
      */
     public String getAmulet() {
@@ -51,6 +56,7 @@ public final class AmuletDto {
 
     /**
      * Setter for amulet.
+     *
      * @param amulet Amulet
      */
     public void setAmulet(final String amulet) {

@@ -11,6 +11,7 @@ public final class NameDto {
 
     /**
      * Getter for id.
+     *
      * @return Id
      */
     public int getId() {
@@ -19,6 +20,7 @@ public final class NameDto {
 
     /**
      * Setter for id.
+     *
      * @param id Id
      */
     public void setId(final int id) {
@@ -27,6 +29,7 @@ public final class NameDto {
 
     /**
      * Getter for sex.
+     *
      * @return Sex
      */
     public int getSex() {
@@ -35,6 +38,7 @@ public final class NameDto {
 
     /**
      * Setter for sex.
+     *
      * @param sex Sex
      */
     public void setSex(final int sex) {
@@ -43,6 +47,7 @@ public final class NameDto {
 
     /**
      * Getter for name.
+     *
      * @return Name
      */
     public String getName() {
@@ -51,6 +56,7 @@ public final class NameDto {
 
     /**
      * Setter for name.
+     *
      * @param name Name
      */
     public void setName(final String name) {

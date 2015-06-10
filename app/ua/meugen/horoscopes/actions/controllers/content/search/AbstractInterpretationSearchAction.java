@@ -1,12 +1,12 @@
 package ua.meugen.horoscopes.actions.controllers.content.search;
 
+import play.Logger;
+import play.mvc.Controller;
+import play.mvc.Result;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.requests.SearchInterpretationRequest;
-import play.Logger;
-import play.mvc.Controller;
-import play.mvc.Result;
 import ua.meugen.horoscopes.actions.responses.ItemsResponse;
 
 import java.sql.PreparedStatement;
@@ -43,6 +43,7 @@ abstract class AbstractInterpretationSearchAction<Dto>
 
     /**
      * Create new response.
+     *
      * @return Response
      */
     protected abstract ItemsResponse<Dto> newResponse();
@@ -64,7 +65,7 @@ abstract class AbstractInterpretationSearchAction<Dto>
     }
 
     private ItemsResponse<Dto> internalAction(final PreparedStatement statement,
-                                    final SearchInterpretationRequest request) throws SQLException {
+                                              final SearchInterpretationRequest request) throws SQLException {
         statement.setString(1, request.getSearch().toUpperCase());
         statement.setString(2, request.getLocale());
         try (ResultSet resultSet = statement.executeQuery()) {
@@ -81,6 +82,7 @@ abstract class AbstractInterpretationSearchAction<Dto>
 
     /**
      * Fetch dto from result set.
+     *
      * @param resultSet Result set
      * @return Dto
      */

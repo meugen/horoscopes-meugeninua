@@ -1,10 +1,8 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
-import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,7 +15,6 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-@Component
 public final class FlowersTranslateAction extends AbstractTranslateAction<BaseTranslateRequest> {
 
     private static final String SELECT = "select flower, icon_id, period, content, \"order\" from horo_flowers where locale=?";

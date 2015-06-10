@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.actions.controllers.content.search;
 
-import org.springframework.stereotype.Component;
 import ua.meugen.horoscopes.actions.dto.DreamDto;
 import ua.meugen.horoscopes.actions.responses.ItemsResponse;
 
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 /**
  * Created by admin on 03.06.2015.
  */
-@Component
 public final class DreamsSearchAction extends AbstractInterpretationSearchAction<DreamDto> {
 
     private static final String SQL = "select id, type, dream from horo_dreams_v2 where" +

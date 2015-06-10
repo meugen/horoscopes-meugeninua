@@ -1,18 +1,12 @@
 package ua.meugen.horoscopes.actions.controllers.content.get;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.stereotype.Component;
+import play.Logger;
+import play.mvc.Controller;
+import play.mvc.Result;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.dto.HoroscopesForDto;
 import ua.meugen.horoscopes.actions.requests.BaseHoroscopesRequest;
-import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import play.Logger;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
 import ua.meugen.horoscopes.actions.responses.HoroscopesForResponse;
 
 import java.sql.PreparedStatement;
@@ -26,7 +20,6 @@ import java.util.List;
  *
  * @author meugen
  */
-@Component
 public final class GetHoroscopesForAction extends TranslateHoroscopesAction<BaseHoroscopesRequest> {
 
     private static final Logger.ALogger LOG = Logger.of(GetHoroscopesForAction.class);

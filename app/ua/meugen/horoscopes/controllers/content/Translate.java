@@ -1,7 +1,6 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.google.inject.Inject;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,25 +11,24 @@ import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
 /**
  * Created by meugen on 14.01.15.
  */
-@Service
 public final class Translate extends Controller {
 
-    @Autowired
+    @Inject
     private AmuletsTranslateAction amuletsTranslateAction;
 
-    @Autowired
+    @Inject
     private ChinasTranslateAction chinasTranslateAction;
 
-    @Autowired
+    @Inject
     private DreamsTranslateAction dreamsTranslateAction;
 
-    @Autowired
+    @Inject
     private DruidsTranslateAction druidsTranslateAction;
 
-    @Autowired
+    @Inject
     private FlowersTranslateAction flowersTranslateAction;
 
-    @Autowired
+    @Inject
     private JapansTranslateAction japansTranslateAction;
 
     public F.Promise<Result> flowersTo(final String lang) {

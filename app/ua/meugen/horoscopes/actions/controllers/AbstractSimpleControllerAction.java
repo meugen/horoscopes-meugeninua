@@ -2,7 +2,6 @@ package ua.meugen.horoscopes.actions.controllers;
 
 import play.libs.F;
 import play.mvc.Result;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 /**
  * Created by admin on 23.10.2014.

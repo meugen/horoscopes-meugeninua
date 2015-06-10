@@ -11,6 +11,7 @@ public final class ItemsResponse<T> extends BaseResponse {
 
     /**
      * Getter for items.
+     *
      * @return Items
      */
     public List<T> getItems() {
@@ -19,6 +20,7 @@ public final class ItemsResponse<T> extends BaseResponse {
 
     /**
      * Setter for items.
+     *
      * @param items Items
      */
     public void setItems(final List<T> items) {

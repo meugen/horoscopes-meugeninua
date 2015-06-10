@@ -2,9 +2,6 @@ package ua.meugen.horoscopes.actions.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by admin on 05.06.2015.
  */

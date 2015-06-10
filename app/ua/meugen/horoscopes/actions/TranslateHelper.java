@@ -1,7 +1,6 @@
 package ua.meugen.horoscopes.actions;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.stereotype.Component;
 import play.libs.Json;
 
 import java.io.IOException;

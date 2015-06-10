@@ -12,6 +12,7 @@ public final class UpdateAllResponse extends BaseResponse {
 
     /**
      * Getter for content.
+     *
      * @return Content
      */
     public Map<String, BaseResponse> getContent() {
@@ -20,6 +21,7 @@ public final class UpdateAllResponse extends BaseResponse {
 
     /**
      * Setter for content.
+     *
      * @param content Content
      */
     public void setContent(final Map<String, BaseResponse> content) {

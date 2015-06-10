@@ -1,18 +1,16 @@
 package ua.meugen.horoscopes.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ua.meugen.horoscopes.actions.controllers.application.ApplicationCrashAction;
+import com.google.inject.Inject;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.controllers.application.ApplicationCrashAction;
 import views.html.index;
 
-@Service
 public final class Application extends Controller {
 
-    @Autowired
+    @Inject
     private ApplicationCrashAction applicationCrashAction;
 
     public Result index() {

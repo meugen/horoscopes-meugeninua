@@ -1,30 +1,23 @@
 package ua.meugen.horoscopes.actions.controllers.content.get;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.stereotype.Component;
+import play.Logger;
+import play.mvc.Controller;
+import play.mvc.Result;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.requests.KeysRequest;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import play.Logger;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
 import ua.meugen.horoscopes.actions.responses.KeysResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by meugen on 22.03.15.
  */
-@Component
 public final class GetKeysAction extends AbstractJsonControllerAction<KeysRequest> {
 
     private static final Logger.ALogger LOG = Logger.of(GetKeysAction.class);

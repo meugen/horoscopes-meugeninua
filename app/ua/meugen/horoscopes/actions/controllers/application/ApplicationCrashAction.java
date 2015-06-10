@@ -3,12 +3,10 @@ package ua.meugen.horoscopes.actions.controllers.application;
 import com.fasterxml.jackson.databind.JsonNode;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
-import org.springframework.stereotype.Component;
 import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;
 import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -18,7 +16,6 @@ import java.util.concurrent.Executors;
 /**
  * Created by admin on 23.10.2014.
  */
-@Component
 public final class ApplicationCrashAction {
 
     private static final Logger.ALogger LOG = Logger.of(ApplicationCrashAction.class);

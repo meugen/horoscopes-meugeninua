@@ -1,13 +1,13 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
-import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
+import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 24.10.2014.
  */
-abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractSimpleControllerAction {
+abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractJsonControllerAction<String> {
 
     private static final Logger.ALogger LOG = Logger.of(AbstractUpdateAction.class);
 
@@ -37,8 +37,6 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
             " (type, period, \"key\", version) VALUES (?, ?, ?, ?)";
     private static final String INSERT_RESPONSE_SQL = "INSERT INTO horo_updates (uri, response) VALUES (?, ?)";
 
-    private String uri;
-
     private PreparedStatement countContentStatement;
     private PreparedStatement insertContentStatement;
     private PreparedStatement updatePeriodStatement;
@@ -50,19 +48,13 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
     protected final ControllerResponsesFactory<Resp> factory;
 
     protected AbstractUpdateAction() {
+        super(String.class);
         this.factory = new ControllerResponsesFactory<>(this::newResponse);
-    }
-
-    public final String getUri() {
-        return uri;
-    }
-
-    public final void setUri(final String uri) {
-        this.uri = uri;
     }
 
     /**
      * Create new response.
+     *
      * @return Response
      */
     protected abstract Resp newResponse();
@@ -177,7 +169,7 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
     /**
      * {@inheritDoc}
      */
-    protected final Result action() {
+    protected final Result action(final String request) {
         Result result;
         JsonNode response;
         try {
@@ -188,7 +180,7 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
             response = this.factory.newErrorResponse(e).asJson();
             result = Controller.internalServerError(response);
         }
-        this.storeResponse(response);
+        this.storeResponse(response, request);
         return result;
     }
 
@@ -208,17 +200,18 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractS
      */
     public abstract Resp internalAction(final Connection connection) throws SQLException;
 
-    private void storeResponse(final JsonNode response) {
+    private void storeResponse(final JsonNode response, final String uri) {
         try {
-            DatabaseHelper.actionWithStatement((statement) -> storeResponse(statement, response),
+            DatabaseHelper.actionWithStatement((statement) -> storeResponse(statement, response, uri),
                     INSERT_RESPONSE_SQL);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
-    private Void storeResponse(final PreparedStatement statement, final JsonNode response) throws SQLException {
-        statement.setString(1, this.uri);
+    private Void storeResponse(final PreparedStatement statement, final JsonNode response,
+                               final String uri) throws SQLException {
+        statement.setString(1, uri);
         statement.setString(2, response.toString());
         statement.executeUpdate();
 

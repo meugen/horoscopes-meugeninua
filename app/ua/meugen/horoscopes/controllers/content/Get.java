@@ -1,7 +1,7 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -11,40 +11,46 @@ import ua.meugen.horoscopes.actions.controllers.content.get.*;
 /**
  * Created by meugen on 02.07.14.
  */
-@Service
 public final class Get extends Controller {
 
-    @Autowired
+    @Inject
     private GetHoroscopeAction getHoroscopeAction;
 
-    @Autowired
+    @Inject
     private GetHoroscopesForAction getHoroscopesForAction;
 
-    @Autowired
+    @Inject
     private GetKeysAction getKeysAction;
 
-    @Autowired
+    @Inject
     private GetKeysForAction getKeysForAction;
 
-    @Autowired
+    @Inject
+    @Named("getAmuletAction")
     private SimpleGetByIdAction getAmuletAction;
 
-    @Autowired
+    @Inject
+    @Named("getDreamAction")
     private SimpleGetByIdAction getDreamAction;
 
-    @Autowired
+    @Inject
+    @Named("getNameAction")
     private SimpleGetByIdAction getNameAction;
 
-    @Autowired
+    @Inject
+    @Named("getDruidAction")
     private SimpleGetByIdAction getDruidAction;
 
-    @Autowired
+    @Inject
+    @Named("getChinaAction")
     private SimpleGetByIdAction getChinaAction;
 
-    @Autowired
+    @Inject
+    @Named("getFlowerAction")
     private SimpleGetByIdAction getFlowerAction;
 
-    @Autowired
+    @Inject
+    @Named("getJapanAction")
     private SimpleGetByIdAction getJapanAction;
 
     public F.Promise<Result> amuletById(final Integer id) {
@@ -56,7 +62,7 @@ public final class Get extends Controller {
     }
 
     public F.Promise<Result> dreamById(final Integer id) {
-        return this.getChinaAction.execute(id);
+        return this.getDreamAction.execute(id);
     }
 
     public F.Promise<Result> druidById(final Integer id) {

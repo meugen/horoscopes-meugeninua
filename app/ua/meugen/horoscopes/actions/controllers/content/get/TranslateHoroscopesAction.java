@@ -1,12 +1,8 @@
 package ua.meugen.horoscopes.actions.controllers.content.get;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import ua.meugen.horoscopes.actions.TranslateHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
-import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.requests.BaseHoroscopesRequest;
-import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
-import ua.meugen.horoscopes.actions.responses.HoroscopesResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -29,6 +25,7 @@ abstract class TranslateHoroscopesAction<Req extends BaseHoroscopesRequest> exte
 
     /**
      * Default constructor.
+     *
      * @param reqClass Class for request
      */
     protected TranslateHoroscopesAction(final Class<Req> reqClass) {

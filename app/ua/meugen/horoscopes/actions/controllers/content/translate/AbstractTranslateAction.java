@@ -1,16 +1,13 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import play.mvc.Controller;
+import play.mvc.Result;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.TranslateHelper;
 import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
-import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
-import ua.meugen.horoscopes.actions.controllers.ResponseCreator;
 import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import play.mvc.Controller;
-import play.mvc.Result;
 
 import java.io.IOException;
 import java.sql.Connection;

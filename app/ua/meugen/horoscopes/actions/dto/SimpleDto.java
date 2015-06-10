@@ -12,6 +12,7 @@ public final class SimpleDto {
 
     /**
      * Getter for id.
+     *
      * @return Id
      */
     public int getId() {
@@ -20,6 +21,7 @@ public final class SimpleDto {
 
     /**
      * Setter for id.
+     *
      * @param id Id
      */
     public void setId(final int id) {
@@ -28,6 +30,7 @@ public final class SimpleDto {
 
     /**
      * Getter for name.
+     *
      * @return Name
      */
     public String getName() {
@@ -36,6 +39,7 @@ public final class SimpleDto {
 
     /**
      * Setter for name.
+     *
      * @param name Name
      */
     public void setName(final String name) {
@@ -44,6 +48,7 @@ public final class SimpleDto {
 
     /**
      * Getter for icon.
+     *
      * @return Icon
      */
     public String getIcon() {
@@ -52,6 +57,7 @@ public final class SimpleDto {
 
     /**
      * Setter for icon.
+     *
      * @param icon Icon
      */
     public void setIcon(final String icon) {
@@ -60,6 +66,7 @@ public final class SimpleDto {
 
     /**
      * Getter for period.
+     *
      * @return period
      */
     public String getPeriod() {
@@ -68,6 +75,7 @@ public final class SimpleDto {
 
     /**
      * Setter for period.
+     *
      * @param period Period
      */
     public void setPeriod(final String period) {

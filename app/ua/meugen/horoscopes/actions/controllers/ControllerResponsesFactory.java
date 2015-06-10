@@ -11,6 +11,7 @@ public final class ControllerResponsesFactory<Resp extends BaseResponse> {
 
     /**
      * Constructor.
+     *
      * @param creator Response creator
      */
     public ControllerResponsesFactory(final ResponseCreator<Resp> creator) {
@@ -19,6 +20,7 @@ public final class ControllerResponsesFactory<Resp extends BaseResponse> {
 
     /**
      * Create response with error.
+     *
      * @param throwable Throwable
      * @return Response
      */
@@ -31,6 +33,7 @@ public final class ControllerResponsesFactory<Resp extends BaseResponse> {
 
     /**
      * Create ok response.
+     *
      * @return Response
      */
     public final Resp newOkResponse() {
@@ -42,6 +45,7 @@ public final class ControllerResponsesFactory<Resp extends BaseResponse> {
 
     /**
      * Create not found response.
+     *
      * @return Response
      */
     public final Resp newNotFoundResponse() {

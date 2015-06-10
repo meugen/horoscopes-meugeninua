@@ -1,12 +1,10 @@
 package ua.meugen.horoscopes.actions.controllers.content.image;
 
-import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
-import ua.meugen.horoscopes.actions.controllers.AbstractSimpleControllerAction;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.DatabaseHelper;
+import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
 
 import java.io.File;
 import java.sql.PreparedStatement;
@@ -16,7 +14,6 @@ import java.sql.SQLException;
 /**
  * Created by admin on 23.10.2014.
  */
-@Component
 public final class ImageIndexAction extends AbstractJsonControllerAction<String> {
 
     private static final Logger.ALogger LOG = Logger.of(ImageIndexAction.class);

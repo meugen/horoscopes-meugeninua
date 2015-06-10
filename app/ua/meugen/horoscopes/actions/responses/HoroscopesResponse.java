@@ -11,6 +11,7 @@ public final class HoroscopesResponse extends BaseResponse {
 
     /**
      * Getter for content.
+     *
      * @return Content
      */
     public HoroscopesDto getContent() {
@@ -19,6 +20,7 @@ public final class HoroscopesResponse extends BaseResponse {
 
     /**
      * Setter for content.
+     *
      * @param content Content
      */
     public void setContent(final HoroscopesDto content) {

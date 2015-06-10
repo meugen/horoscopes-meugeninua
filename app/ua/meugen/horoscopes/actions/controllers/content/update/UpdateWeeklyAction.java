@@ -1,13 +1,12 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
-import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import play.Logger;
 import play.i18n.Messages;
 import play.libs.XML;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +22,6 @@ import java.util.regex.Pattern;
 /**
  * Created by admin on 24.10.2014.
  */
-@Component
 public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse> {
 
     private static final Logger.ALogger LOG = Logger.of(UpdateWeeklyAction.class);
@@ -64,14 +62,6 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse>
 
     private PreparedStatement deleteContentStatement;
     private PreparedStatement deletePeriodStatement;
-
-    public UpdateWeeklyAction() {
-
-    }
-
-    public UpdateWeeklyAction(final String uri) {
-        this.setUri(uri);
-    }
 
     /**
      * {@inheritDoc}

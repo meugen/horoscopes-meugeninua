@@ -9,6 +9,7 @@ public interface ResponseCreator<Resp extends BaseResponse> {
 
     /**
      * Create new response.
+     *
      * @return New response
      */
     Resp newResponse();

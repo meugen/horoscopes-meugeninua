@@ -1,18 +1,12 @@
 package ua.meugen.horoscopes.actions.controllers.content.get;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.stereotype.Component;
+import play.Logger;
+import play.mvc.Controller;
+import play.mvc.Result;
 import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.dto.HoroscopesDto;
 import ua.meugen.horoscopes.actions.requests.HoroscopesRequest;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
-import play.Logger;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
 import ua.meugen.horoscopes.actions.responses.HoroscopesResponse;
 
 import java.sql.Connection;
@@ -26,7 +20,6 @@ import java.util.Map;
 /**
  * Created by admin on 23.10.2014.
  */
-@Component
 public final class GetHoroscopeAction extends TranslateHoroscopesAction<HoroscopesRequest> {
 
     private static final Logger.ALogger LOG = Logger.of(GetHoroscopeAction.class);
@@ -119,7 +112,7 @@ public final class GetHoroscopeAction extends TranslateHoroscopesAction<Horoscop
         statement.setString(8, request.getSign());
         statement.setString(9, locale);
         statement.setInt(10, version);
-        final String period  = request.getPeriod();
+        final String period = request.getPeriod();
         if (period != null) {
             statement.setString(11, period);
             statement.setString(12, period);

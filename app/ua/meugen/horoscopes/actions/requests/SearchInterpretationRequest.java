@@ -13,6 +13,7 @@ public final class SearchInterpretationRequest {
 
     /**
      * Getter for search.
+     *
      * @return Search
      */
     public String getSearch() {
@@ -21,6 +22,7 @@ public final class SearchInterpretationRequest {
 
     /**
      * Setter for search.
+     *
      * @param search Search
      */
     public void setSearch(final String search) {
@@ -29,6 +31,7 @@ public final class SearchInterpretationRequest {
 
     /**
      * Getter for locale.
+     *
      * @return Locale
      */
     public String getLocale() {
@@ -37,6 +40,7 @@ public final class SearchInterpretationRequest {
 
     /**
      * Setter for locale.
+     *
      * @param locale Locale
      */
     public void setLocale(final String locale) {

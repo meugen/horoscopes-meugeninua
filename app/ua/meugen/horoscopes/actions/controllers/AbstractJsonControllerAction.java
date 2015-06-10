@@ -1,10 +1,9 @@
 package ua.meugen.horoscopes.actions.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import play.libs.Json;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Result;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 /**
  * Created by admin on 02.06.2015.
@@ -15,6 +14,7 @@ public abstract class AbstractJsonControllerAction<Req> {
 
     /**
      * Constructor.
+     *
      * @param reqClazz Request class
      */
     public AbstractJsonControllerAction(final Class<Req> reqClazz) {
@@ -23,6 +23,7 @@ public abstract class AbstractJsonControllerAction<Req> {
 
     /**
      * Promise for action with json body.
+     *
      * @param json Json body
      * @return Promise result
      */
@@ -32,6 +33,7 @@ public abstract class AbstractJsonControllerAction<Req> {
 
     /**
      * Promise for action with request.
+     *
      * @param request Request
      * @return Promise result
      */
@@ -46,6 +48,7 @@ public abstract class AbstractJsonControllerAction<Req> {
 
     /**
      * Action.
+     *
      * @param request Request
      * @return Result
      */

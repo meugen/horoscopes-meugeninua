@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.actions.controllers.content.search;
 
-import org.springframework.stereotype.Component;
 import ua.meugen.horoscopes.actions.dto.NameDto;
 import ua.meugen.horoscopes.actions.responses.ItemsResponse;
 
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 /**
  * Created by admin on 03.06.2015.
  */
-@Component
 public final class NamesSearchAction extends AbstractInterpretationSearchAction<NameDto> {
 
     private static final String SQL = "select id, sex, name from horo_names_v2 where" +

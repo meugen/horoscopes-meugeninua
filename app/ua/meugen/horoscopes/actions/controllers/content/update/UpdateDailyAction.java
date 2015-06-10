@@ -1,12 +1,11 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
-import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import play.Logger;
 import play.libs.XML;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,7 +16,6 @@ import java.util.Map;
 /**
  * Created by admin on 24.10.2014.
  */
-@Component
 public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> {
 
     private static final Logger.ALogger LOG = Logger.of(UpdateDailyAction.class);
@@ -35,14 +33,6 @@ public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> 
         DAILY_KINDS.put("cook", "http://img.ignio.com/r/export/utf/xml/daily/cook.xml");
         DAILY_KINDS.put("love", "http://img.ignio.com/r/export/utf/xml/daily/lov.xml");
         DAILY_KINDS.put("mobile", "http://img.ignio.com/r/export/utf/xml/daily/mob.xml");
-    }
-
-    public UpdateDailyAction() {
-
-    }
-
-    public UpdateDailyAction(final String uri) {
-        this.setUri(uri);
     }
 
     /**

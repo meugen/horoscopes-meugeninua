@@ -1,10 +1,9 @@
 package ua.meugen.horoscopes.actions.controllers.content.translate;
 
-import org.springframework.stereotype.Component;
-import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
-import ua.meugen.horoscopes.actions.responses.BaseResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
+import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,7 +16,6 @@ import java.util.List;
 /**
  * Created by meugen on 14.01.15.
  */
-@Component
 public final class DreamsTranslateAction extends AbstractTranslateAction<LimitTranslateRequest> {
 
     private static final String COUNT = "select count(id) from horo_dreams_v2 where locale=?" +

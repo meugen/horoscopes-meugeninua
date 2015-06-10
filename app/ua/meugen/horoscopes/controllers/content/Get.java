@@ -26,8 +26,7 @@ public final class Get extends Controller {
     private GetKeysForAction getKeysForAction;
 
     @Inject
-    @Named("getAmuletAction")
-    private SimpleGetByIdAction getAmuletAction;
+    private AmuletGetByIdAction getAmuletAction;
 
     @Inject
     @Named("getDreamAction")

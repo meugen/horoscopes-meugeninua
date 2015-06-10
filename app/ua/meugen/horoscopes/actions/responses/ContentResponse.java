@@ -1,29 +1,17 @@
 package ua.meugen.horoscopes.actions.responses;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 /**
- * Created by admin on 02.06.2015.
+ * Created by meugen on 08.06.15.
  */
-public final class ContentResponse extends BaseResponse {
+public final class ContentResponse<Dto> extends BaseResponse {
 
-    private JsonNode content;
+    private Dto content;
 
-    /**
-     * Getter for content.
-     *
-     * @return Content
-     */
-    public JsonNode getContent() {
-        return this.content;
+    public Dto getContent() {
+        return content;
     }
 
-    /**
-     * Getter for content.
-     *
-     * @param content Content
-     */
-    public void setContent(final JsonNode content) {
+    public void setContent(final Dto content) {
         this.content = content;
     }
 }

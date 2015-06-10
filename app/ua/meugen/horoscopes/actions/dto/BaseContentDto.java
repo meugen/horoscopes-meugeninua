@@ -1,9 +1,9 @@
-package ua.meugen.horoscopes.actions.responses;
+package ua.meugen.horoscopes.actions.dto;
 
 /**
- * Created by meugen on 08.06.15.
+ * Created by meugen on 10.06.15.
  */
-public class SimpleResponse extends BaseResponse {
+public class BaseContentDto {
 
     private String text;
 

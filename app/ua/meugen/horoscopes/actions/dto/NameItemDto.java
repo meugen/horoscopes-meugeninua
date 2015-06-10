@@ -3,7 +3,7 @@ package ua.meugen.horoscopes.actions.dto;
 /**
  * Created by admin on 03.06.2015.
  */
-public final class NameDto {
+public final class NameItemDto {
 
     private int id;
     private int sex;

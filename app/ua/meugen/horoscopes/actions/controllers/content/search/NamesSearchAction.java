@@ -1,6 +1,6 @@
 package ua.meugen.horoscopes.actions.controllers.content.search;
 
-import ua.meugen.horoscopes.actions.dto.NameDto;
+import ua.meugen.horoscopes.actions.dto.NameItemDto;
 import ua.meugen.horoscopes.actions.responses.ItemsResponse;
 
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Created by admin on 03.06.2015.
  */
-public final class NamesSearchAction extends AbstractInterpretationSearchAction<NameDto> {
+public final class NamesSearchAction extends AbstractInterpretationSearchAction<NameItemDto> {
 
     private static final String SQL = "select id, sex, name from horo_names_v2 where" +
             " upname like concat(?, '%') and locale=? order by sex, name";
@@ -25,8 +25,8 @@ public final class NamesSearchAction extends AbstractInterpretationSearchAction<
      * {@inheritDoc}
      */
     @Override
-    protected NameDto fetchDto(final ResultSet resultSet) throws SQLException {
-        final NameDto nameDto = new NameDto();
+    protected NameItemDto fetchDto(final ResultSet resultSet) throws SQLException {
+        final NameItemDto nameDto = new NameItemDto();
         nameDto.setId(resultSet.getInt(1));
         nameDto.setSex(resultSet.getInt(2));
         nameDto.setName(resultSet.getString(3));
@@ -37,7 +37,7 @@ public final class NamesSearchAction extends AbstractInterpretationSearchAction<
      * {@inheritDoc}
      */
     @Override
-    protected ItemsResponse<NameDto> newResponse() {
+    protected ItemsResponse<NameItemDto> newResponse() {
         return new ItemsResponse<>();
     }
 }

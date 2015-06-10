@@ -3,7 +3,7 @@ package ua.meugen.horoscopes.actions.dto;
 /**
  * Created by admin on 03.06.2015.
  */
-public final class DreamDto {
+public final class DreamItemDto {
 
     private int id;
     private int type;

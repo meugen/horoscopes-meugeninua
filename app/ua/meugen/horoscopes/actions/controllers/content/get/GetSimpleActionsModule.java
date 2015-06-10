@@ -9,8 +9,6 @@ import com.google.inject.name.Named;
  */
 public final class GetSimpleActionsModule extends AbstractModule {
 
-    private static final String GET_AMULET_BY_ID_SQL = "select t2.name, t1.content from horo_amulets_v2 t1," +
-            " horo_uploads t2 where t1.image_id=t2.id and t1.id=?";
     private static final String GET_DREAM_BY_ID_SQL = "select content from horo_dreams_v2 where id=?";
     private static final String GET_NAME_BY_ID_SQL = "select content from horo_names_v2 where id=?";
     private static final String GET_CHINA_BY_ID_SQL = "select content from horo_chinas_v2 where id=?";
@@ -24,12 +22,6 @@ public final class GetSimpleActionsModule extends AbstractModule {
     @Override
     protected void configure() {
         // Nothing to do
-    }
-
-    @Provides
-    @Named("getAmuletAction")
-    public SimpleGetByIdAction newGetAmuletAction() {
-        return new SimpleGetByIdAction(GET_AMULET_BY_ID_SQL);
     }
 
     @Provides

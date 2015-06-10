@@ -1,69 +1,39 @@
 package ua.meugen.horoscopes.actions.controllers.content.get;
 
-import play.Logger;
-import play.mvc.Controller;
-import play.mvc.Result;
-import ua.meugen.horoscopes.actions.DatabaseHelper;
-import ua.meugen.horoscopes.actions.controllers.AbstractJsonControllerAction;
-import ua.meugen.horoscopes.actions.controllers.ControllerResponsesFactory;
-import ua.meugen.horoscopes.actions.responses.SimpleResponse;
+import ua.meugen.horoscopes.actions.dto.BaseContentDto;
+import ua.meugen.horoscopes.actions.responses.ContentResponse;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by admin on 23.10.2014.
+ * Created by meugen on 10.06.15.
  */
-public final class SimpleGetByIdAction extends AbstractJsonControllerAction<Integer> {
-
-    private static final Logger.ALogger LOG = Logger.of(SimpleGetByIdAction.class);
-
-    private final ControllerResponsesFactory<SimpleResponse> factory;
-
-    private final String sql;
+public final class SimpleGetByIdAction extends AbstractGetByIdAction<BaseContentDto> {
 
     /**
-     * Default constructor.
+     * Constructor.
+     * @param sql SQL
      */
     public SimpleGetByIdAction(final String sql) {
-        super(Integer.class);
-        this.sql = sql;
-        this.factory = new ControllerResponsesFactory<>(this::newResponse);
-    }
-
-    private SimpleResponse newResponse() {
-        return new SimpleResponse();
+        super(sql);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected Result action(final Integer request) {
-        Result result;
-        try {
-            final SimpleResponse response = DatabaseHelper.actionWithStatement(
-                    (statement) -> internalAction(statement, request), this.sql);
-            result = Controller.ok(response.asJson());
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            result = Controller.internalServerError(this.factory.newErrorResponse(e).asJson());
-        }
-        return result;
+    @Override
+    protected ContentResponse<BaseContentDto> newResponse() {
+        return new ContentResponse<>();
     }
 
-    private SimpleResponse internalAction(final PreparedStatement statement, final Integer id) throws SQLException {
-        statement.setInt(1, id);
-        final ResultSet resultSet = statement.executeQuery();
-
-        SimpleResponse response;
-        if (resultSet.next()) {
-            response = this.factory.newOkResponse();
-            response.setText(resultSet.getString(1));
-        } else {
-            response = this.factory.newNotFoundResponse();
-        }
-        return response;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected BaseContentDto fetchDto(final ResultSet resultSet) throws SQLException {
+        final BaseContentDto contentDto = new BaseContentDto();
+        contentDto.setText(resultSet.getString(1));
+        return contentDto;
     }
-
 }

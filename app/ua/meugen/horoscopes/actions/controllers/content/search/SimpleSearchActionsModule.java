@@ -7,7 +7,7 @@ import com.google.inject.name.Named;
 /**
  * Created by admin on 10.06.2015.
  */
-public class SimpleSearchActionsModule extends AbstractModule {
+public final class SimpleSearchActionsModule extends AbstractModule {
 
     private static final String SEARCH_CHINAS_SQL = "select t1.id, t1.china, t2.name, t1.period from horo_chinas_v2 t1," +
             " horo_uploads t2 where t1.icon_id=t2.id and t1.locale=? order by t1.order";

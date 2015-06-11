@@ -1,10 +1,14 @@
 package ua.meugen.horoscopes.actions.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.meugen.horoscopes.actions.controllers.serializers.HoroscopesForSerializer;
+
 import java.util.List;
 
 /**
  * Created by meugen on 07.06.15.
  */
+@JsonSerialize(using = HoroscopesForSerializer.class)
 public final class HoroscopesForDto {
 
     private String sign;

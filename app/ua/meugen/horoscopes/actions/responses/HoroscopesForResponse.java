@@ -7,7 +7,6 @@ import ua.meugen.horoscopes.actions.dto.HoroscopesForDto;
 /**
  * Created by meugen on 07.06.15.
  */
-@JsonSerialize(using = HoroscopesForSerializer.class)
 public final class HoroscopesForResponse extends BaseResponse {
 
     private HoroscopesForDto content;

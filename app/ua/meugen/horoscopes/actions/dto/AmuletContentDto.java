@@ -6,7 +6,6 @@ package ua.meugen.horoscopes.actions.dto;
 public final class AmuletContentDto extends BaseContentDto {
 
     private String image;
-    private String text;
 
     public String getImage() {
         return image;
@@ -14,13 +13,5 @@ public final class AmuletContentDto extends BaseContentDto {
 
     public void setImage(final String image) {
         this.image = image;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(final String text) {
-        this.text = text;
     }
 }

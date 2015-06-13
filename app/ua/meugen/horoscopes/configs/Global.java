@@ -19,9 +19,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Global extends GlobalSettings {
 
-    @Inject
-    private UpdateAllAction updateAllAction;
-
     /**
      * {@inheritDoc}
      */
@@ -37,7 +34,8 @@ public final class Global extends GlobalSettings {
         }
         final int dailyDelayInSeconds = Seconds.secondsBetween(DateTime.now(), daily).getSeconds();
 
-        final Runnable runnable = () -> this.updateAllAction.execute("akka /content/update/all");
+        final UpdateAllAction updateAllAction = new UpdateAllAction();
+        final Runnable runnable = () -> updateAllAction.execute("akka /content/update/all");
         final ActorSystem system = Akka.system();
         system.scheduler().schedule(
                 Duration.create(dailyDelayInSeconds, TimeUnit.SECONDS),

@@ -18,7 +18,7 @@ public final class ImageIndexAction extends AbstractJsonControllerAction<String>
 
     private static final Logger.ALogger LOG = Logger.of(ImageIndexAction.class);
 
-    private static final String UPLOADS_PATH = "/home/meugen/horoscopes.meugen.in.ua/uploads";
+    private static final String UPLOADS_PATH = "/home/meugen/horo.meugen.in.ua/uploads";
     private static final String GET_MIME_SQL = "select mime from horo_uploads where name=?";
 
     /**

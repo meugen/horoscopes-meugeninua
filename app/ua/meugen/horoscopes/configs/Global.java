@@ -34,7 +34,7 @@ public final class Global extends GlobalSettings {
         }
         final int dailyDelayInSeconds = Seconds.secondsBetween(DateTime.now(), daily).getSeconds();
 
-        final UpdateAllAction updateAllAction = new UpdateAllAction();
+        final UpdateAllAction updateAllAction = app.injector().instanceOf(UpdateAllAction.class);
         final Runnable runnable = () -> updateAllAction.execute("akka /content/update/all");
         final ActorSystem system = Akka.system();
         system.scheduler().schedule(

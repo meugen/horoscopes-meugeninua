@@ -7,6 +7,7 @@ message.html.no-message=Сообщение не найдено
 
 got.new.error.message=Получено новое сообщение об ошибке
 
+views.base.title=Мульти-гороскоп
 views.text.portal.add.horoscope.monthly.title=Добавление месячного гороскопа
 
 month.january=января

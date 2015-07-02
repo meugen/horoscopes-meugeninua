@@ -40,7 +40,5 @@ GET         /content/translate/chinas/to/:lang                  @ua.meugen.horos
 GET         /content/translate/dreams/to/:lang/max/:max         @ua.meugen.horoscopes.controllers.content.Translate.dreamsTo(lang, max: Integer)
 GET         /content/translate/amulets/to/:lang/max/:max        @ua.meugen.horoscopes.controllers.content.Translate.amuletsTo(lang, max: Integer)
 
-GET         /portal/signin                                      @ua.meugen.horoscopes.controllers.portal.Signin.index()
-
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                                       controllers.Assets.at(path="/public", file)

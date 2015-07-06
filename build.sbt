@@ -29,9 +29,7 @@ libraryDependencies += "org.jsoup" % "jsoup" % "1.8.1"
 
 libraryDependencies += "joda-time" % "joda-time" % "2.7"
 
-libraryDependencies += "org.webjars" % "jquery" % "2.1.4"
-
-libraryDependencies += "org.webjars" % "bootstrap" % "3.3.5"
+libraryDependencies += "com.adrianhurt" % "play-bootstrap3_2.11" % "0.4.4-P24"
 
 libraryDependencies += "org.webjars" % "jquery-ui" % "1.11.4"
 

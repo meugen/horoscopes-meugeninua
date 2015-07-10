@@ -1,8 +1,8 @@
 package ua.meugen.horoscopes.actions.controllers.content.update;
 
-import com.google.inject.Inject;
 import ua.meugen.horoscopes.actions.responses.UpdateAllResponse;
 
+import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;

@@ -1,12 +1,13 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import com.google.inject.Inject;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.controllers.content.translate.*;
 import ua.meugen.horoscopes.actions.requests.BaseTranslateRequest;
 import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
+
+import javax.inject.Inject;
 
 /**
  * Created by meugen on 14.01.15.

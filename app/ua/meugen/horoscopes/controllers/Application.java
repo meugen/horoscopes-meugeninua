@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.controllers;
 
-import com.google.inject.Inject;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -8,6 +7,8 @@ import play.mvc.Result;
 import ua.meugen.horoscopes.actions.controllers.application.ApplicationCrashAction;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 import views.html.index;
+
+import javax.inject.Inject;
 
 public final class Application extends Controller {
 

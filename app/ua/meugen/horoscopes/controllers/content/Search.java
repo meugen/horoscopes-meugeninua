@@ -1,7 +1,5 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -10,6 +8,9 @@ import ua.meugen.horoscopes.actions.controllers.content.search.AmuletsSearchActi
 import ua.meugen.horoscopes.actions.controllers.content.search.DreamsSearchAction;
 import ua.meugen.horoscopes.actions.controllers.content.search.NamesSearchAction;
 import ua.meugen.horoscopes.actions.controllers.content.search.SimpleSearchAction;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by meugen on 02.07.14.

@@ -7,9 +7,11 @@ import play.Logger;
 import play.i18n.Messages;
 import play.libs.F;
 import play.libs.ws.WS;
+import play.libs.ws.WSClient;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.inject.Inject;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,12 +27,15 @@ public final class ApplicationCrashAction {
 
     private static ExecutorService SERVICE;
 
+    @Inject
+    private WSClient wsClient;
+
     public F.Promise<Result> execute(final JsonNode json) {
         if (SERVICE == null) {
             SERVICE = Executors.newSingleThreadScheduledExecutor();
         }
         SERVICE.execute(new PushoverRunnable());
-        return WS.url("http://127.0.0.1:5984/acra-horoscopes/_design/acra-storage/_update/report")
+        return this.wsClient.url("http://127.0.0.1:5984/acra-horoscopes/_design/acra-storage/_update/report")
                 .put(json).map((wsResponse) -> Controller.ok(wsResponse.getBody()));
     }
 

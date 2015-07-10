@@ -1,12 +1,13 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.controllers.content.get.*;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by meugen on 02.07.14.

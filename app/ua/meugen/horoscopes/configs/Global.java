@@ -1,16 +1,11 @@
 package ua.meugen.horoscopes.configs;
 
-import akka.actor.ActorSystem;
-import com.google.inject.Inject;
-import org.joda.time.DateTime;
-import org.joda.time.Seconds;
 import play.Application;
 import play.GlobalSettings;
-import play.libs.Akka;
-import scala.concurrent.duration.Duration;
-import ua.meugen.horoscopes.actions.controllers.content.update.UpdateAllAction;
+import play.inject.Injector;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Global settings.
@@ -19,6 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Global extends GlobalSettings {
 
+    private final List<Class<? extends Config>> configClasses
+            = Collections.singletonList(UpdatesConfig.class);
+
     /**
      * {@inheritDoc}
      */
@@ -26,20 +24,9 @@ public final class Global extends GlobalSettings {
     public void onStart(final Application app) {
         super.onStart(app);
 
-        DateTime daily = new DateTime().withHourOfDay(1)
-                .withMinuteOfHour(0).withSecondOfMinute(0)
-                .withMillisOfSecond(0);
-        while (daily.isBeforeNow()) {
-            daily = daily.plusDays(1);
+        final Injector injector = app.injector();
+        for (Class<? extends Config> clazz : this.configClasses) {
+            injector.instanceOf(clazz).configure();
         }
-        final int dailyDelayInSeconds = Seconds.secondsBetween(DateTime.now(), daily).getSeconds();
-
-        final UpdateAllAction updateAllAction = app.injector().instanceOf(UpdateAllAction.class);
-        final Runnable runnable = () -> updateAllAction.execute("akka /content/update/all");
-        final ActorSystem system = Akka.system();
-        system.scheduler().schedule(
-                Duration.create(dailyDelayInSeconds, TimeUnit.SECONDS),
-                Duration.create(1, TimeUnit.DAYS),
-                runnable, system.dispatcher());
     }
 }

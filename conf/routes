@@ -33,12 +33,12 @@ GET         /content/get/flower/:id                             @ua.meugen.horos
 GET         /content/update/all                                 @ua.meugen.horoscopes.controllers.content.Update.all()
 GET         /content/update/daily                               @ua.meugen.horoscopes.controllers.content.Update.daily()
 GET         /content/update/weekly                              @ua.meugen.horoscopes.controllers.content.Update.weekly()
-GET         /content/translate/flowers/to/:lang                 @ua.meugen.horoscopes.controllers.content.Translate.flowersTo(lang)
-GET         /content/translate/druids/to/:lang                  @ua.meugen.horoscopes.controllers.content.Translate.druidsTo(lang)
-GET         /content/translate/japans/to/:lang                  @ua.meugen.horoscopes.controllers.content.Translate.japansTo(lang)
-GET         /content/translate/chinas/to/:lang                  @ua.meugen.horoscopes.controllers.content.Translate.chinasTo(lang)
-GET         /content/translate/dreams/to/:lang/max/:max         @ua.meugen.horoscopes.controllers.content.Translate.dreamsTo(lang, max: Integer)
-GET         /content/translate/amulets/to/:lang/max/:max        @ua.meugen.horoscopes.controllers.content.Translate.amuletsTo(lang, max: Integer)
+# GET         /content/translate/flowers/to/:lang                 @ua.meugen.horoscopes.controllers.content.Translate.flowersTo(lang)
+# GET         /content/translate/druids/to/:lang                  @ua.meugen.horoscopes.controllers.content.Translate.druidsTo(lang)
+# GET         /content/translate/japans/to/:lang                  @ua.meugen.horoscopes.controllers.content.Translate.japansTo(lang)
+# GET         /content/translate/chinas/to/:lang                  @ua.meugen.horoscopes.controllers.content.Translate.chinasTo(lang)
+# GET         /content/translate/dreams/to/:lang/max/:max         @ua.meugen.horoscopes.controllers.content.Translate.dreamsTo(lang, max: Integer)
+# GET         /content/translate/amulets/to/:lang/max/:max        @ua.meugen.horoscopes.controllers.content.Translate.amuletsTo(lang, max: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                                       controllers.Assets.at(path="/public", file)

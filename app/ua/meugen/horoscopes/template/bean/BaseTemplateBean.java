@@ -17,8 +17,7 @@ public class BaseTemplateBean {
     public final List<String> css() {
         if (this.cssList == null) {
             this.cssList = new ArrayList<>();
-            this.addItemsFromProperty(this.cssList, "horoscopes.templates.base.css-list");
-            this.fetchAdditionalCss(this.cssList);
+            this.fetchCss(this.cssList);
         }
         return this.cssList;
     }
@@ -26,8 +25,7 @@ public class BaseTemplateBean {
     public final List<String> js() {
         if (this.jsList == null) {
             this.jsList = new ArrayList<>();
-            this.addItemsFromProperty(this.jsList, "horoscopes.templates.base.js-list");
-            this.fetchAdditionalJs(this.jsList);
+            this.fetchJs(this.jsList);
         }
         return this.jsList;
     }
@@ -37,12 +35,12 @@ public class BaseTemplateBean {
         items.addAll(newItems);
     }
 
-    protected void fetchAdditionalCss(final List<String> cssList) {
-        // Nothing to do
+    protected void fetchCss(final List<String> cssList) {
+        this.addItemsFromProperty(this.cssList, "horoscopes.templates.base.css-list");
     }
 
-    protected void fetchAdditionalJs(final List<String> jsList) {
-        // Nothing to do
+    protected void fetchJs(final List<String> jsList) {
+        this.addItemsFromProperty(this.jsList, "horoscopes.templates.base.js-list");
     }
 
     public String title() {

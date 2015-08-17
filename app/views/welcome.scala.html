@@ -1,0 +1,6 @@
+@import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean
+@(bean: WelcomeTemplateBean)
+
+@base(bean) {
+    @play20.welcome(bean.message, style = "Java")
+}

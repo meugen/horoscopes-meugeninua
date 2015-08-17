@@ -10,7 +10,7 @@
         <title>@bean.title()</title>
 
         @for(cssItem <- bean.css()) {
-            <link href="@routes.Assets.at(cssItem)" rel="stylesheet">
+            <link href="@routes.Assets.versioned(cssItem)" rel="stylesheet">
         }
 
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -24,7 +24,7 @@
         @content
 
         @for(jsItem <- bean.js()) {
-            <script src="@routes.Assets.at(jsItem)"></script>
+            <script src="@routes.Assets.versioned(jsItem)"></script>
         }
     </body>
 </html>

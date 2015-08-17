@@ -6,7 +6,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.controllers.application.ApplicationCrashAction;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
+import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean;
 import views.html.index;
+import views.html.welcome;
 
 import javax.inject.Inject;
 
@@ -16,10 +18,17 @@ public final class Application extends Controller {
     private IndexTemplateBean indexTemplateBean;
 
     @Inject
+    private WelcomeTemplateBean welcomeTemplateBean;
+
+    @Inject
     private ApplicationCrashAction applicationCrashAction;
 
-    public Result index() {
-        return ok(index.render(this.indexTemplateBean));
+    public F.Promise<Result> index() {
+        return F.Promise.promise(() -> ok(index.render(Application.this.indexTemplateBean)));
+    }
+
+    public F.Promise<Result> welcome() {
+        return F.Promise.promise(() -> ok(welcome.render(this.welcomeTemplateBean)));
     }
 
     @BodyParser.Of(BodyParser.Json.class)

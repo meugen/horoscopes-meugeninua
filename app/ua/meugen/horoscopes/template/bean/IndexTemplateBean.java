@@ -8,14 +8,14 @@ import java.util.List;
 public final class IndexTemplateBean extends BaseTemplateBean {
 
     @Override
-    protected void fetchAdditionalCss(final List<String> cssList) {
-        super.fetchAdditionalCss(cssList);
+    protected void fetchCss(final List<String> cssList) {
+        super.fetchCss(cssList);
         this.addItemsFromProperty(cssList, "horoscopes.templates.index.css-list");
     }
 
     @Override
-    public void fetchAdditionalJs(final List<String> jsList) {
-        super.fetchAdditionalJs(jsList);
+    public void fetchJs(final List<String> jsList) {
+        super.fetchJs(jsList);
         this.addItemsFromProperty(jsList, "horoscopes.templates.index.js-list");
     }
 }

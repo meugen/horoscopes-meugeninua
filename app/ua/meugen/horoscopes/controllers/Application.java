@@ -5,17 +5,13 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.controllers.application.ApplicationCrashAction;
-import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean;
-import views.html.index;
 import views.html.welcome;
+import ua.meugen.horoscopes.controllers.portal.routes;
 
 import javax.inject.Inject;
 
 public final class Application extends Controller {
-
-    @Inject
-    private IndexTemplateBean indexTemplateBean;
 
     @Inject
     private WelcomeTemplateBean welcomeTemplateBean;
@@ -23,8 +19,8 @@ public final class Application extends Controller {
     @Inject
     private ApplicationCrashAction applicationCrashAction;
 
-    public F.Promise<Result> index() {
-        return F.Promise.promise(() -> ok(index.render(Application.this.indexTemplateBean)));
+    public Result index() {
+        return redirect(routes.Horoscopes.daily());
     }
 
     public F.Promise<Result> welcome() {

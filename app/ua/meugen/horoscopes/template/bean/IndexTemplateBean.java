@@ -2,10 +2,17 @@ package ua.meugen.horoscopes.template.bean;
 
 import java.util.List;
 
-/**
- * Created by admin on 18.06.2015.
- */
-public final class IndexTemplateBean extends BaseTemplateBean {
+public class IndexTemplateBean extends BaseTemplateBean {
+
+    private final String currentKey;
+
+    public IndexTemplateBean() {
+        this("");
+    }
+
+    protected IndexTemplateBean(final String currentKey) {
+        this.currentKey = currentKey;
+    }
 
     @Override
     protected void fetchCss(final List<String> cssList) {
@@ -17,5 +24,9 @@ public final class IndexTemplateBean extends BaseTemplateBean {
     public void fetchJs(final List<String> jsList) {
         super.fetchJs(jsList);
         this.addItemsFromProperty(jsList, "horoscopes.templates.index.js-list");
+    }
+
+    public final String currentKey() {
+        return this.currentKey;
     }
 }

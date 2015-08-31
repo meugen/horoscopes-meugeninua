@@ -1,0 +1,8 @@
+@import ua.meugen.horoscopes.template.bean.IndexTemplateBean
+@(bean: IndexTemplateBean, key: String, text: String, url: String)
+
+@if(bean.currentKey() == key) {
+    <span class="list-group-item active">@text</span>
+} else {
+    <a href="@url" class="list-group-item">@text</a>
+}

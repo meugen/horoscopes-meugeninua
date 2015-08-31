@@ -24,3 +24,28 @@ month.september=сентября
 month.october=октября
 month.november=ноября
 month.december=декабря
+
+horoscopes.header.title=Зодиакальные гороскопы
+horoscopes.daily.title=Ежедневный гороскоп
+horoscopes.weekly.title=Еженедельный гороскоп
+horoscopes.monthly.title=Ежемесячный гороскоп
+horoscopes.yearly.title=Ежегодный гороскоп
+
+interpretations.header.title=Толкования
+interpretations.names.title=Тайна имени
+interpretations.dreams.title=Сонник
+interpretations.amulets.title=Талисманы
+
+numerology.header.title=Нумерология
+numerology.chislo_doma.title=Число дома
+numerology.chislo_druzhby.title=Число дружбы
+numerology.chislo_imeni.title=Число имени
+numerology.chislo_serdtsa.title=Число сердца
+numerology.chislo_sovmestimosti.title=Число совместимости
+numerology.chislo_udachi.title=Число удачи
+
+other.horoscopes.header.title=Другие гороскопы
+other.horoscopes.flowers.title=Цветочный гороскоп
+other.horoscopes.druids.title=Гороскоп друидов
+other.horoscopes.japans.title=Японский гороскоп
+other.horoscopes.chinas.title=Китайский гороскоп

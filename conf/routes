@@ -7,6 +7,9 @@ GET         /                                      @ua.meugen.horoscopes.control
 GET         /welcome                               @ua.meugen.horoscopes.controllers.Application.welcome()
 POST        /crash                                 @ua.meugen.horoscopes.controllers.Application.crash()
 
+# Portal
+GET         /portal/horoscopes/daily               @ua.meugen.horoscopes.controllers.portal.Horoscopes.daily()
+
 # Content
 GET         /content/image/:name                   @ua.meugen.horoscopes.controllers.content.Image.index(name)
 POST        /content/get/horoscope                 @ua.meugen.horoscopes.controllers.content.Get.horoscope()

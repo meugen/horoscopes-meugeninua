@@ -6,9 +6,6 @@ import play.i18n.Messages;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by admin on 18.06.2015.
- */
 public class BaseTemplateBean {
 
     private List<String> cssList;

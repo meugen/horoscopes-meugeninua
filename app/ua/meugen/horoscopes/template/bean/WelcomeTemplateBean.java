@@ -2,9 +2,6 @@ package ua.meugen.horoscopes.template.bean;
 
 import java.util.List;
 
-/**
- * Created by meugen on 16.08.15.
- */
 public final class WelcomeTemplateBean extends BaseTemplateBean {
 
     @Override

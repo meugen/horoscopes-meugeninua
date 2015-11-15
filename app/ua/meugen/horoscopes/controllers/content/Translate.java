@@ -9,10 +9,7 @@ import ua.meugen.horoscopes.actions.requests.LimitTranslateRequest;
 
 import javax.inject.Inject;
 
-/**
- * Created by meugen on 14.01.15.
- */
-public final class Translate extends Controller {
+public final class Translate {
 
     @Inject
     private AmuletsTranslateAction amuletsTranslateAction;

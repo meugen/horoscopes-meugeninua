@@ -5,9 +5,6 @@ import com.avaje.ebean.Model;
 import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * Created by meugen on 25.10.15.
- */
 @Entity
 @Table(name = "horo_amulets")
 public class Amulet extends Model {

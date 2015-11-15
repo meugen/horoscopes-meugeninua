@@ -3,6 +3,7 @@ package ua.meugen.horoscopes.controllers.portal;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.controllers.Application;
 import ua.meugen.horoscopes.template.bean.portal.numerology.*;
 import views.html.numerology.chislodoma;
 import views.html.numerology.chislodruzhby;
@@ -13,7 +14,7 @@ import views.html.numerology.chisloudachi;
 
 import javax.inject.Inject;
 
-public final class Numerology extends Controller {
+public final class Numerology {
 
     @Inject
     private ChisloDomaTemplateBean chisloDomaTemplateBean;
@@ -34,26 +35,26 @@ public final class Numerology extends Controller {
     private ChisloUdachiTemplateBean chisloUdachiTemplateBean;
 
     public F.Promise<Result> chisloDoma() {
-        return F.Promise.promise(() -> ok(chislodoma.render(this.chisloDomaTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(chislodoma.render(this.chisloDomaTemplateBean)));
     }
 
     public F.Promise<Result> chisloDruzhby() {
-        return F.Promise.promise(() -> ok(chislodruzhby.render(this.chisloDruzhbyTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(chislodruzhby.render(this.chisloDruzhbyTemplateBean)));
     }
 
     public F.Promise<Result> chisloImeni() {
-        return F.Promise.promise(() -> ok(chisloimeni.render(this.chisloImeniTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(chisloimeni.render(this.chisloImeniTemplateBean)));
     }
 
     public F.Promise<Result> chisloSerdtsa() {
-        return F.Promise.promise(() -> ok(chisloserdtsa.render(this.chisloSerdtsaTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(chisloserdtsa.render(this.chisloSerdtsaTemplateBean)));
     }
 
     public F.Promise<Result> chisloSovmestimosti() {
-        return F.Promise.promise(() -> ok(chislosovmestimosti.render(this.chisloSovmestimostiTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(chislosovmestimosti.render(this.chisloSovmestimostiTemplateBean)));
     }
 
     public F.Promise<Result> chisloUdachi() {
-        return F.Promise.promise(() -> ok(chisloudachi.render(this.chisloUdachiTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(chisloudachi.render(this.chisloUdachiTemplateBean)));
     }
 }

@@ -7,10 +7,7 @@ import ua.meugen.horoscopes.actions.controllers.content.image.ImageIndexAction;
 
 import javax.inject.Inject;
 
-/**
- * Created by meugen on 24.06.14.
- */
-public final class Image extends Controller {
+public final class Image {
 
     @Inject
     private ImageIndexAction imageIndexAction;

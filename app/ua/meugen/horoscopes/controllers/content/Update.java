@@ -9,10 +9,7 @@ import ua.meugen.horoscopes.actions.controllers.content.update.UpdateWeeklyActio
 
 import javax.inject.Inject;
 
-/**
- * Created by meugen on 03.07.14.
- */
-public final class Update extends Controller {
+public final class Update {
 
     @Inject
     private UpdateAllAction updateAllAction;
@@ -24,14 +21,14 @@ public final class Update extends Controller {
     private UpdateWeeklyAction updateWeeklyAction;
 
     public F.Promise<Result> all() {
-        return this.updateAllAction.execute(request().uri());
+        return this.updateAllAction.execute(Controller.request().uri());
     }
 
     public F.Promise<Result> daily() {
-        return this.updateDailyAction.execute(request().uri());
+        return this.updateDailyAction.execute(Controller.request().uri());
     }
 
     public F.Promise<Result> weekly() {
-        return this.updateWeeklyAction.execute(request().uri());
+        return this.updateWeeklyAction.execute(Controller.request().uri());
     }
 }

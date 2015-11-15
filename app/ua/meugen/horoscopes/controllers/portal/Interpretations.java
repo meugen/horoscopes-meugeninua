@@ -3,6 +3,7 @@ package ua.meugen.horoscopes.controllers.portal;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
+import ua.meugen.horoscopes.controllers.Application;
 import ua.meugen.horoscopes.template.bean.portal.interpretations.AmuletsTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.interpretations.DreamsTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.interpretations.NamesTemplateBean;
@@ -12,7 +13,7 @@ import views.html.interpretations.amulets;
 
 import javax.inject.Inject;
 
-public final class Interpretations extends Controller {
+public final class Interpretations {
 
     @Inject
     private NamesTemplateBean namesTemplateBean;
@@ -24,14 +25,14 @@ public final class Interpretations extends Controller {
     private AmuletsTemplateBean amuletsTemplateBean;
 
     public F.Promise<Result> names() {
-        return F.Promise.promise(() -> ok(names.render(this.namesTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(names.render(this.namesTemplateBean)));
     }
 
     public F.Promise<Result> dreams() {
-        return F.Promise.promise(() -> ok(dreams.render(this.dreamsTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(dreams.render(this.dreamsTemplateBean)));
     }
 
     public F.Promise<Result> amulets() {
-        return F.Promise.promise(() -> ok(amulets.render(this.amuletsTemplateBean)));
+        return F.Promise.promise(() -> Application.ok(amulets.render(this.amuletsTemplateBean)));
     }
 }

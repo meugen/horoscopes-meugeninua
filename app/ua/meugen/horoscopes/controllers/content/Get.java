@@ -9,10 +9,7 @@ import ua.meugen.horoscopes.actions.controllers.content.get.*;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-/**
- * Created by meugen on 02.07.14.
- */
-public final class Get extends Controller {
+public final class Get {
 
     @Inject
     private GetHoroscopeAction getHoroscopeAction;
@@ -75,17 +72,17 @@ public final class Get extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> horoscope() {
-        return this.getHoroscopeAction.execute(request().body().asJson());
+        return this.getHoroscopeAction.execute(Controller.request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> horoscopesFor() {
-        return this.getHoroscopesForAction.execute(request().body().asJson());
+        return this.getHoroscopesForAction.execute(Controller.request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> keys() {
-        return this.getKeysAction.execute(request().body().asJson());
+        return this.getKeysAction.execute(Controller.request().body().asJson());
     }
 
     public F.Promise<Result> keysFor() {

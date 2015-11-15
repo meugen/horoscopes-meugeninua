@@ -12,10 +12,7 @@ import ua.meugen.horoscopes.actions.controllers.content.search.SimpleSearchActio
 import javax.inject.Inject;
 import javax.inject.Named;
 
-/**
- * Created by meugen on 02.07.14.
- */
-public final class Search extends Controller {
+public final class Search {
 
     private static final String DEFAULT_LOCALE = "ru";
 
@@ -46,17 +43,17 @@ public final class Search extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> amulets() {
-        return this.amuletsSearchAction.execute(request().body().asJson());
+        return this.amuletsSearchAction.execute(Controller.request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> dreams() {
-        return this.dreamsSearchAction.execute(request().body().asJson());
+        return this.dreamsSearchAction.execute(Controller.request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> names() {
-        return this.namesSearchAction.execute(request().body().asJson());
+        return this.namesSearchAction.execute(Controller.request().body().asJson());
     }
 
     public F.Promise<Result> chinas() {

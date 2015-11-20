@@ -5,13 +5,19 @@ import java.util.List;
 public class IndexTemplateBean extends BaseTemplateBean {
 
     private final String currentKey;
+    private final String currentGroup;
 
     public IndexTemplateBean() {
-        this("");
+        this("", "");
     }
 
     protected IndexTemplateBean(final String currentKey) {
+        this(currentKey, currentKey.split("-")[0]);
+    }
+
+    protected IndexTemplateBean(final String currentKey, final String currentGroup) {
         this.currentKey = currentKey;
+        this.currentGroup = currentGroup;
     }
 
     @Override
@@ -21,12 +27,16 @@ public class IndexTemplateBean extends BaseTemplateBean {
     }
 
     @Override
-    public void fetchJs(final List<String> jsList) {
+    protected void fetchJs(final List<String> jsList) {
         super.fetchJs(jsList);
         this.addItemsFromProperty(jsList, "horoscopes.templates.index.js-list");
     }
 
     public final String currentKey() {
         return this.currentKey;
+    }
+
+    public final String currentGroup() {
+        return this.currentGroup;
     }
 }

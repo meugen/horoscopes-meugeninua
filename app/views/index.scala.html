@@ -18,45 +18,49 @@
 
         <div class="row row-offcanvas row-offcanvas-left">
             <aside class="col-xs-6 col-sm-6 col-md-4 col-lg-3 sidebar-offcanvas" id="sidebar">
-                <div class="list-group">
-                    <span class="list-group-item list-group-item-info">@Messages("horoscopes.header.title")</span>
-                    @includes.asideitem(bean, "horoscopes-daily", Messages("horoscopes.daily.title"),
-                        routes.Horoscopes.daily())
-                    @includes.asideitem(bean, "horoscopes-weekly", Messages("horoscopes.weekly.title"),
-                        routes.Horoscopes.weekly())
-                    @includes.asideitem(bean, "horoscopes-monthly", Messages("horoscopes.monthly.title"),
-                        routes.Horoscopes.monthly())
-                    @includes.asideitem(bean, "horoscopes-yearly", Messages("horoscopes.yearly.title"),
-                        routes.Horoscopes.yearly())
-                    <span class="list-group-item list-group-item-info">@Messages("interpretations.header.title")</span>
-                    @includes.asideitem(bean, "interpretations-names", Messages("interpretations.names.title"),
-                        routes.Interpretations.names())
-                    @includes.asideitem(bean, "interpretations-dreams", Messages("interpretations.dreams.title"),
-                        routes.Interpretations.dreams())
-                    @includes.asideitem(bean, "interpretations-amulets", Messages("interpretations.amulets.title"),
-                        routes.Interpretations.amulets())
-                    <span class="list-group-item list-group-item-info">@Messages("numerology.header.title")</span>
-                    @includes.asideitem(bean, "numerology-chislo_doma", Messages("numerology.chislo_doma.title"),
-                        routes.Numerology.chisloDoma())
-                    @includes.asideitem(bean, "numerology-chislo_druzhby", Messages("numerology.chislo_druzhby.title"),
-                        routes.Numerology.chisloDruzhby())
-                    @includes.asideitem(bean, "numerology-chislo_imeni", Messages("numerology.chislo_imeni.title"),
-                        routes.Numerology.chisloImeni())
-                    @includes.asideitem(bean, "numerology-chislo_serdtsa", Messages("numerology.chislo_serdtsa.title"),
-                        routes.Numerology.chisloSerdtsa())
-                    @includes.asideitem(bean, "numerology-chislo_sovmestimosti", Messages("numerology.chislo_sovmestimosti.title"),
-                        routes.Numerology.chisloSovmestimosti())
-                    @includes.asideitem(bean, "numerology-chislo_udachi", Messages("numerology.chislo_udachi.title"),
-                        routes.Numerology.chisloUdachi())
-                    <span class="list-group-item list-group-item-info">@Messages("other.horoscopes.header.title")</span>
-                    @includes.asideitem(bean, "other.horoscopes-flowers", Messages("other.horoscopes.flowers.title"),
-                        routes.OtherHoroscopes.flowers())
-                    @includes.asideitem(bean, "other.horoscopes-druids", Messages("other.horoscopes.druids.title"),
-                        routes.OtherHoroscopes.druids())
-                    @includes.asideitem(bean, "other.horoscopes-japans", Messages("other.horoscopes.japans.title"),
-                        routes.OtherHoroscopes.japans())
-                    @includes.asideitem(bean, "other.horoscopes-chinas", Messages("other.horoscopes.chinas.title"),
-                        routes.OtherHoroscopes.chinas())
+                <div id="accordion" class="panel-group" role="tablist" aria-multiselectable="false">
+                    @includes.panel("horoscopes", bean, Messages("horoscopes.header.title")) {
+                        @includes.asideitem(bean, "horoscopes-daily", Messages("horoscopes.daily.title"),
+                            routes.Horoscopes.daily())
+                        @includes.asideitem(bean, "horoscopes-weekly", Messages("horoscopes.weekly.title"),
+                            routes.Horoscopes.weekly())
+                        @includes.asideitem(bean, "horoscopes-monthly", Messages("horoscopes.monthly.title"),
+                            routes.Horoscopes.monthly())
+                        @includes.asideitem(bean, "horoscopes-yearly", Messages("horoscopes.yearly.title"),
+                            routes.Horoscopes.yearly())
+                    }
+                    @includes.panel("interpretations", bean, Messages("interpretations.header.title")) {
+                        @includes.asideitem(bean, "interpretations-names", Messages("interpretations.names.title"),
+                            routes.Interpretations.names())
+                        @includes.asideitem(bean, "interpretations-dreams", Messages("interpretations.dreams.title"),
+                            routes.Interpretations.dreams())
+                        @includes.asideitem(bean, "interpretations-amulets", Messages("interpretations.amulets.title"),
+                            routes.Interpretations.amulets())
+                    }
+                    @includes.panel("numerology", bean, Messages("numerology.header.title")) {
+                        @includes.asideitem(bean, "numerology-chislo_doma", Messages("numerology.chislo_doma.title"),
+                            routes.Numerology.chisloDoma())
+                        @includes.asideitem(bean, "numerology-chislo_druzhby", Messages("numerology.chislo_druzhby.title"),
+                            routes.Numerology.chisloDruzhby())
+                        @includes.asideitem(bean, "numerology-chislo_imeni", Messages("numerology.chislo_imeni.title"),
+                            routes.Numerology.chisloImeni())
+                        @includes.asideitem(bean, "numerology-chislo_serdtsa", Messages("numerology.chislo_serdtsa.title"),
+                            routes.Numerology.chisloSerdtsa())
+                        @includes.asideitem(bean, "numerology-chislo_sovmestimosti", Messages("numerology.chislo_sovmestimosti.title"),
+                            routes.Numerology.chisloSovmestimosti())
+                        @includes.asideitem(bean, "numerology-chislo_udachi", Messages("numerology.chislo_udachi.title"),
+                            routes.Numerology.chisloUdachi())
+                    }
+                    @includes.panel("otherhoroscopes", bean, Messages("other.horoscopes.header.title")) {
+                        @includes.asideitem(bean, "other.horoscopes-flowers", Messages("other.horoscopes.flowers.title"),
+                            routes.OtherHoroscopes.flowers())
+                        @includes.asideitem(bean, "other.horoscopes-druids", Messages("other.horoscopes.druids.title"),
+                            routes.OtherHoroscopes.druids())
+                        @includes.asideitem(bean, "other.horoscopes-japans", Messages("other.horoscopes.japans.title"),
+                            routes.OtherHoroscopes.japans())
+                        @includes.asideitem(bean, "other.horoscopes-chinas", Messages("other.horoscopes.chinas.title"),
+                            routes.OtherHoroscopes.chinas())
+                    }
                 </div>
             </aside><!--/.sidebar-offcanvas-->
 

@@ -22,9 +22,9 @@ GET         /portal/numerology/chisloserdtsa              @ua.meugen.horoscopes.
 GET         /portal/numerology/chislosovmestimosti        @ua.meugen.horoscopes.controllers.portal.Numerology.chisloSovmestimosti()
 GET         /portal/numerology/chisloudachi               @ua.meugen.horoscopes.controllers.portal.Numerology.chisloUdachi()
 GET         /portal/otherhoroscopes/flowers               @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.flowers()
-GET         /portal/otherhoroscopes/druids               @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.druids()
-GET         /portal/otherhoroscopes/japans               @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.japans()
-GET         /portal/otherhoroscopes/chinas               @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.chinas()
+GET         /portal/otherhoroscopes/druids                @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.druids()
+GET         /portal/otherhoroscopes/japans                @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.japans()
+GET         /portal/otherhoroscopes/chinas                @ua.meugen.horoscopes.controllers.portal.OtherHoroscopes.chinas()
 
 # Content
 GET         /content/image/:name                          @ua.meugen.horoscopes.controllers.content.Image.index(name)

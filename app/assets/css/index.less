@@ -1,5 +1,16 @@
 @import "_base";
 
+.panel {
+  > .list-group,
+  > .panel-collapse > .list-group {
+    &:first-child {
+      .list-group-item:first-child {
+        border-radius: 0;
+      }
+    }
+  }
+}
+
 .starter-template {
     padding: 40px 15px;
     text-align: center;

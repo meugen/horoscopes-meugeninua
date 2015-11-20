@@ -39,9 +39,9 @@ public final class Application {
     }
 
     public static Results.Status ok(final Content content) {
-        //final String body = START.matcher(content.body()).replaceAll(">");
-        //return Results.ok(END.matcher(body).replaceAll("<")).as(content.contentType());
-        return Results.ok(content.body()).as(content.contentType());
+        final String body = START.matcher(content.body()).replaceAll(">");
+        return Results.ok(END.matcher(body).replaceAll("<")).as(content.contentType());
+        // return Results.ok(content.body()).as(content.contentType());
     }
 
 }

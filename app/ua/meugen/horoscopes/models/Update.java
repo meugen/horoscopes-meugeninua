@@ -7,21 +7,24 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "uploads")
-public class Upload extends Model implements Serializable {
+@Table(name = "updates")
+public class Update extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private Integer id;
     @Column(nullable = false)
-    private String name;
+    private Date date;
     @Column(nullable = false)
-    private String mime;
+    private String uri;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String respone;
     @Column(nullable = false)
     private UUID guid = UUID.randomUUID();
 
@@ -29,24 +32,32 @@ public class Upload extends Model implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Date getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(final Date date) {
+        this.date = date;
     }
 
-    public String getMime() {
-        return mime;
+    public String getUri() {
+        return uri;
     }
 
-    public void setMime(String mime) {
-        this.mime = mime;
+    public void setUri(final String uri) {
+        this.uri = uri;
+    }
+
+    public String getRespone() {
+        return respone;
+    }
+
+    public void setRespone(final String respone) {
+        this.respone = respone;
     }
 
     public UUID getGuid() {
@@ -61,8 +72,8 @@ public class Upload extends Model implements Serializable {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Upload upload = (Upload) o;
-        return Objects.equals(guid, upload.guid);
+        final Update update = (Update) o;
+        return Objects.equals(guid, update.guid);
     }
 
     @Override

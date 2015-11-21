@@ -2,34 +2,32 @@ package ua.meugen.horoscopes.models;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "amulets")
-public class Amulet extends Model implements Serializable {
+@Table(name = "names")
+public class Name extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private Integer id;
     @Column(nullable = false, length = 100)
-    private String upamulet;
+    private String name;
     @Column(nullable = false, length = 100)
-    private String amulet;
-    @ManyToOne
-    @JoinColumn(name = "image_id", nullable = false)
-    private Upload image;
+    private String upname;
     @Column(nullable = false)
-    private Integer type;
+    private Integer sex;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
     @Column(nullable = false, length = 10)
     private String locale;
-    @Column(name = "rus_amulet", nullable = false, length = 100)
-    private String rusAmulet;
     @Column(nullable = false)
     private UUID guid = UUID.randomUUID();
 
@@ -41,36 +39,28 @@ public class Amulet extends Model implements Serializable {
         this.id = id;
     }
 
-    public String getUpamulet() {
-        return upamulet;
+    public String getName() {
+        return name;
     }
 
-    public void setUpamulet(final String upamulet) {
-        this.upamulet = upamulet;
+    public void setName(final String name) {
+        this.name = name;
     }
 
-    public String getAmulet() {
-        return amulet;
+    public String getUpname() {
+        return upname;
     }
 
-    public void setAmulet(final String amulet) {
-        this.amulet = amulet;
+    public void setUpname(final String upname) {
+        this.upname = upname;
     }
 
-    public Upload getImage() {
-        return image;
+    public Integer getSex() {
+        return sex;
     }
 
-    public void setImage(final Upload image) {
-        this.image = image;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(final Integer type) {
-        this.type = type;
+    public void setSex(final Integer sex) {
+        this.sex = sex;
     }
 
     public String getContent() {
@@ -89,14 +79,6 @@ public class Amulet extends Model implements Serializable {
         this.locale = locale;
     }
 
-    public String getRusAmulet() {
-        return rusAmulet;
-    }
-
-    public void setRusAmulet(final String rusAmulet) {
-        this.rusAmulet = rusAmulet;
-    }
-
     public UUID getGuid() {
         return guid;
     }
@@ -109,8 +91,8 @@ public class Amulet extends Model implements Serializable {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Amulet amulet = (Amulet) o;
-        return Objects.equals(guid, amulet.guid);
+        final Name name = (Name) o;
+        return Objects.equals(guid, name.guid);
     }
 
     @Override

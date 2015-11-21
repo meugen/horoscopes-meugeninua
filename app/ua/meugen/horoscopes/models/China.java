@@ -8,28 +8,28 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "amulets")
-public class Amulet extends Model implements Serializable {
+@Table(name = "chinas")
+public class China extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private Integer id;
     @Column(nullable = false, length = 100)
-    private String upamulet;
+    private String china;
     @Column(nullable = false, length = 100)
-    private String amulet;
+    private String upchina;
     @ManyToOne
-    @JoinColumn(name = "image_id", nullable = false)
-    private Upload image;
-    @Column(nullable = false)
-    private Integer type;
+    @JoinColumn(name = "icon_id", nullable = false)
+    private Upload icon;
+    @Column(nullable = false, length = 100)
+    private String period;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+    @Column(nullable = false)
+    private Integer sort;
     @Column(nullable = false, length = 10)
     private String locale;
-    @Column(name = "rus_amulet", nullable = false, length = 100)
-    private String rusAmulet;
     @Column(nullable = false)
     private UUID guid = UUID.randomUUID();
 
@@ -41,36 +41,36 @@ public class Amulet extends Model implements Serializable {
         this.id = id;
     }
 
-    public String getUpamulet() {
-        return upamulet;
+    public String getChina() {
+        return china;
     }
 
-    public void setUpamulet(final String upamulet) {
-        this.upamulet = upamulet;
+    public void setChina(final String china) {
+        this.china = china;
     }
 
-    public String getAmulet() {
-        return amulet;
+    public String getUpchina() {
+        return upchina;
     }
 
-    public void setAmulet(final String amulet) {
-        this.amulet = amulet;
+    public void setUpchina(final String upchina) {
+        this.upchina = upchina;
     }
 
-    public Upload getImage() {
-        return image;
+    public Upload getIcon() {
+        return icon;
     }
 
-    public void setImage(final Upload image) {
-        this.image = image;
+    public void setIcon(final Upload icon) {
+        this.icon = icon;
     }
 
-    public Integer getType() {
-        return type;
+    public String getPeriod() {
+        return period;
     }
 
-    public void setType(final Integer type) {
-        this.type = type;
+    public void setPeriod(final String period) {
+        this.period = period;
     }
 
     public String getContent() {
@@ -81,20 +81,20 @@ public class Amulet extends Model implements Serializable {
         this.content = content;
     }
 
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(final Integer sort) {
+        this.sort = sort;
+    }
+
     public String getLocale() {
         return locale;
     }
 
     public void setLocale(final String locale) {
         this.locale = locale;
-    }
-
-    public String getRusAmulet() {
-        return rusAmulet;
-    }
-
-    public void setRusAmulet(final String rusAmulet) {
-        this.rusAmulet = rusAmulet;
     }
 
     public UUID getGuid() {
@@ -109,8 +109,8 @@ public class Amulet extends Model implements Serializable {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Amulet amulet = (Amulet) o;
-        return Objects.equals(guid, amulet.guid);
+        final China china = (China) o;
+        return Objects.equals(guid, china.guid);
     }
 
     @Override

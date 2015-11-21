@@ -4,9 +4,9 @@
 @if(bean.currentGroup() == group) {
     <div class="panel panel-default">
         <div class="panel-heading" id="@group-header" role="button" data-toggle="collapse" data-parent="#accordion" href="#@group" aria-expanded="true" aria-controls="@group">
-            <h4 class="panel-title">
+            <h3 class="panel-title">
                 @title
-            </h4>
+            </h3>
         </div>
         <div id="@group" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="@group-header" aria-expanded="true">
             <ul class="list-group">
@@ -17,9 +17,9 @@
 } else {
     <div class="panel panel-default">
         <div class="panel-heading" id="@group-header" role="button" data-toggle="collapse" data-parent="#accordion" href="#@group" aria-expanded="true" aria-controls="@group">
-            <h4 class="panel-title">
+            <h3 class="panel-title">
                 @title
-            </h4>
+            </h3>
         </div>
         <div id="@group" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@group-header" aria-expanded="false">
             <ul class="list-group">

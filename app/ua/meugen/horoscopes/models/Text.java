@@ -2,34 +2,34 @@ package ua.meugen.horoscopes.models;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "amulets")
-public class Amulet extends Model implements Serializable {
+@Table(name = "texts")
+public class Text extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private Integer id;
-    @Column(nullable = false, length = 100)
-    private String upamulet;
-    @Column(nullable = false, length = 100)
-    private String amulet;
-    @ManyToOne
-    @JoinColumn(name = "image_id", nullable = false)
-    private Upload image;
-    @Column(nullable = false)
-    private Integer type;
+    @Column(nullable = false, length = 10)
+    private String type;
+    @Column(nullable = false, length = 30)
+    private String kind;
+    @Column(nullable = false, length = 30)
+    private String sign;
+    @Column(nullable = false, length = 30)
+    private String period;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
     @Column(nullable = false, length = 10)
     private String locale;
-    @Column(name = "rus_amulet", nullable = false, length = 100)
-    private String rusAmulet;
     @Column(nullable = false)
     private UUID guid = UUID.randomUUID();
 
@@ -41,36 +41,36 @@ public class Amulet extends Model implements Serializable {
         this.id = id;
     }
 
-    public String getUpamulet() {
-        return upamulet;
-    }
-
-    public void setUpamulet(final String upamulet) {
-        this.upamulet = upamulet;
-    }
-
-    public String getAmulet() {
-        return amulet;
-    }
-
-    public void setAmulet(final String amulet) {
-        this.amulet = amulet;
-    }
-
-    public Upload getImage() {
-        return image;
-    }
-
-    public void setImage(final Upload image) {
-        this.image = image;
-    }
-
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(final Integer type) {
+    public void setType(final String type) {
         this.type = type;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(final String kind) {
+        this.kind = kind;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(final String sign) {
+        this.sign = sign;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(final String period) {
+        this.period = period;
     }
 
     public String getContent() {
@@ -89,14 +89,6 @@ public class Amulet extends Model implements Serializable {
         this.locale = locale;
     }
 
-    public String getRusAmulet() {
-        return rusAmulet;
-    }
-
-    public void setRusAmulet(final String rusAmulet) {
-        this.rusAmulet = rusAmulet;
-    }
-
     public UUID getGuid() {
         return guid;
     }
@@ -109,8 +101,8 @@ public class Amulet extends Model implements Serializable {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Amulet amulet = (Amulet) o;
-        return Objects.equals(guid, amulet.guid);
+        final Text text = (Text) o;
+        return Objects.equals(guid, text.guid);
     }
 
     @Override

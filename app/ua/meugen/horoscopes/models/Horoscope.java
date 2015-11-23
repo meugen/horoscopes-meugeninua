@@ -11,8 +11,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "texts")
-public class Text extends Model implements Serializable {
+@Table(name = "horoscopes")
+public class Horoscope extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -101,8 +101,8 @@ public class Text extends Model implements Serializable {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Text text = (Text) o;
-        return Objects.equals(guid, text.guid);
+        final Horoscope horoscope = (Horoscope) o;
+        return Objects.equals(guid, horoscope.guid);
     }
 
     @Override

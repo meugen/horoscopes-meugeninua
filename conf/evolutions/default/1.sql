@@ -67,6 +67,18 @@ create table flowers (
   constraint pk_flowers primary key (id))
 ;
 
+create table horoscopes (
+  id                        serial not null,
+  type                      varchar(10) not null,
+  kind                      varchar(30) not null,
+  sign                      varchar(30) not null,
+  period                    varchar(30) not null,
+  content                   TEXT not null,
+  locale                    varchar(10) not null,
+  guid                      varchar(40) not null,
+  constraint pk_horoscopes primary key (id))
+;
+
 create table japans (
   id                        serial not null,
   japan                     varchar(100) not null,
@@ -99,18 +111,6 @@ create table periods (
   version                   integer not null,
   guid                      varchar(40) not null,
   constraint pk_periods primary key (id))
-;
-
-create table texts (
-  id                        serial not null,
-  type                      varchar(10) not null,
-  kind                      varchar(30) not null,
-  sign                      varchar(30) not null,
-  period                    varchar(30) not null,
-  content                   TEXT not null,
-  locale                    varchar(10) not null,
-  guid                      varchar(40) not null,
-  constraint pk_texts primary key (id))
 ;
 
 create table updates (
@@ -155,13 +155,13 @@ drop table if exists druids cascade;
 
 drop table if exists flowers cascade;
 
+drop table if exists horoscopes cascade;
+
 drop table if exists japans cascade;
 
 drop table if exists names cascade;
 
 drop table if exists periods cascade;
-
-drop table if exists texts cascade;
 
 drop table if exists updates cascade;
 

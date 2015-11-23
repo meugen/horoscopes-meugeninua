@@ -20,7 +20,7 @@ ALTER TABLE names ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
 
 ALTER TABLE periods ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
 
-ALTER TABLE texts ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
+ALTER TABLE horoscopes ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
 
 ALTER TABLE updates ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
 
@@ -46,7 +46,7 @@ ALTER TABLE names ALTER COLUMN guid DROP DEFAULT;
 
 ALTER TABLE periods ALTER COLUMN guid DROP DEFAULT;
 
-ALTER TABLE texts ALTER COLUMN guid DROP DEFAULT;
+ALTER TABLE horoscopes ALTER COLUMN guid DROP DEFAULT;
 
 ALTER TABLE updates ALTER COLUMN guid DROP DEFAULT;
 

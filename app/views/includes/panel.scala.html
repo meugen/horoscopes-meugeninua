@@ -1,30 +1,15 @@
 @import ua.meugen.horoscopes.template.bean.IndexTemplateBean
 @(group: String, bean: IndexTemplateBean, title: String)(items: Html)
 
-@if(bean.currentGroup() == group) {
-    <div class="panel panel-default">
-        <div class="panel-heading" id="@group-header" role="button" data-toggle="collapse" data-parent="#accordion" href="#@group" aria-expanded="true" aria-controls="@group">
-            <h3 class="panel-title">
-                @title
-            </h3>
-        </div>
-        <div id="@group" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="@group-header" aria-expanded="true">
-            <ul class="list-group">
-                @items
-            </ul>
-        </div>
+<div class="panel panel-info">
+    <div class="panel-heading" id="@group-header" role="button" data-toggle="collapse" data-parent="#accordion" href="#@group" aria-expanded="@{bean.currentGroup()==group}" aria-controls="@group">
+        <h3 class="panel-title">
+            @title
+        </h3>
     </div>
-} else {
-    <div class="panel panel-default">
-        <div class="panel-heading" id="@group-header" role="button" data-toggle="collapse" data-parent="#accordion" href="#@group" aria-expanded="true" aria-controls="@group">
-            <h3 class="panel-title">
-                @title
-            </h3>
-        </div>
-        <div id="@group" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@group-header" aria-expanded="false">
-            <ul class="list-group">
-                @items
-            </ul>
-        </div>
+    <div id="@group" class="panel-collapse collapse @{if(bean.currentGroup()==group)"in"}" role="tabpanel" aria-labelledby="@group-header" aria-expanded="@{bean.currentGroup()==group}">
+        <ul class="list-group">
+            @items
+        </ul>
     </div>
-}
+</div>

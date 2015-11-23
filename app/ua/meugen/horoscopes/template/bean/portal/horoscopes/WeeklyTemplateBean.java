@@ -1,5 +1,6 @@
 package ua.meugen.horoscopes.template.bean.portal.horoscopes;
 
+import play.i18n.Messages;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 
 public final class WeeklyTemplateBean extends IndexTemplateBean {
@@ -34,5 +35,10 @@ public final class WeeklyTemplateBean extends IndexTemplateBean {
 
     public String nextContent() {
         return "Next week content";
+    }
+
+    @Override
+    public String title() {
+        return Messages.get("horoscopes.weekly.title");
     }
 }

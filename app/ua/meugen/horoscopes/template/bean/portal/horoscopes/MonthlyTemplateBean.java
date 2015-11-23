@@ -1,5 +1,6 @@
 package ua.meugen.horoscopes.template.bean.portal.horoscopes;
 
+import play.i18n.Messages;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 
 public final class MonthlyTemplateBean extends IndexTemplateBean {
@@ -22,5 +23,10 @@ public final class MonthlyTemplateBean extends IndexTemplateBean {
 
     public String secondContent() {
         return "Second month content";
+    }
+
+    @Override
+    public String title() {
+        return Messages.get("horoscopes.monthly.title");
     }
 }

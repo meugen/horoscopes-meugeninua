@@ -1,5 +1,6 @@
 package ua.meugen.horoscopes.template.bean.portal.horoscopes;
 
+import play.i18n.Messages;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 
 public final class DailyTemplateBean extends IndexTemplateBean {
@@ -38,5 +39,10 @@ public final class DailyTemplateBean extends IndexTemplateBean {
 
     public String tomorrow02Content() {
         return "Day after tomorrow content";
+    }
+
+    @Override
+    public String title() {
+        return Messages.get("horoscopes.daily.title");
     }
 }

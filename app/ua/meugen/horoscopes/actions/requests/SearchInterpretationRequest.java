@@ -2,9 +2,6 @@ package ua.meugen.horoscopes.actions.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by admin on 03.06.2015.
- */
 public final class SearchInterpretationRequest {
 
     @JsonProperty(required = true)

@@ -1,8 +1,5 @@
 package ua.meugen.horoscopes.actions.dto;
 
-/**
- * Created by admin on 03.06.2015.
- */
 public final class SimpleDto {
 
     private int id;

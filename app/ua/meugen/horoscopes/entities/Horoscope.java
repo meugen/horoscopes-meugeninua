@@ -1,21 +1,18 @@
 package ua.meugen.horoscopes.entities;
 
+import com.avaje.ebean.annotation.NamedUpdate;
+import com.avaje.ebean.annotation.NamedUpdates;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @NamedQueries({
-        @NamedQuery(name = Horoscope.FIND_NOT_TRANSLATED_HOROSCOPES, query = "select h" +
-                " from Horoscope h where h.type=:type and h.kind=:kind and h.sign=:sign" +
-                " and h.locale=:locale and h.period in (select h.period from Horoscope h" +
-                " where h.type=:type and h.kind=:kind and h.sign=:sign" +
-                " and h.locale=:defaultLocale)"),
-        @NamedQuery(name = Horoscope.FIND_NOT_TRANSLATED_HOROSCOPES_BY_PERIOD, query = "select h" +
-                " from Horoscope h where h.type=:type and h.kind=:kind and h.sign=:sign" +
-                " and h.locale=:locale and h.period in (select h.period from Horoscope h" +
-                " where h.type=:type and h.kind=:kind and h.sign=:sign" +
-                " and h.locale=:defaultLocale and h.period=:period) and h.period=:period")
+        @NamedQuery(name = Horoscope.HOROSCOPE_COUNT, query = "find Horoscope where type=:type and kind=:kind and sign=:sign and period=:period")
+})
+@NamedUpdates({
+        @NamedUpdate(name = Horoscope.HOROSCOPE_DELETE_OLD_PERIODS, update = "delete from Horoscope where type=:type and period=:period")
 })
 @Entity
 @Table(name = "horoscopes")
@@ -23,8 +20,8 @@ public class Horoscope implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String FIND_NOT_TRANSLATED_HOROSCOPES = "Horoscope.findNotTranslatedHoroscopes";
-    public static final String FIND_NOT_TRANSLATED_HOROSCOPES_BY_PERIOD = "Horoscope.findNotTranslatedHoroscopesByPeriod";
+    public static final String HOROSCOPE_COUNT = "horoscope.count";
+    public static final String HOROSCOPE_DELETE_OLD_PERIODS = "horoscope.delete-old-periods";
 
     @Id
     private Integer id;

@@ -1,67 +1,35 @@
 package ua.meugen.horoscopes.actions.actions.content.update;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import play.Logger;
-import play.i18n.Messages;
 import play.libs.XML;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
+import ua.meugen.horoscopes.entities.Horoscope;
+import ua.meugen.horoscopes.entities.Period;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by admin on 24.10.2014.
- */
 public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse> {
 
     private static final Logger.ALogger LOG = Logger.of(UpdateWeeklyAction.class);
 
     private static final String TYPE_WEEKLY = "weekly";
-    private static final String DELETE_CONTENT_SQL = "delete from horo_texts where type=? and period=?";
-    private static final String DELETE_PERIOD_SQL = "delete from horo_periods where type=? and period=?";
 
-    private static final Map<String, Object> MONDAY_WEEKLY_PERIODS;
-    private static final Map<String, Object> SATURDAY_WEEKLY_PERIODS;
-    private static final Map<String, Integer> MONTH_CODES;
-
-    static {
-        MONDAY_WEEKLY_PERIODS = new HashMap<>();
-        MONDAY_WEEKLY_PERIODS.put("next", -1);
-        MONDAY_WEEKLY_PERIODS.put("cur", "http://img.ignio.com/r/export/utf/xml/weekly/cur.xml");
-        MONDAY_WEEKLY_PERIODS.put("prev", "http://img.ignio.com/r/export/utf/xml/weekly/prev.xml");
-
-        SATURDAY_WEEKLY_PERIODS = new HashMap<>();
-        SATURDAY_WEEKLY_PERIODS.put("next", "http://img.ignio.com/r/export/utf/xml/weekly/cur.xml");
-        SATURDAY_WEEKLY_PERIODS.put("cur", "http://img.ignio.com/r/export/utf/xml/weekly/prev.xml");
-        SATURDAY_WEEKLY_PERIODS.put("prev", 0);
-
-        MONTH_CODES = new HashMap<>();
-        MONTH_CODES.put(Messages.get("month.january"), Calendar.JANUARY);
-        MONTH_CODES.put(Messages.get("month.february"), Calendar.FEBRUARY);
-        MONTH_CODES.put(Messages.get("month.march"), Calendar.MARCH);
-        MONTH_CODES.put(Messages.get("month.april"), Calendar.APRIL);
-        MONTH_CODES.put(Messages.get("month.may"), Calendar.MAY);
-        MONTH_CODES.put(Messages.get("month.june"), Calendar.JUNE);
-        MONTH_CODES.put(Messages.get("month.july"), Calendar.JULY);
-        MONTH_CODES.put(Messages.get("month.august"), Calendar.AUGUST);
-        MONTH_CODES.put(Messages.get("month.september"), Calendar.SEPTEMBER);
-        MONTH_CODES.put(Messages.get("month.october"), Calendar.OCTOBER);
-        MONTH_CODES.put(Messages.get("month.november"), Calendar.NOVEMBER);
-        MONTH_CODES.put(Messages.get("month.december"), Calendar.DECEMBER);
-    }
-
-    private PreparedStatement deleteContentStatement;
-    private PreparedStatement deletePeriodStatement;
+    @Inject @Named("monday-weekly-periods")
+    private Map<String, Object> mondayWeeklyPeriods;
+    @Inject @Named("saturday-weekly-periods")
+    private Map<String, Object> saturdayWeeklyPeriods;
+    @Inject @Named("month-codes")
+    private Map<String, Integer> monthCodes;
 
     /**
      * {@inheritDoc}
@@ -74,32 +42,29 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse>
     /**
      * {@inheritDoc}
      */
-    public BaseResponse internalAction(final Connection connection) throws SQLException {
+    public BaseResponse internalAction() {
         final int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-            this.internalAction(connection, SATURDAY_WEEKLY_PERIODS);
+            this.internalAction(saturdayWeeklyPeriods);
         } else {
-            this.internalAction(connection, MONDAY_WEEKLY_PERIODS);
+            this.internalAction(mondayWeeklyPeriods);
         }
         return this.factory.newOkResponse();
     }
 
-    private void internalAction(final Connection connection, final Map<String, Object> periods) throws SQLException {
+    private void internalAction(final Map<String, Object> periods) {
         try {
-            initStatements(connection);
-
             for (Map.Entry<String, Object> entry : periods.entrySet()) {
                 final Object value = entry.getValue();
                 if (value instanceof Integer && (Integer) value == -1) {
-                    deleteContentStatement.clearParameters();
-                    deleteContentStatement.setString(1, TYPE_WEEKLY);
-                    deleteContentStatement.setString(2, entry.getKey());
-                    deleteContentStatement.executeUpdate();
-
-                    deletePeriodStatement.clearParameters();
-                    deletePeriodStatement.setString(1, TYPE_WEEKLY);
-                    deletePeriodStatement.setString(2, entry.getKey());
-                    deletePeriodStatement.executeUpdate();
+                    this.server.createNamedUpdate(Horoscope.class, Horoscope.HOROSCOPE_DELETE_OLD_PERIODS)
+                            .setParameter("type", TYPE_WEEKLY)
+                            .setParameter("period", entry.getKey())
+                            .execute();
+                    this.server.createNamedUpdate(Period.class, Period.PERIOD_DELETE_OLD_PERIODS)
+                            .setParameter("type", TYPE_WEEKLY)
+                            .setParameter("period", entry.getKey())
+                            .execute();
                 } else if (value instanceof String) {
                     final String xml = fileGetContents(value.toString());
                     final Document data = XML.fromString(xml);
@@ -120,39 +85,12 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse>
                                     internationalPeriod, kind.getTextContent());
                         }
                     }
-                    this.insertOrUpdatePeriod(TYPE_WEEKLY, entry.getKey(), periodValue);
-                    this.insertOrUpdatePeriod(TYPE_WEEKLY, entry.getKey(), internationalPeriod, 2);
+                    this.insertOrUpdatePeriod(TYPE_WEEKLY, entry.getKey(), internationalPeriod);
                 }
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            throw new SQLException(e);
-        } finally {
-            clearStatements();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected void initStatements(final Connection connection) throws SQLException {
-        super.initStatements(connection);
-        this.deleteContentStatement = connection.prepareStatement(DELETE_CONTENT_SQL);
-        this.deletePeriodStatement = connection.prepareStatement(DELETE_PERIOD_SQL);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected void clearStatements() throws SQLException {
-        super.clearStatements();
-        if (this.deleteContentStatement != null) {
-            this.deleteContentStatement.close();
-            this.deleteContentStatement = null;
-        }
-        if (this.deletePeriodStatement != null) {
-            this.deletePeriodStatement.close();
-            this.deletePeriodStatement = null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -164,11 +102,11 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse>
         }
         final Calendar from = Calendar.getInstance();
         from.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(1)));
-        from.set(Calendar.MONTH, MONTH_CODES.get(matcher.group(3) == null
+        from.set(Calendar.MONTH, monthCodes.get(matcher.group(3) == null
                 ? matcher.group(5) : matcher.group(3)));
         final Calendar to = Calendar.getInstance();
         to.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(4)));
-        to.set(Calendar.MONTH, MONTH_CODES.get(matcher.group(5)));
+        to.set(Calendar.MONTH, monthCodes.get(matcher.group(5)));
 
         return String.format(Locale.ENGLISH, "%1$td.%1$tm-%2$td.%2$tm", from, to);
     }

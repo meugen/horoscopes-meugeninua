@@ -1,37 +1,37 @@
 package ua.meugen.horoscopes.actions.actions.content.search;
 
 import play.Logger;
-import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import ua.meugen.horoscopes.actions.DatabaseHelper;
 import ua.meugen.horoscopes.actions.actions.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.actions.ControllerResponsesFactory;
 import ua.meugen.horoscopes.actions.dto.SimpleDto;
 import ua.meugen.horoscopes.actions.responses.ItemsResponse;
+import ua.meugen.horoscopes.fetchers.EntityToDtoFetcher;
+import ua.meugen.horoscopes.queries.QueryBuilder;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 
-public final class SimpleSearchAction extends AbstractJsonControllerAction<String> {
+public final class SimpleSearchAction<Entity> extends AbstractJsonControllerAction<String> {
 
     private static final Logger.ALogger LOG = Logger.of(SimpleSearchAction.class);
 
     private final ControllerResponsesFactory<ItemsResponse<SimpleDto>> factory;
-    private final String sql;
+    private final QueryBuilder<Entity, String> builder;
+    private final EntityToDtoFetcher<Entity, SimpleDto> fetcher;
 
     /**
      * Constructor.
      *
-     * @param sql SQL
+     * @param builder Query builder
+     * @param fetcher Entity to dto fetcher
      */
-    public SimpleSearchAction(final String sql) {
+    public SimpleSearchAction(final QueryBuilder<Entity, String> builder,
+                              final EntityToDtoFetcher<Entity, SimpleDto> fetcher) {
         super(String.class);
         this.factory = new ControllerResponsesFactory<>(this::newResponse);
-        this.sql = sql;
+        this.builder = builder;
+        this.fetcher = fetcher;
     }
 
     /**
@@ -45,34 +45,14 @@ public final class SimpleSearchAction extends AbstractJsonControllerAction<Strin
      * {@inheritDoc}
      */
     protected Result action(final String request) {
-        Result result;
-        try {
-            final ItemsResponse<SimpleDto> response = DatabaseHelper
-                    .actionWithStatement((statement) -> internalAction(statement, request), this.sql);
-            result = Results.ok(response.asJson());
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            result = Controller.ok(this.factory.newErrorResponse(e).asJson());
-        }
-        return result;
+        final ItemsResponse<SimpleDto> response = internalAction(request);
+        return Results.ok(response.asJson());
     }
 
-    private ItemsResponse<SimpleDto> internalAction(final PreparedStatement statement, final String locale) throws SQLException {
-        statement.setString(1, locale);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            final List<SimpleDto> items = new ArrayList<>();
-            while (resultSet.next()) {
-                final SimpleDto simpleDto = new SimpleDto();
-                simpleDto.setId(resultSet.getInt(1));
-                simpleDto.setName(resultSet.getString(2));
-                simpleDto.setIcon(resultSet.getString(3));
-                simpleDto.setPeriod(resultSet.getString(4));
-                items.add(simpleDto);
-            }
-
-            final ItemsResponse<SimpleDto> response = this.factory.newOkResponse();
-            response.setItems(items);
-            return response;
-        }
+    private ItemsResponse<SimpleDto> internalAction(final String locale) {
+        final ItemsResponse<SimpleDto> response = this.factory.newOkResponse();
+        response.setItems(builder.build(locale).findList().stream()
+                .map(fetcher::fetchEntityToDto).collect(Collectors.toList()));
+        return response;
     }
 }

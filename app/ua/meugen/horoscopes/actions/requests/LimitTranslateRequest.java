@@ -1,8 +1,5 @@
 package ua.meugen.horoscopes.actions.requests;
 
-/**
- * Created by meugen on 09.06.15.
- */
 public class LimitTranslateRequest extends BaseTranslateRequest {
 
     private int limit;

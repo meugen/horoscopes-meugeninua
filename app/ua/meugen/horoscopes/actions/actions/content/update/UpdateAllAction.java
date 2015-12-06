@@ -3,20 +3,14 @@ package ua.meugen.horoscopes.actions.actions.content.update;
 import ua.meugen.horoscopes.actions.responses.UpdateAllResponse;
 
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by admin on 24.10.2014.
- */
 public final class UpdateAllAction extends AbstractUpdateAction<UpdateAllResponse> {
 
     @Inject
     private UpdateDailyAction updateDailyAction;
-
     @Inject
     private UpdateWeeklyAction updateWeeklyAction;
 
@@ -31,7 +25,7 @@ public final class UpdateAllAction extends AbstractUpdateAction<UpdateAllRespons
     /**
      * {@inheritDoc}
      */
-    public UpdateAllResponse internalAction(final Connection connection) throws SQLException {
+    public UpdateAllResponse internalAction() {
         final Map<String, AbstractUpdateAction> updates = new HashMap<>();
         updates.put("daily", this.updateDailyAction);
         final int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
@@ -41,7 +35,7 @@ public final class UpdateAllAction extends AbstractUpdateAction<UpdateAllRespons
 
         final UpdateAllResponse response = this.factory.newOkResponse();
         for (Map.Entry<String, AbstractUpdateAction> entry : updates.entrySet()) {
-            response.getContent().put(entry.getKey(), entry.getValue().internalAction(connection));
+            response.getContent().put(entry.getKey(), entry.getValue().internalAction());
         }
         return response;
     }

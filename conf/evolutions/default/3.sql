@@ -26,7 +26,7 @@ INSERT INTO dreams (dream, updream, type, content, locale, rus_dream)
 INSERT INTO horoscopes (type, kind, sign, period, content, locale)
   SELECT type, kind, sign, period, content, locale FROM horo_texts;
 
-INSERT INTO periods (type, period, key)
+INSERT INTO periods (type, value, key)
   SELECT type, period, key FROM horo_periods;
 
 # --- !Downs

@@ -1,25 +1,34 @@
 package ua.meugen.horoscopes.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.avaje.ebean.annotation.NamedUpdate;
+import com.avaje.ebean.annotation.NamedUpdates;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+@NamedQueries({
+        @NamedQuery(name = Period.PERIOD_BY_TYPE, query = "find Period where type=:type and value=:period")
+})
+@NamedUpdates({
+        @NamedUpdate(name = Period.PERIOD_DELETE_OLD_PERIODS, update = "delete from Period where type=:type and value=:period")
+})
 @Entity
 @Table(name = "periods")
 public class Period implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String PERIOD_BY_TYPE = "period.by-type";
+    public static final String PERIOD_DELETE_OLD_PERIODS = "period.delete-old-periods";
+
     @Id
     private Integer id;
     @Column(nullable = false, length = 10)
     private String type;
     @Column(nullable = false, length = 30)
-    private String period;
+    private String value;
     @Column(nullable = false, length = 30)
     private String key;
     @Column(nullable = false)
@@ -41,12 +50,12 @@ public class Period implements Serializable {
         this.type = type;
     }
 
-    public String getPeriod() {
-        return period;
+    public String getValue() {
+        return value;
     }
 
-    public void setPeriod(final String period) {
-        this.period = period;
+    public void setValue(final String value) {
+        this.value = value;
     }
 
     public String getKey() {

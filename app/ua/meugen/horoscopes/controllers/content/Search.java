@@ -8,9 +8,12 @@ import ua.meugen.horoscopes.actions.actions.content.search.AmuletsSearchAction;
 import ua.meugen.horoscopes.actions.actions.content.search.DreamsSearchAction;
 import ua.meugen.horoscopes.actions.actions.content.search.NamesSearchAction;
 import ua.meugen.horoscopes.actions.actions.content.search.SimpleSearchAction;
+import ua.meugen.horoscopes.entities.China;
+import ua.meugen.horoscopes.entities.Druid;
+import ua.meugen.horoscopes.entities.Flower;
+import ua.meugen.horoscopes.entities.Japan;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 public final class Search {
 
@@ -26,20 +29,16 @@ public final class Search {
     private NamesSearchAction namesSearchAction;
 
     @Inject
-    @Named("searchChinasAction")
-    private SimpleSearchAction searchChinasAction;
+    private SimpleSearchAction<China> searchChinasAction;
 
     @Inject
-    @Named("searchDruidsAction")
-    private SimpleSearchAction searchDruidsAction;
+    private SimpleSearchAction<Druid> searchDruidsAction;
 
     @Inject
-    @Named("searchFlowersAction")
-    private SimpleSearchAction searchFlowersAction;
+    private SimpleSearchAction<Flower> searchFlowersAction;
 
     @Inject
-    @Named("searchJapansAction")
-    private SimpleSearchAction searchJapansAction;
+    private SimpleSearchAction<Japan> searchJapansAction;
 
     @BodyParser.Of(BodyParser.Json.class)
     public F.Promise<Result> amulets() {

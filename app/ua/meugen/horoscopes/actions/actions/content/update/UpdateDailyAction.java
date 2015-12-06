@@ -1,5 +1,7 @@
 package ua.meugen.horoscopes.actions.actions.content.update;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -8,32 +10,16 @@ import play.libs.XML;
 import ua.meugen.horoscopes.actions.responses.BaseResponse;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by admin on 24.10.2014.
- */
 public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> {
 
     private static final Logger.ALogger LOG = Logger.of(UpdateDailyAction.class);
 
     private static final String TYPE_DAILY = "daily";
-    private static final Map<String, String> DAILY_KINDS;
 
-    static {
-        DAILY_KINDS = new HashMap<>();
-        DAILY_KINDS.put("common", "http://img.ignio.com/r/export/utf/xml/daily/com.xml");
-        DAILY_KINDS.put("erotic", "http://img.ignio.com/r/export/utf/xml/daily/ero.xml");
-        DAILY_KINDS.put("anti", "http://img.ignio.com/r/export/utf/xml/daily/anti.xml");
-        DAILY_KINDS.put("business", "http://img.ignio.com/r/export/utf/xml/daily/bus.xml");
-        DAILY_KINDS.put("health", "http://img.ignio.com/r/export/utf/xml/daily/hea.xml");
-        DAILY_KINDS.put("cook", "http://img.ignio.com/r/export/utf/xml/daily/cook.xml");
-        DAILY_KINDS.put("love", "http://img.ignio.com/r/export/utf/xml/daily/lov.xml");
-        DAILY_KINDS.put("mobile", "http://img.ignio.com/r/export/utf/xml/daily/mob.xml");
-    }
+    @Inject @Named("daily-kinds")
+    private Map<String, String> dailyKinds;
 
     /**
      * {@inheritDoc}
@@ -43,11 +29,9 @@ public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> 
         return new BaseResponse();
     }
 
-    public BaseResponse internalAction(final Connection connection) throws SQLException {
+    public BaseResponse internalAction() {
         try {
-            this.initStatements(connection);
-
-            for (Map.Entry<String, String> entry : DAILY_KINDS.entrySet()) {
+            for (Map.Entry<String, String> entry : dailyKinds.entrySet()) {
                 final String xml = fileGetContents(entry.getValue());
                 final Document data = XML.fromString(xml);
                 final NodeList signs = data.getFirstChild().getChildNodes();
@@ -70,8 +54,6 @@ public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> 
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
-        } finally {
-            this.clearStatements();
         }
     }
 }

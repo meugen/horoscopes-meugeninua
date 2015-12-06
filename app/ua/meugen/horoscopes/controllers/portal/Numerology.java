@@ -1,16 +1,10 @@
 package ua.meugen.horoscopes.controllers.portal;
 
 import play.libs.F;
-import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.controllers.Application;
 import ua.meugen.horoscopes.template.bean.portal.numerology.*;
-import views.html.numerology.chislodoma;
-import views.html.numerology.chislodruzhby;
-import views.html.numerology.chisloimeni;
-import views.html.numerology.chisloserdtsa;
-import views.html.numerology.chislosovmestimosti;
-import views.html.numerology.chisloudachi;
+import views.html.numerology.*;
 
 import javax.inject.Inject;
 

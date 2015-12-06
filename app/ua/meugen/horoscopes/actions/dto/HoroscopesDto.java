@@ -1,7 +1,7 @@
 package ua.meugen.horoscopes.actions.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ua.meugen.horoscopes.actions.controllers.serializers.HoroscopesSerializer;
+import ua.meugen.horoscopes.actions.actions.serializers.HoroscopesSerializer;
 
 import java.util.Map;
 

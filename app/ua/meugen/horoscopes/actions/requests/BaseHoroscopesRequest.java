@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by meugen on 07.06.15.
- */
 public class BaseHoroscopesRequest {
 
     @JsonProperty(required = true)

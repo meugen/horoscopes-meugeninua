@@ -3,10 +3,8 @@ package ua.meugen.horoscopes.configs;
 import akka.actor.ActorSystem;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
-import play.inject.Injector;
-import play.libs.Akka;
 import scala.concurrent.duration.Duration;
-import ua.meugen.horoscopes.actions.controllers.content.update.UpdateAllAction;
+import ua.meugen.horoscopes.actions.actions.content.update.UpdateAllAction;
 
 import javax.inject.Inject;
 import java.util.concurrent.TimeUnit;

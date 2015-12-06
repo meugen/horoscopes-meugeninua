@@ -4,10 +4,10 @@ import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-import ua.meugen.horoscopes.actions.controllers.content.get.*;
+import ua.meugen.horoscopes.actions.actions.content.get.*;
+import ua.meugen.horoscopes.entities.*;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 public final class Get {
 
@@ -27,28 +27,22 @@ public final class Get {
     private AmuletGetByIdAction getAmuletAction;
 
     @Inject
-    @Named("getDreamAction")
-    private SimpleGetByIdAction getDreamAction;
+    private SimpleGetByIdAction<Dream> getDreamAction;
 
     @Inject
-    @Named("getNameAction")
-    private SimpleGetByIdAction getNameAction;
+    private SimpleGetByIdAction<Name> getNameAction;
 
     @Inject
-    @Named("getDruidAction")
-    private SimpleGetByIdAction getDruidAction;
+    private SimpleGetByIdAction<Druid> getDruidAction;
 
     @Inject
-    @Named("getChinaAction")
-    private SimpleGetByIdAction getChinaAction;
+    private SimpleGetByIdAction<China> getChinaAction;
 
     @Inject
-    @Named("getFlowerAction")
-    private SimpleGetByIdAction getFlowerAction;
+    private SimpleGetByIdAction<Flower> getFlowerAction;
 
     @Inject
-    @Named("getJapanAction")
-    private SimpleGetByIdAction getJapanAction;
+    private SimpleGetByIdAction<Japan> getJapanAction;
 
     public F.Promise<Result> amuletById(final Integer id) {
         return this.getAmuletAction.execute(id);

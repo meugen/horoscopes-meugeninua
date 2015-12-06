@@ -1,15 +1,14 @@
 package ua.meugen.horoscopes.controllers.portal;
 
 import play.libs.F;
-import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.controllers.Application;
 import ua.meugen.horoscopes.template.bean.portal.interpretations.AmuletsTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.interpretations.DreamsTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.interpretations.NamesTemplateBean;
-import views.html.interpretations.names;
-import views.html.interpretations.dreams;
 import views.html.interpretations.amulets;
+import views.html.interpretations.dreams;
+import views.html.interpretations.names;
 
 import javax.inject.Inject;
 

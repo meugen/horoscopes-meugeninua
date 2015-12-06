@@ -26,8 +26,8 @@ INSERT INTO dreams (dream, updream, type, content, locale, rus_dream)
 INSERT INTO horoscopes (type, kind, sign, period, content, locale)
   SELECT type, kind, sign, period, content, locale FROM horo_texts;
 
-INSERT INTO periods (type, period, key, version)
-  SELECT type, period, key, version FROM horo_periods;
+INSERT INTO periods (type, period, key)
+  SELECT type, period, key FROM horo_periods;
 
 # --- !Downs
 
@@ -48,5 +48,3 @@ TRUNCATE TABLE names RESTART IDENTITY CASCADE;
 TRUNCATE TABLE dreams RESTART IDENTITY CASCADE;
 
 TRUNCATE TABLE horoscopes RESTART IDENTITY CASCADE;
-
-TRUNCATE TABLE periods RESTART IDENTITY CASCADE;

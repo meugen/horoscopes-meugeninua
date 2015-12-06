@@ -1,7 +1,6 @@
 package ua.meugen.horoscopes.controllers.portal;
 
 import play.libs.F;
-import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.controllers.Application;
 import ua.meugen.horoscopes.template.bean.portal.horoscopes.DailyTemplateBean;

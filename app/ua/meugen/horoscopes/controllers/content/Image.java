@@ -1,9 +1,8 @@
 package ua.meugen.horoscopes.controllers.content;
 
 import play.libs.F;
-import play.mvc.Controller;
 import play.mvc.Result;
-import ua.meugen.horoscopes.actions.controllers.content.image.ImageIndexAction;
+import ua.meugen.horoscopes.actions.actions.content.image.ImageIndexAction;
 
 import javax.inject.Inject;
 

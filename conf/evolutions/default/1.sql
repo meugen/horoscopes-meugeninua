@@ -108,7 +108,6 @@ create table periods (
   type                      varchar(10) not null,
   period                    varchar(30) not null,
   key                       varchar(30) not null,
-  version                   integer not null,
   guid                      varchar(40) not null,
   constraint pk_periods primary key (id))
 ;

@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by meugen on 10.01.15.
- */
 public final class TranslateHelper {
 
     private static final String KEY = "AIzaSyCUQ-JS3EKrwyAdHU9UWl0F_heREO_PY-k";

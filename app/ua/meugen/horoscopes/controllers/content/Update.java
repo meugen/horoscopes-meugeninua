@@ -3,9 +3,9 @@ package ua.meugen.horoscopes.controllers.content;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
-import ua.meugen.horoscopes.actions.controllers.content.update.UpdateAllAction;
-import ua.meugen.horoscopes.actions.controllers.content.update.UpdateDailyAction;
-import ua.meugen.horoscopes.actions.controllers.content.update.UpdateWeeklyAction;
+import ua.meugen.horoscopes.actions.actions.content.update.UpdateAllAction;
+import ua.meugen.horoscopes.actions.actions.content.update.UpdateDailyAction;
+import ua.meugen.horoscopes.actions.actions.content.update.UpdateWeeklyAction;
 
 import javax.inject.Inject;
 

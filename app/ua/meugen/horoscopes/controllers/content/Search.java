@@ -4,10 +4,10 @@ import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-import ua.meugen.horoscopes.actions.controllers.content.search.AmuletsSearchAction;
-import ua.meugen.horoscopes.actions.controllers.content.search.DreamsSearchAction;
-import ua.meugen.horoscopes.actions.controllers.content.search.NamesSearchAction;
-import ua.meugen.horoscopes.actions.controllers.content.search.SimpleSearchAction;
+import ua.meugen.horoscopes.actions.actions.content.search.AmuletsSearchAction;
+import ua.meugen.horoscopes.actions.actions.content.search.DreamsSearchAction;
+import ua.meugen.horoscopes.actions.actions.content.search.NamesSearchAction;
+import ua.meugen.horoscopes.actions.actions.content.search.SimpleSearchAction;
 
 import javax.inject.Inject;
 import javax.inject.Named;

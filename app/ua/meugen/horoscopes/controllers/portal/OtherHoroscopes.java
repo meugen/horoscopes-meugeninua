@@ -1,17 +1,16 @@
 package ua.meugen.horoscopes.controllers.portal;
 
 import play.libs.F;
-import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.controllers.Application;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.ChinasTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.DruidsTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.FlowersTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.JapansTemplateBean;
-import views.html.other.horoscopes.flowers;
-import views.html.other.horoscopes.druids;
-import views.html.other.horoscopes.japans;
 import views.html.other.horoscopes.chinas;
+import views.html.other.horoscopes.druids;
+import views.html.other.horoscopes.flowers;
+import views.html.other.horoscopes.japans;
 
 import javax.inject.Inject;
 

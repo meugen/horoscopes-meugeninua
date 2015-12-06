@@ -6,10 +6,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.twirl.api.Content;
-import ua.meugen.horoscopes.actions.controllers.application.ApplicationCrashAction;
+import ua.meugen.horoscopes.actions.actions.application.ApplicationCrashAction;
+import ua.meugen.horoscopes.controllers.portal.routes;
 import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean;
 import views.html.welcome;
-import ua.meugen.horoscopes.controllers.portal.routes;
 
 import javax.inject.Inject;
 import java.util.regex.Pattern;

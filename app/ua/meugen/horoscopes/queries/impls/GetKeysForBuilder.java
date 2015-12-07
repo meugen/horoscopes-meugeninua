@@ -17,7 +17,7 @@ public final class GetKeysForBuilder implements QueryBuilder<Period, Void> {
      */
     @Override
     public Query<Period> build(final Void request) {
-        return find.select("type, key").where().in("value",
+        return find.select("type, key").where().in("name",
                 HoroscopeUtils.WIDGET_PERIODS).query();
     }
 }

@@ -21,7 +21,7 @@ public final class GetKeysBuilder implements QueryBuilder<Period, KeysRequest> {
         final ExpressionList<Period> expressions = find.select("key")
                 .where().eq("type", request.getType());
         if (request.getPeriod() != null) {
-            expressions.eq("value", request.getPeriod());
+            expressions.eq("name", request.getPeriod());
         }
         return expressions.query();
     }

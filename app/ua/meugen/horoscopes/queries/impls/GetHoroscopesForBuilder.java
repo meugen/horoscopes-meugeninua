@@ -26,7 +26,7 @@ public final class GetHoroscopesForBuilder implements QueryBuilder<Horoscope, Ba
                 .eq("kind", HoroscopeUtils.DEFAULT_KIND)
                 .eq("sign", request.getSign())
                 .eq("locale", request.getLocale())
-                .in("period", periodFind.select("key").where().in("value",
+                .in("period", periodFind.select("key").where().in("name",
                         HoroscopeUtils.WIDGET_PERIODS).query());
         return HoroscopeUtils.bindPeriods(expressions, request.getPeriods()).query();
     }

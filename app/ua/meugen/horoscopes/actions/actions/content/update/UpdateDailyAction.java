@@ -41,12 +41,12 @@ public final class UpdateDailyAction extends AbstractUpdateAction<BaseResponse> 
                     for (int j = 0; j < periods.getLength(); j++) {
                         final Node period = periods.item(j);
 
-                        final String periodValue = data.getElementsByTagName("date")
+                        final String periodKey = data.getElementsByTagName("date")
                                 .item(0).getAttributes().getNamedItem(period.getNodeName())
                                 .getTextContent();
-                        this.insertOrUpdateContent(TYPE_DAILY, entry.getKey(), sign.getNodeName(), periodValue,
+                        this.insertOrUpdateContent(TYPE_DAILY, entry.getKey(), sign.getNodeName(), periodKey,
                                 period.getTextContent());
-                        this.insertOrUpdatePeriod(TYPE_DAILY, period.getNodeName(), periodValue);
+                        this.insertOrUpdatePeriod(TYPE_DAILY, period.getNodeName(), periodKey);
                     }
                 }
             }

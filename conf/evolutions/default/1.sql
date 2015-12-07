@@ -106,7 +106,7 @@ create table names (
 create table periods (
   id                        serial not null,
   type                      varchar(10) not null,
-  value                     varchar(30) not null,
+  name                      varchar(30) not null,
   key                       varchar(30) not null,
   guid                      varchar(40) not null,
   constraint pk_periods primary key (id))

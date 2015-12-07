@@ -36,7 +36,7 @@ public final class TranslateHoroscopesForBuilder implements QueryBuilder<Horosco
             final ExpressionList<Horoscope> expressions, BaseHoroscopesRequest request) {
         expressions.eq("sign", request.getSign())
                 .eq("kind", HoroscopeUtils.DEFAULT_KIND)
-                .in("period", this.periodFind.select("key").where().in("value",
+                .in("period", this.periodFind.select("key").where().in("name",
                         HoroscopeUtils.WIDGET_PERIODS).query());
         return HoroscopeUtils.bindPeriods(expressions, request.getPeriods());
     }

@@ -9,10 +9,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 @NamedQueries({
-        @NamedQuery(name = Period.PERIOD_BY_TYPE, query = "find Period where type=:type and value=:period")
+        @NamedQuery(name = Period.PERIOD_BY_TYPE, query = "find Period where type=:type and name=:period")
 })
 @NamedUpdates({
-        @NamedUpdate(name = Period.PERIOD_DELETE_OLD_PERIODS, update = "delete from Period where type=:type and value=:period")
+        @NamedUpdate(name = Period.PERIOD_DELETE_OLD_PERIODS, update = "delete from Period where type=:type and name=:period")
 })
 @Entity
 @Table(name = "periods")
@@ -28,7 +28,7 @@ public class Period implements Serializable {
     @Column(nullable = false, length = 10)
     private String type;
     @Column(nullable = false, length = 30)
-    private String value;
+    private String name;
     @Column(nullable = false, length = 30)
     private String key;
     @Column(nullable = false)
@@ -50,12 +50,12 @@ public class Period implements Serializable {
         this.type = type;
     }
 
-    public String getValue() {
-        return value;
+    public String getName() {
+        return name;
     }
 
-    public void setValue(final String value) {
-        this.value = value;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getKey() {

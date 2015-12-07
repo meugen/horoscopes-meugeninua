@@ -67,8 +67,8 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractJ
         }
     }
 
-    protected final void insertOrUpdatePeriod(final String type, final String periodKey,
-                                              final String periodValue) {
+    protected final void insertOrUpdatePeriod(final String type, final String periodValue,
+                                              final String periodKey) {
         Period period = this.server.createNamedQuery(Period.class, Period.PERIOD_BY_TYPE)
                 .setParameter("type", type).setParameter("period", periodValue).findUnique();
         if (period == null) {

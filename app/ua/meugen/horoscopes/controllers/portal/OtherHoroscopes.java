@@ -3,6 +3,7 @@ package ua.meugen.horoscopes.controllers.portal;
 import play.libs.F;
 import play.mvc.Result;
 import ua.meugen.horoscopes.controllers.Application;
+import ua.meugen.horoscopes.helpers.ObfuscateHelper;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.ChinasTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.DruidsTemplateBean;
 import ua.meugen.horoscopes.template.bean.portal.other.horoscopes.FlowersTemplateBean;
@@ -28,19 +29,22 @@ public final class OtherHoroscopes {
     @Inject
     private ChinasTemplateBean chinasTemplateBean;
 
+    @Inject
+    private ObfuscateHelper obfuscateHelper;
+
     public F.Promise<Result> flowers() {
-        return F.Promise.promise(() -> Application.ok(flowers.render(this.flowersTemplateBean)));
+        return F.Promise.promise(() -> obfuscateHelper.ok(flowers.render(this.flowersTemplateBean)));
     }
 
     public F.Promise<Result> druids() {
-        return F.Promise.promise(() -> Application.ok(druids.render(this.druidsTemplateBean)));
+        return F.Promise.promise(() -> obfuscateHelper.ok(druids.render(this.druidsTemplateBean)));
     }
 
     public F.Promise<Result> japans() {
-        return F.Promise.promise(() -> Application.ok(japans.render(this.japansTemplateBean)));
+        return F.Promise.promise(() -> obfuscateHelper.ok(japans.render(this.japansTemplateBean)));
     }
 
     public F.Promise<Result> chinas() {
-        return F.Promise.promise(() -> Application.ok(chinas.render(this.chinasTemplateBean)));
+        return F.Promise.promise(() -> obfuscateHelper.ok(chinas.render(this.chinasTemplateBean)));
     }
 }

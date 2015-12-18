@@ -1,7 +1,9 @@
 package ua.meugen.horoscopes.actions.requests;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties({"version"})
 public final class KeysRequest {
 
     @JsonProperty(required = true)

@@ -3,7 +3,7 @@ package ua.meugen.horoscopes.actions.requests;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties({"version"})
+@JsonIgnoreProperties({"version", "period"})
 public final class HoroscopesRequest extends BaseHoroscopesRequest {
 
     @JsonProperty(required = true)

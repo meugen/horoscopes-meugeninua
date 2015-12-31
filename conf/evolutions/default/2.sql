@@ -24,7 +24,7 @@ ALTER TABLE horoscopes ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
 
 ALTER TABLE updates ALTER COLUMN guid SET DEFAULT uuid_generate_v4();
 
-ALTER TABLE updates ALTER COLUMN date SET DEFAULT now();
+ALTER TABLE updates ALTER COLUMN update_date SET DEFAULT now();
 
 # --- !Downs
 
@@ -50,6 +50,6 @@ ALTER TABLE horoscopes ALTER COLUMN guid DROP DEFAULT;
 
 ALTER TABLE updates ALTER COLUMN guid DROP DEFAULT;
 
-ALTER TABLE updates ALTER COLUMN date DROP DEFAULT;
+ALTER TABLE updates ALTER COLUMN update_date DROP DEFAULT;
 
 DROP EXTENSION IF EXISTS "uuid-ossp";

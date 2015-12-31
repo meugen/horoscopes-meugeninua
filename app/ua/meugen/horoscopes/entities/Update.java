@@ -17,7 +17,7 @@ public class Update implements Serializable {
 
     @Id
     private Integer id;
-    @Column(nullable = false)
+    @Column(name = "update_date", nullable = false)
     private Date date = new Date();
     @Column(nullable = false)
     private String uri;

@@ -114,7 +114,7 @@ create table periods (
 
 create table updates (
   id                        serial not null,
-  date                      timestamp not null,
+  update_date               timestamp not null,
   uri                       varchar(255) not null,
   respone                   TEXT not null,
   guid                      varchar(40) not null,

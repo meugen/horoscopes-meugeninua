@@ -24,7 +24,7 @@ public final class Application {
     private ObfuscateHelper obfuscateHelper;
 
     public Result index() {
-        return Results.redirect(ua.meugen.horoscopes.controllers.portal.routes.Horoscopes.daily());
+        return Results.redirect(ua.meugen.horoscopes.controllers.routes.Application.welcome());
     }
 
     public F.Promise<Result> welcome() {

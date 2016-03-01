@@ -6,7 +6,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import ua.meugen.horoscopes.actions.actions.application.ApplicationCrashAction;
-import ua.meugen.horoscopes.helpers.ObfuscateHelper;
 import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean;
 import views.html.welcome;
 
@@ -20,15 +19,12 @@ public final class Application {
     @Inject
     private ApplicationCrashAction applicationCrashAction;
 
-    @Inject
-    private ObfuscateHelper obfuscateHelper;
-
     public Result index() {
         return Results.redirect(ua.meugen.horoscopes.controllers.routes.Application.welcome());
     }
 
     public F.Promise<Result> welcome() {
-        return F.Promise.promise(() -> obfuscateHelper.ok(welcome.render(this.welcomeTemplateBean)));
+        return F.Promise.promise(() -> Results.ok(welcome.render(this.welcomeTemplateBean)));
     }
 
     @BodyParser.Of(BodyParser.Json.class)

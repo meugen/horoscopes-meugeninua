@@ -13,6 +13,8 @@ import views.html.other.horoscopes.flowers;
 import views.html.other.horoscopes.japans;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public final class OtherHoroscopes {
 
@@ -28,19 +30,19 @@ public final class OtherHoroscopes {
     @Inject
     private ChinasTemplateBean chinasTemplateBean;
 
-    public F.Promise<Result> flowers() {
-        return F.Promise.promise(() -> Results.ok(flowers.render(this.flowersTemplateBean)));
+    public CompletionStage<Result> flowers() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(flowers.render(this.flowersTemplateBean)));
     }
 
-    public F.Promise<Result> druids() {
-        return F.Promise.promise(() -> Results.ok(druids.render(this.druidsTemplateBean)));
+    public CompletionStage<Result> druids() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(druids.render(this.druidsTemplateBean)));
     }
 
-    public F.Promise<Result> japans() {
-        return F.Promise.promise(() -> Results.ok(japans.render(this.japansTemplateBean)));
+    public CompletionStage<Result> japans() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(japans.render(this.japansTemplateBean)));
     }
 
-    public F.Promise<Result> chinas() {
-        return F.Promise.promise(() -> Results.ok(chinas.render(this.chinasTemplateBean)));
+    public CompletionStage<Result> chinas() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chinas.render(this.chinasTemplateBean)));
     }
 }

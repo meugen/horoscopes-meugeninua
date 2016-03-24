@@ -14,6 +14,7 @@ import ua.meugen.horoscopes.entities.Flower;
 import ua.meugen.horoscopes.entities.Japan;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletionStage;
 
 public final class Search {
 
@@ -41,49 +42,49 @@ public final class Search {
     private SimpleSearchAction<Japan> searchJapansAction;
 
     @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> amulets() {
+    public CompletionStage<Result> amulets() {
         return this.amuletsSearchAction.execute(Controller.request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> dreams() {
+    public CompletionStage<Result> dreams() {
         return this.dreamsSearchAction.execute(Controller.request().body().asJson());
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public F.Promise<Result> names() {
+    public CompletionStage<Result> names() {
         return this.namesSearchAction.execute(Controller.request().body().asJson());
     }
 
-    public F.Promise<Result> chinas() {
+    public CompletionStage<Result> chinas() {
         return chinasByLocale(DEFAULT_LOCALE);
     }
 
-    public F.Promise<Result> chinasByLocale(final String locale) {
+    public CompletionStage<Result> chinasByLocale(final String locale) {
         return this.searchChinasAction.execute(locale);
     }
 
-    public F.Promise<Result> druids() {
+    public CompletionStage<Result> druids() {
         return druidsByLocale(DEFAULT_LOCALE);
     }
 
-    public F.Promise<Result> druidsByLocale(final String locale) {
+    public CompletionStage<Result> druidsByLocale(final String locale) {
         return this.searchDruidsAction.execute(locale);
     }
 
-    public F.Promise<Result> flowers() {
+    public CompletionStage<Result> flowers() {
         return flowersByLocale(DEFAULT_LOCALE);
     }
 
-    public F.Promise<Result> flowersByLocale(final String locale) {
+    public CompletionStage<Result> flowersByLocale(final String locale) {
         return this.searchFlowersAction.execute(locale);
     }
 
-    public F.Promise<Result> japans() {
+    public CompletionStage<Result> japans() {
         return japansByLocale(DEFAULT_LOCALE);
     }
 
-    public F.Promise<Result> japansByLocale(final String locale) {
+    public CompletionStage<Result> japansByLocale(final String locale) {
         return this.searchJapansAction.execute(locale);
     }
 }

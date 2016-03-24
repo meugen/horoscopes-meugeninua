@@ -8,6 +8,7 @@ import ua.meugen.horoscopes.actions.actions.content.update.UpdateDailyAction;
 import ua.meugen.horoscopes.actions.actions.content.update.UpdateWeeklyAction;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletionStage;
 
 public final class Update {
 
@@ -20,15 +21,15 @@ public final class Update {
     @Inject
     private UpdateWeeklyAction updateWeeklyAction;
 
-    public F.Promise<Result> all() {
+    public CompletionStage<Result> all() {
         return this.updateAllAction.execute(Controller.request().uri());
     }
 
-    public F.Promise<Result> daily() {
+    public CompletionStage<Result> daily() {
         return this.updateDailyAction.execute(Controller.request().uri());
     }
 
-    public F.Promise<Result> weekly() {
+    public CompletionStage<Result> weekly() {
         return this.updateWeeklyAction.execute(Controller.request().uri());
     }
 }

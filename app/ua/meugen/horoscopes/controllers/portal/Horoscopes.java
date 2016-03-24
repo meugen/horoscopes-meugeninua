@@ -13,6 +13,8 @@ import views.html.horoscopes.weekly;
 import views.html.horoscopes.yearly;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public final class Horoscopes {
 
@@ -28,20 +30,20 @@ public final class Horoscopes {
     @Inject
     private YearlyTemplateBean yearlyTemplateBean;
 
-    public F.Promise<Result> daily() {
-        return F.Promise.promise(() -> Results.ok(daily.render(this.dailyTemplateBean)));
+    public CompletionStage<Result> daily() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(daily.render(this.dailyTemplateBean)));
     }
 
-    public F.Promise<Result> weekly() {
-        return F.Promise.promise(() -> Results.ok(weekly.render(this.weeklyTemplateBean)));
+    public CompletionStage<Result> weekly() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(weekly.render(this.weeklyTemplateBean)));
     }
 
-    public F.Promise<Result> monthly() {
-        return F.Promise.promise(() -> Results.ok(monthly.render(this.monthlyTemplateBean)));
+    public CompletionStage<Result> monthly() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(monthly.render(this.monthlyTemplateBean)));
     }
 
-    public F.Promise<Result> yearly() {
-        return F.Promise.promise(() -> Results.ok(yearly.render(this.yearlyTemplateBean)));
+    public CompletionStage<Result> yearly() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(yearly.render(this.yearlyTemplateBean)));
     }
 
 }

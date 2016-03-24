@@ -12,6 +12,7 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,13 +29,13 @@ public final class ApplicationCrashAction {
     @Inject
     private WSClient wsClient;
 
-    public F.Promise<Result> execute(final JsonNode json) {
+    public CompletionStage<Result> execute(final JsonNode json) {
         if (SERVICE == null) {
             SERVICE = Executors.newSingleThreadScheduledExecutor();
         }
         SERVICE.execute(new PushoverRunnable());
         return this.wsClient.url("http://127.0.0.1:5984/acra-horoscopes/_design/acra-storage/_update/report")
-                .put(json).map((wsResponse) -> Controller.ok(wsResponse.getBody()));
+                .put(json).thenApply((wsResponse) -> Controller.ok(wsResponse.getBody()));
     }
 
     public static final class PushoverRunnable implements Runnable {

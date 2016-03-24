@@ -5,13 +5,14 @@ import play.mvc.Result;
 import ua.meugen.horoscopes.actions.actions.content.image.ImageIndexAction;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletionStage;
 
 public final class Image {
 
     @Inject
     private ImageIndexAction imageIndexAction;
 
-    public F.Promise<Result> index(final String name) {
+    public CompletionStage<Result> index(final String name) {
         return this.imageIndexAction.execute(name);
     }
 }

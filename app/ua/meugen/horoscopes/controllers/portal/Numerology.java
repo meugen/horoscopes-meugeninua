@@ -7,6 +7,8 @@ import ua.meugen.horoscopes.template.bean.portal.numerology.*;
 import views.html.numerology.*;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public final class Numerology {
 
@@ -28,27 +30,27 @@ public final class Numerology {
     @Inject
     private ChisloUdachiTemplateBean chisloUdachiTemplateBean;
 
-    public F.Promise<Result> chisloDoma() {
-        return F.Promise.promise(() -> Results.ok(chislodoma.render(this.chisloDomaTemplateBean)));
+    public CompletionStage<Result> chisloDoma() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chislodoma.render(this.chisloDomaTemplateBean)));
     }
 
-    public F.Promise<Result> chisloDruzhby() {
-        return F.Promise.promise(() -> Results.ok(chislodruzhby.render(this.chisloDruzhbyTemplateBean)));
+    public CompletionStage<Result> chisloDruzhby() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chislodruzhby.render(this.chisloDruzhbyTemplateBean)));
     }
 
-    public F.Promise<Result> chisloImeni() {
-        return F.Promise.promise(() -> Results.ok(chisloimeni.render(this.chisloImeniTemplateBean)));
+    public CompletionStage<Result> chisloImeni() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chisloimeni.render(this.chisloImeniTemplateBean)));
     }
 
-    public F.Promise<Result> chisloSerdtsa() {
-        return F.Promise.promise(() -> Results.ok(chisloserdtsa.render(this.chisloSerdtsaTemplateBean)));
+    public CompletionStage<Result> chisloSerdtsa() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chisloserdtsa.render(this.chisloSerdtsaTemplateBean)));
     }
 
-    public F.Promise<Result> chisloSovmestimosti() {
-        return F.Promise.promise(() -> Results.ok(chislosovmestimosti.render(this.chisloSovmestimostiTemplateBean)));
+    public CompletionStage<Result> chisloSovmestimosti() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chislosovmestimosti.render(this.chisloSovmestimostiTemplateBean)));
     }
 
-    public F.Promise<Result> chisloUdachi() {
-        return F.Promise.promise(() -> Results.ok(chisloudachi.render(this.chisloUdachiTemplateBean)));
+    public CompletionStage<Result> chisloUdachi() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(chisloudachi.render(this.chisloUdachiTemplateBean)));
     }
 }

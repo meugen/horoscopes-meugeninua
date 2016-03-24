@@ -5,6 +5,9 @@ import play.libs.F;
 import play.libs.Json;
 import play.mvc.Result;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+
 public abstract class AbstractJsonControllerAction<Req> {
 
     private final Class<Req> reqClazz;
@@ -24,8 +27,8 @@ public abstract class AbstractJsonControllerAction<Req> {
      * @param json Json body
      * @return Promise result
      */
-    public F.Promise<Result> execute(final JsonNode json) {
-        return F.Promise.promise(() -> internalAction(json));
+    public CompletionStage<Result> execute(final JsonNode json) {
+        return CompletableFuture.supplyAsync(() -> internalAction(json));
     }
 
     /**
@@ -34,8 +37,8 @@ public abstract class AbstractJsonControllerAction<Req> {
      * @param request Request
      * @return Promise result
      */
-    public F.Promise<Result> execute(final Req request) {
-        return F.Promise.promise(() -> action(request));
+    public CompletionStage<Result> execute(final Req request) {
+        return CompletableFuture.supplyAsync(() -> action(request));
     }
 
     Result internalAction(final JsonNode json) {

@@ -11,6 +11,8 @@ import views.html.interpretations.dreams;
 import views.html.interpretations.names;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public final class Interpretations {
 
@@ -23,15 +25,15 @@ public final class Interpretations {
     @Inject
     private AmuletsTemplateBean amuletsTemplateBean;
 
-    public F.Promise<Result> names() {
-        return F.Promise.promise(() -> Results.ok(names.render(this.namesTemplateBean)));
+    public CompletionStage<Result> names() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(names.render(this.namesTemplateBean)));
     }
 
-    public F.Promise<Result> dreams() {
-        return F.Promise.promise(() -> Results.ok(dreams.render(this.dreamsTemplateBean)));
+    public CompletionStage<Result> dreams() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(dreams.render(this.dreamsTemplateBean)));
     }
 
-    public F.Promise<Result> amulets() {
-        return F.Promise.promise(() -> Results.ok(amulets.render(this.amuletsTemplateBean)));
+    public CompletionStage<Result> amulets() {
+        return CompletableFuture.supplyAsync(() -> Results.ok(amulets.render(this.amuletsTemplateBean)));
     }
 }

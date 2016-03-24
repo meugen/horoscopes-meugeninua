@@ -53,20 +53,20 @@ public final class MapsModule extends AbstractModule {
     }
 
     @Provides @Named("month-codes")
-    public Map<String, Integer> provideMonthCodes() {
+    public Map<String, Integer> provideMonthCodes(@Named("ru") final Messages messages) {
         final Map<String, Integer> result = new HashMap<>();
-        result.put(Messages.get("month.january"), Calendar.JANUARY);
-        result.put(Messages.get("month.february"), Calendar.FEBRUARY);
-        result.put(Messages.get("month.march"), Calendar.MARCH);
-        result.put(Messages.get("month.april"), Calendar.APRIL);
-        result.put(Messages.get("month.may"), Calendar.MAY);
-        result.put(Messages.get("month.june"), Calendar.JUNE);
-        result.put(Messages.get("month.july"), Calendar.JULY);
-        result.put(Messages.get("month.august"), Calendar.AUGUST);
-        result.put(Messages.get("month.september"), Calendar.SEPTEMBER);
-        result.put(Messages.get("month.october"), Calendar.OCTOBER);
-        result.put(Messages.get("month.november"), Calendar.NOVEMBER);
-        result.put(Messages.get("month.december"), Calendar.DECEMBER);
+        result.put(messages.at("month.january"), Calendar.JANUARY);
+        result.put(messages.at("month.february"), Calendar.FEBRUARY);
+        result.put(messages.at("month.march"), Calendar.MARCH);
+        result.put(messages.at("month.april"), Calendar.APRIL);
+        result.put(messages.at("month.may"), Calendar.MAY);
+        result.put(messages.at("month.june"), Calendar.JUNE);
+        result.put(messages.at("month.july"), Calendar.JULY);
+        result.put(messages.at("month.august"), Calendar.AUGUST);
+        result.put(messages.at("month.september"), Calendar.SEPTEMBER);
+        result.put(messages.at("month.october"), Calendar.OCTOBER);
+        result.put(messages.at("month.november"), Calendar.NOVEMBER);
+        result.put(messages.at("month.december"), Calendar.DECEMBER);
         return result;
     }
 }

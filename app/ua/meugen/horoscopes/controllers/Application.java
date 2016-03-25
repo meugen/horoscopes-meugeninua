@@ -5,12 +5,14 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import ua.meugen.horoscopes.actions.actions.application.ApplicationAssetsAction;
 import ua.meugen.horoscopes.actions.actions.application.ApplicationCrashAction;
 import ua.meugen.horoscopes.configs.Configurer;
 import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean;
 import views.html.welcome;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -24,6 +26,12 @@ public final class Application {
 
     @Inject
     private ApplicationCrashAction applicationCrashAction;
+
+    @Inject @Named("css")
+    private ApplicationAssetsAction applicationCssAction;
+
+    @Inject @Named("js")
+    private ApplicationAssetsAction applicationJsAction;
 
     public Result index() {
         return Results.redirect(ua.meugen.horoscopes.controllers.routes.Application.welcome());
@@ -39,11 +47,11 @@ public final class Application {
     }
 
     public CompletionStage<Result> js(final String name) {
-        return null;
+        return applicationJsAction.execute(name);
     }
 
     public CompletionStage<Result> css(final String name) {
-        return null;
+        return applicationCssAction.execute(name);
     }
 
 }

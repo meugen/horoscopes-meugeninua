@@ -32,3 +32,5 @@ libraryDependencies += "org.webjars" % "jquery-ui" % "1.11.4"
 libraryDependencies += "org.webjars" % "font-awesome" % "4.4.0"
 
 libraryDependencies += "com.mohiva" %% "play-html-compressor" % "0.6.0"
+
+libraryDependencies += "commons-io" % "commons-io" % "2.4"

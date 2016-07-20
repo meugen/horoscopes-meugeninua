@@ -22,7 +22,7 @@ public final class TranslateHelper {
     private Format format = Format.TEXT;
     private boolean prettyPrint = false;
     private String source = "ru";
-    private String target = "en";fgfgfgf
+    private String target = "en";
 
     public Format getFormat() {
         return format;

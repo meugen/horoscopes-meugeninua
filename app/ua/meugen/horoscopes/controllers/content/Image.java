@@ -1,12 +1,13 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import play.libs.F;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.actions.content.image.ImageIndexAction;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public final class Image {
 
     @Inject

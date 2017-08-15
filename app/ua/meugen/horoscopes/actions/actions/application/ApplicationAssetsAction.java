@@ -1,12 +1,9 @@
 package ua.meugen.horoscopes.actions.actions.application;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.inject.Inject;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.concurrent.ConcurrentException;
 import play.Application;
 import play.mvc.Result;
 import play.mvc.Results;

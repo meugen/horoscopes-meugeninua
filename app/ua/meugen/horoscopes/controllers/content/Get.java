@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -8,8 +7,10 @@ import ua.meugen.horoscopes.actions.actions.content.get.*;
 import ua.meugen.horoscopes.entities.*;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public final class Get {
 
     @Inject

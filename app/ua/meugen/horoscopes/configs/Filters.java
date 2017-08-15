@@ -2,8 +2,8 @@ package ua.meugen.horoscopes.configs;
 
 import com.google.inject.Inject;
 import com.mohiva.play.xmlcompressor.XMLCompressorFilter;
-import play.mvc.EssentialFilter;
 import play.http.HttpFilters;
+import play.mvc.EssentialFilter;
 import ua.meugen.horoscopes.filters.CustomHTMLCompressorFilter;
 
 public final class Filters implements HttpFilters {

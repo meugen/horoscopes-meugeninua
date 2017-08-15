@@ -8,8 +8,8 @@ GET         /welcome                                      @ua.meugen.horoscopes.
 POST        /crash                                        @ua.meugen.horoscopes.controllers.Application.crash()
 
 # JS and CSS
-GET         /portal/js/:name                                     @ua.meugen.horoscopes.controllers.Application.js(name)
-GET         /portal/css/:name                                    @ua.meugen.horoscopes.controllers.Application.css(name)
+GET         /portal/js/:name                              @ua.meugen.horoscopes.controllers.Application.js(name)
+GET         /portal/css/:name                             @ua.meugen.horoscopes.controllers.Application.css(name)
 
 # Portal
 GET         /portal/horoscopes/daily                      @ua.meugen.horoscopes.controllers.portal.Horoscopes.daily()

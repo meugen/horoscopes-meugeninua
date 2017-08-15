@@ -1,25 +1,22 @@
 package ua.meugen.horoscopes.controllers;
 
-import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import ua.meugen.horoscopes.actions.actions.application.ApplicationAssetsAction;
 import ua.meugen.horoscopes.actions.actions.application.ApplicationCrashAction;
-import ua.meugen.horoscopes.configs.Configurer;
 import ua.meugen.horoscopes.template.bean.WelcomeTemplateBean;
 import views.html.welcome;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public final class Application {
-
-    @Inject
-    private Configurer configurer;
 
     @Inject
     private WelcomeTemplateBean welcomeTemplateBean;

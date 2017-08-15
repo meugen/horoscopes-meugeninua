@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.controllers.portal;
 
-import play.libs.F;
 import play.mvc.Result;
 import play.mvc.Results;
 import ua.meugen.horoscopes.template.bean.portal.horoscopes.DailyTemplateBean;
@@ -13,9 +12,11 @@ import views.html.horoscopes.weekly;
 import views.html.horoscopes.yearly;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public final class Horoscopes {
 
     @Inject

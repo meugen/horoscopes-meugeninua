@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Result;
 import ua.meugen.horoscopes.actions.actions.content.update.UpdateAllAction;
@@ -8,8 +7,10 @@ import ua.meugen.horoscopes.actions.actions.content.update.UpdateDailyAction;
 import ua.meugen.horoscopes.actions.actions.content.update.UpdateWeeklyAction;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public final class Update {
 
     @Inject

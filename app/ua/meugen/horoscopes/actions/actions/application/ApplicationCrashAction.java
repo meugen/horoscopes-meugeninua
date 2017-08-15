@@ -5,7 +5,6 @@ import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
 import play.Logger;
 import play.i18n.Messages;
-import play.libs.F;
 import play.libs.ws.WSClient;
 import play.mvc.Controller;
 import play.mvc.Result;

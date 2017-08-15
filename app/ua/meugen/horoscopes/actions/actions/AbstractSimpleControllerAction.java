@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.actions.actions;
 
-import play.libs.F;
 import play.mvc.Result;
 
 import java.util.concurrent.CompletableFuture;

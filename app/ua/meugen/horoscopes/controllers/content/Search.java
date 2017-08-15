@@ -1,6 +1,5 @@
 package ua.meugen.horoscopes.controllers.content;
 
-import play.libs.F;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,8 +13,10 @@ import ua.meugen.horoscopes.entities.Flower;
 import ua.meugen.horoscopes.entities.Japan;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public final class Search {
 
     private static final String DEFAULT_LOCALE = "ru";

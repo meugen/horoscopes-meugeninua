@@ -1,10 +1,15 @@
 package ua.meugen.horoscopes.template.bean;
 
-import play.i18n.Messages;
+import com.google.inject.Inject;
+import play.i18n.Lang;
+import play.i18n.MessagesApi;
 
 public class BaseTemplateBean {
 
+    @Inject
+    protected MessagesApi messages;
+
     public String title() {
-        return Messages.get("views.base.title");
+        return messages.get(Lang.defaultLang(), "views.base.title");
     }
 }

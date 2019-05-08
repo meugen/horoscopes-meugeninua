@@ -1,7 +1,7 @@
 package ua.meugen.horoscopes.actions.actions.content.get;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Query;
+import io.ebean.Ebean;
+import io.ebean.Query;
 import ua.meugen.horoscopes.actions.TranslateHelper;
 import ua.meugen.horoscopes.actions.actions.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.actions.requests.BaseHoroscopesRequest;

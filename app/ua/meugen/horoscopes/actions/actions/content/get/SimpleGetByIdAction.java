@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.actions.content.get;
 
-import com.avaje.ebean.Model;
+import io.ebean.Finder;
+import io.ebean.Model;
 import ua.meugen.horoscopes.actions.dto.BaseContentDto;
 import ua.meugen.horoscopes.actions.responses.ContentResponse;
 import ua.meugen.horoscopes.fetchers.EntityToDtoFetcher;
@@ -11,7 +12,7 @@ public final class SimpleGetByIdAction<Entity> extends AbstractGetByIdAction<Bas
      * Constructor.
      * @param find Model find implementation
      */
-    public SimpleGetByIdAction(final Model.Find<Integer, Entity> find,
+    public SimpleGetByIdAction(final Finder<Integer, Entity> find,
                                final EntityToDtoFetcher<Entity, BaseContentDto> fetcher) {
         super(find, fetcher);
     }

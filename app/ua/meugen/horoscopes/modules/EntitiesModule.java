@@ -1,8 +1,9 @@
 package ua.meugen.horoscopes.modules;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.Model;
+import io.ebean.Ebean;
+import io.ebean.EbeanServer;
+import io.ebean.Finder;
+import io.ebean.Model;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import ua.meugen.horoscopes.entities.*;
@@ -20,57 +21,57 @@ public final class EntitiesModule extends AbstractModule {
     }
 
     @Provides
-    public Model.Find<Integer, Amulet> provideAmuletFind() {
-        return new Model.Finder<>(Amulet.class);
+    public Finder<Integer, Amulet> provideAmuletFind() {
+        return new Finder<>(Amulet.class);
     }
 
     @Provides
-    public Model.Find<Integer, China> provideChinaFind() {
-        return new Model.Finder<>(China.class);
+    public Finder<Integer, China> provideChinaFind() {
+        return new Finder<>(China.class);
     }
 
     @Provides
-    public Model.Find<Integer, Dream> provideDreamFind() {
-        return new Model.Finder<>(Dream.class);
+    public Finder<Integer, Dream> provideDreamFind() {
+        return new Finder<>(Dream.class);
     }
 
     @Provides
-    public Model.Find<Integer, Druid> provideDruidFind() {
-        return new Model.Finder<>(Druid.class);
+    public Finder<Integer, Druid> provideDruidFind() {
+        return new Finder<>(Druid.class);
     }
 
     @Provides
-    public Model.Find<Integer, Flower> provideFlowerFind() {
-        return new Model.Finder<>(Flower.class);
+    public Finder<Integer, Flower> provideFlowerFind() {
+        return new Finder<>(Flower.class);
     }
 
     @Provides
-    public Model.Find<Integer, Horoscope> provideHoroscopeFind() {
-        return new Model.Finder<>(Horoscope.class);
+    public Finder<Integer, Horoscope> provideHoroscopeFind() {
+        return new Finder<>(Horoscope.class);
     }
 
     @Provides
-    public Model.Find<Integer, Japan> provideJapanFind() {
-        return new Model.Finder<>(Japan.class);
+    public Finder<Integer, Japan> provideJapanFind() {
+        return new Finder<>(Japan.class);
     }
 
     @Provides
-    public Model.Find<Integer, Name> provideNameFind() {
-        return new Model.Finder<>(Name.class);
+    public Finder<Integer, Name> provideNameFind() {
+        return new Finder<>(Name.class);
     }
 
     @Provides
-    public Model.Find<Integer, Update> provideUpdateFind() {
-        return new Model.Finder<>(Update.class);
+    public Finder<Integer, Update> provideUpdateFind() {
+        return new Finder<>(Update.class);
     }
 
     @Provides
-    public Model.Find<Integer, Upload> provideUploadFind() {
-        return new Model.Finder<>(Upload.class);
+    public Finder<Integer, Upload> provideUploadFind() {
+        return new Finder<>(Upload.class);
     }
 
     @Provides
-    public Model.Find<Integer, Period> providePeriodFind() {
-        return new Model.Finder<>(Period.class);
+    public Finder<Integer, Period> providePeriodFind() {
+        return new Finder<>(Period.class);
     }
 }

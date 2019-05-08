@@ -1,6 +1,6 @@
 package ua.meugen.horoscopes.template.bean.portal.numerology;
 
-import play.i18n.Messages;
+import play.i18n.Lang;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 
 public final class ChisloDomaTemplateBean extends IndexTemplateBean {
@@ -11,6 +11,6 @@ public final class ChisloDomaTemplateBean extends IndexTemplateBean {
 
     @Override
     public String title() {
-        return Messages.get("numerology.chislo_doma.title");
+        return messages.get(Lang.defaultLang(), "numerology.chislo_doma.title");
     }
 }

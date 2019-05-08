@@ -1,18 +1,13 @@
 package ua.meugen.horoscopes.entities;
 
-import com.avaje.ebean.annotation.NamedUpdate;
-import com.avaje.ebean.annotation.NamedUpdates;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @NamedQueries({
-        @NamedQuery(name = Period.PERIOD_BY_TYPE, query = "find Period where type=:type and name=:period")
-})
-@NamedUpdates({
-        @NamedUpdate(name = Period.PERIOD_DELETE_OLD_PERIODS, update = "delete from Period where type=:type and name=:period")
+        @NamedQuery(name = Period.PERIOD_BY_TYPE, query = "find Period where type=:type and name=:period"),
+        @NamedQuery(name = Period.PERIOD_DELETE_OLD_PERIODS, query = "delete from Period where type=:type and name=:period")
 })
 @Entity
 @Table(name = "periods")

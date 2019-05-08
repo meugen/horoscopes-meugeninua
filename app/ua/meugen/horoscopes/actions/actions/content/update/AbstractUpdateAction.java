@@ -1,6 +1,6 @@
 package ua.meugen.horoscopes.actions.actions.content.update;
 
-import com.avaje.ebean.EbeanServer;
+import io.ebean.EbeanServer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import play.Logger;
@@ -50,7 +50,7 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractJ
         return server.createNamedQuery(Horoscope.class, Horoscope.HOROSCOPE_COUNT)
                 .setParameter("type", type).setParameter("kind", kind)
                 .setParameter("sign", sign).setParameter("period", period)
-                .findRowCount();
+                .findCount();
     }
 
     protected final void insertOrUpdateContent(final String type, final String kind, final String sign,
@@ -70,7 +70,7 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractJ
     protected final void insertOrUpdatePeriod(final String type, final String periodName,
                                               final String periodKey) {
         Period period = this.server.createNamedQuery(Period.class, Period.PERIOD_BY_TYPE)
-                .setParameter("type", type).setParameter("period", periodName).findUnique();
+                .setParameter("type", type).setParameter("period", periodName).findOne();
         if (period == null) {
             period = new Period();
             period.setType(type);
@@ -109,7 +109,7 @@ abstract class AbstractUpdateAction<Resp extends BaseResponse> extends AbstractJ
         Result result;
         JsonNode response;
         try {
-            response = server.execute(this::internalAction).asJson();
+            response = server.executeCall(this::internalAction).asJson();
             result = Controller.ok(response);
         } catch (Throwable e) {
             LOG.error(e.getMessage(), e);

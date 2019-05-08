@@ -1,6 +1,6 @@
 package ua.meugen.horoscopes.utils;
 
-import com.avaje.ebean.ExpressionList;
+import io.ebean.ExpressionList;
 import ua.meugen.horoscopes.actions.requests.BaseHoroscopesRequest;
 import ua.meugen.horoscopes.entities.Horoscope;
 

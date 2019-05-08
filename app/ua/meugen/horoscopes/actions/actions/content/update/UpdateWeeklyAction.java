@@ -57,14 +57,14 @@ public final class UpdateWeeklyAction extends AbstractUpdateAction<BaseResponse>
             for (Map.Entry<String, Object> entry : periods.entrySet()) {
                 final Object value = entry.getValue();
                 if (value instanceof Integer && (Integer) value == -1) {
-                    this.server.createNamedUpdate(Horoscope.class, Horoscope.HOROSCOPE_DELETE_OLD_PERIODS)
+                    this.server.createNamedQuery(Horoscope.class, Horoscope.HOROSCOPE_DELETE_OLD_PERIODS)
                             .setParameter("type", TYPE_WEEKLY)
                             .setParameter("period", entry.getKey())
-                            .execute();
-                    this.server.createNamedUpdate(Period.class, Period.PERIOD_DELETE_OLD_PERIODS)
+                            .asUpdate().update();
+                    this.server.createNamedQuery(Period.class, Period.PERIOD_DELETE_OLD_PERIODS)
                             .setParameter("type", TYPE_WEEKLY)
                             .setParameter("period", entry.getKey())
-                            .execute();
+                            .asUpdate().update();
                 } else if (value instanceof String) {
                     final String xml = fileGetContents(value.toString());
                     final Document data = XML.fromString(xml);

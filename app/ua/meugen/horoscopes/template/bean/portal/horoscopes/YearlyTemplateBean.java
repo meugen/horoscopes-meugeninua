@@ -1,6 +1,6 @@
 package ua.meugen.horoscopes.template.bean.portal.horoscopes;
 
-import play.i18n.Messages;
+import play.i18n.Lang;
 import ua.meugen.horoscopes.template.bean.IndexTemplateBean;
 
 public final class YearlyTemplateBean extends IndexTemplateBean {
@@ -27,6 +27,6 @@ public final class YearlyTemplateBean extends IndexTemplateBean {
 
     @Override
     public String title() {
-        return Messages.get("horoscopes.yearly.title");
+        return messages.get(Lang.defaultLang(), "horoscopes.yearly.title");
     }
 }

@@ -35,6 +35,7 @@ public final class Application {
     }
 
     public CompletionStage<Result> welcome() {
+
         return CompletableFuture.supplyAsync(() -> Results.ok(welcome.render(this.welcomeTemplateBean)));
     }
 

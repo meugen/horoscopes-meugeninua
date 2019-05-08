@@ -86,7 +86,7 @@ public final class ApplicationAssetsAction {
     }
 
     private InputStream assetAsStream(final String name) throws IOException {
-        final InputStream stream = application.resourceAsStream("public/" + name);
+        final InputStream stream = application.environment().resourceAsStream("public/" + name);
         if (stream == null) {
             throw new IOException(String.format("Asset '%s' not found", name));
         }

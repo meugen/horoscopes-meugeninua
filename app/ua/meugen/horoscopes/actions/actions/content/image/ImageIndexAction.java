@@ -7,6 +7,7 @@ import ua.meugen.horoscopes.actions.actions.AbstractJsonControllerAction;
 import ua.meugen.horoscopes.entities.Upload;
 import ua.meugen.horoscopes.queries.QueryBuilder;
 
+import javax.annotation.Nullable;
 import java.io.File;
 
 public final class ImageIndexAction extends AbstractJsonControllerAction<String> {
@@ -39,7 +40,9 @@ public final class ImageIndexAction extends AbstractJsonControllerAction<String>
         return result;
     }
 
+    @Nullable
     private String getMimeByName(final String name) {
-        return builder.build(name).findUnique().getMime();
+        final Upload upload = builder.build(name).findOne();
+        return upload == null ? null : upload.getMime();
     }
 }

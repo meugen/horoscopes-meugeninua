@@ -1,18 +1,13 @@
 package ua.meugen.horoscopes.entities;
 
-import com.avaje.ebean.annotation.NamedUpdate;
-import com.avaje.ebean.annotation.NamedUpdates;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @NamedQueries({
-        @NamedQuery(name = Horoscope.HOROSCOPE_COUNT, query = "find Horoscope where type=:type and kind=:kind and sign=:sign and period=:period")
-})
-@NamedUpdates({
-        @NamedUpdate(name = Horoscope.HOROSCOPE_DELETE_OLD_PERIODS, update = "delete from Horoscope where type=:type and period=:period")
+        @NamedQuery(name = Horoscope.HOROSCOPE_COUNT, query = "find Horoscope where type=:type and kind=:kind and sign=:sign and period=:period"),
+        @NamedQuery(name = Horoscope.HOROSCOPE_DELETE_OLD_PERIODS, query = "delete from Horoscope where type=:type and period=:period")
 })
 @Entity
 @Table(name = "horoscopes")

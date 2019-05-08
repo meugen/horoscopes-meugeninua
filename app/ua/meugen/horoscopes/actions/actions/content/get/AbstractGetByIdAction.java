@@ -1,6 +1,7 @@
 package ua.meugen.horoscopes.actions.actions.content.get;
 
-import com.avaje.ebean.Model;
+import io.ebean.Finder;
+import io.ebean.Model;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,7 +15,7 @@ abstract class AbstractGetByIdAction<Dto, Entity> extends AbstractJsonController
     private static final Logger.ALogger LOG = Logger.of(AbstractGetByIdAction.class);
 
     private final ControllerResponsesFactory<ContentResponse<Dto>> factory;
-    private final Model.Find<Integer, Entity> find;
+    private final Finder<Integer, Entity> find;
     private final EntityToDtoFetcher<Entity, Dto> fetcher;
 
     /**
@@ -22,7 +23,7 @@ abstract class AbstractGetByIdAction<Dto, Entity> extends AbstractJsonController
      * @param find Find entity util
      * @param fetcher Fetcher from entity to Dto
      */
-    protected AbstractGetByIdAction(final Model.Find<Integer, Entity> find,
+    protected AbstractGetByIdAction(final Finder<Integer, Entity> find,
                                     final EntityToDtoFetcher<Entity, Dto> fetcher) {
         super(Integer.class);
         this.find = find;

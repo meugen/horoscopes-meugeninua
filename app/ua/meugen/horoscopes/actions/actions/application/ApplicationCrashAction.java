@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
 import play.Logger;
+import play.api.i18n.Lang;
 import play.i18n.Messages;
+import play.i18n.MessagesApi;
 import play.libs.ws.WSClient;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutorService;
@@ -27,24 +30,32 @@ public final class ApplicationCrashAction {
 
     @Inject
     private WSClient wsClient;
+    @Inject
+    private MessagesApi messages;
 
     public CompletionStage<Result> execute(final JsonNode json) {
         if (SERVICE == null) {
             SERVICE = Executors.newSingleThreadScheduledExecutor();
         }
-        SERVICE.execute(new PushoverRunnable());
+        SERVICE.execute(new PushoverRunnable(messages));
         return this.wsClient.url("http://127.0.0.1:5984/acra-horoscopes/_design/acra-storage/_update/report")
                 .put(json).thenApply((wsResponse) -> Controller.ok(wsResponse.getBody()));
     }
 
     public static final class PushoverRunnable implements Runnable {
 
+        private final MessagesApi messages;
+
+        public PushoverRunnable(MessagesApi messages) {
+            this.messages = messages;
+        }
+
         @Override
         public void run() {
             try {
                 final PushoverMessage pushoverMessage = PushoverMessage.builderWithApiToken(APP_TOKEN)
                         .setUserId(USER_KEY)
-                        .setMessage(Messages.get("got.new.error.message"))
+                        .setMessage(messages.get(Lang.defaultLang(), "got.new.error.message"))
                         .build();
                 new PushoverRestClient().pushMessage(pushoverMessage);
             } catch (Exception e) {

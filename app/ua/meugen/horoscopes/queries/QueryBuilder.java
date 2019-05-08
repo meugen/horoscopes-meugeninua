@@ -1,6 +1,6 @@
 package ua.meugen.horoscopes.queries;
 
-import com.avaje.ebean.Query;
+import io.ebean.Query;
 
 public interface QueryBuilder<Entity, Request> {
 

@@ -11,14 +11,6 @@ import java.util.Map;
 
 public final class MapsModule extends AbstractModule {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void configure() {
-        // Nothing to do
-    }
-
     @Provides @Named("daily-kinds")
     public Map<String, String> provideDailyKinds() {
         final Map<String, String> result = new HashMap<>();

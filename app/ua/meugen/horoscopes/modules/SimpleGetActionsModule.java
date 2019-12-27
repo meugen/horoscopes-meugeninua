@@ -11,14 +11,6 @@ import ua.meugen.horoscopes.fetchers.EntityToDtoFetcher;
 
 public final class SimpleGetActionsModule extends AbstractModule {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void configure() {
-        // Nothing to do
-    }
-
     @Provides
     public SimpleGetByIdAction<China> newGetChinaAction(
             final Finder<Integer, China> find,

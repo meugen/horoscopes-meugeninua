@@ -10,11 +10,6 @@ import play.i18n.MessagesImpl;
 
 public final class MessagesModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
-        // Nothing to do
-    }
-
     @Provides @Named("ru")
     public Messages provideRuMessages(final MessagesApi api) {
         return new MessagesImpl(Lang.forCode("ru"), api);

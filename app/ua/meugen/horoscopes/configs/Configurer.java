@@ -7,7 +7,6 @@ import play.inject.Injector;
 import java.util.Collections;
 import java.util.List;
 
-@Singleton
 public final class Configurer {
 
     @Inject

@@ -3,17 +3,11 @@ package ua.meugen.horoscopes.modules;
 import io.ebean.Ebean;
 import io.ebean.EbeanServer;
 import io.ebean.Finder;
-import io.ebean.Model;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import ua.meugen.horoscopes.entities.*;
 
 public final class EntitiesModule extends AbstractModule {
-
-    @Override
-    protected void configure() {
-        // Nothing to do here
-    }
 
     @Provides
     public EbeanServer provideEbeanServer() {

@@ -13,14 +13,6 @@ import ua.meugen.horoscopes.queries.QueryBuilder;
 
 public final class SimpleSearchActionsModule extends AbstractModule {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void configure() {
-        // Nothing to do
-    }
-
     @Provides
     public SimpleSearchAction<China> newSearchChinasAction(
             final QueryBuilder<China, String> builder,

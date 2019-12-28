@@ -16,4 +16,4 @@ sudo docker build -t meugeninua.horoscopes:1.0 --force-rm .
 
 sudo docker container run --name meugeninua.postgres -e POSTGRES_PASSWORD=horoscopes -e POSTGRES_USER=horoscopes -e POSTGRES_DB=horoscopes --mount "type=bind,src=$POSTGRES_DATA_DIR,dst=/var/lib/postgresql/data" --network horoscopes-network -d postgres:9.6
 sudo docker container run --name meugeninua.horoscopes --network horoscopes-network -d -p 9000:9000 meugeninua.horoscopes:1.0
-sudo docker container run --name meugeninua.pgadmin -v $PGADMIN_SERVERS_JSON:/pgadmin4/servers.json --network horoscopes-network -d -p 5480:80 dpage/pgadmin4:latest
+sudo docker container run --name meugeninua.pgadmin -e PGADMIN_DEFAULT_EMAIL=pgadmin@example.com -e PGADMIN_DEFAULT_PASSWORD=welc0me -v $PGADMIN_SERVERS_JSON:/pgadmin4/servers.json --network horoscopes-network -d -p 5480:80 dpage/pgadmin4:latest

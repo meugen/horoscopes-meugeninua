@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  database:
+    container_name: meugeninua.postgres
+    image: postgres:9.6
+    environment:
+      POSTGRES_PASSWORD: horoscopes
+      POSTGRES_USER: horoscopes
+      POSTGRES_DB: horoscopes
+    networks:
+      - horoscopes-network
+    volumes:
+      - type: bind
+        source: ${POSTGRES_DATA_DIR}
+        target: /var/lib/postgresql/data
+    restart: always
+  horoscopes:
+    container_name: meugeninua.horoscopes
+    image: horoscopes.meugeninua:1.0
+    depends_on:
+      - database
+    networks:
+      - horoscopes-network
+    ports:
+      - 9000:9000
+    restart: always
+  pgadmin:
+    container_name: meugeninua.pgadmin
+    image: dpage/pgadmin4:latest
+    depends_on:
+      - database
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@example.com
+      PGADMIN_DEFAULT_PASSWORD: welc0me
+      PGADMIN_LISTEN_PORT: 5480
+    volumes:
+      - ${PGADMIN_SERVERS_JSON}:/pgadmin4/servers.json
+    networks:
+      - horoscopes-network
+    ports:
+      - 5480:5480
+    restart: always
+networks:
+  horoscopes-network:

@@ -16,7 +16,7 @@ services:
     restart: always
   horoscopes:
     container_name: meugeninua.horoscopes
-    image: horoscopes.meugeninua:1.0
+    image: meugeninua.horoscopes:1.0
     depends_on:
       - database
     networks:

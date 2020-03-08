@@ -22,7 +22,7 @@ services:
     networks:
       - horoscopes-network
     ports:
-      - 9000:9000
+      - 127.0.0.1:9000:9000
     restart: always
   pgadmin:
     container_name: meugeninua.pgadmin
@@ -38,7 +38,7 @@ services:
     networks:
       - horoscopes-network
     ports:
-      - 5480:5480
+      - 127.0.0.1:5480:5480
     restart: always
 networks:
   horoscopes-network:
